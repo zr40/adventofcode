@@ -1,5 +1,3 @@
-#![feature(io)]
-
 use std::io::Read;
 use std::fs::File;
 
