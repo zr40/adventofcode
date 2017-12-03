@@ -5,34 +5,17 @@ use std::fs::File;
 
 fn solve(input: &str) -> u32 {
     let mut sum = 0;
-    let mut first: Option<u32> = None;
-    let mut previous: Option<u32> = None;
 
-    for c in input.chars() {
-        let digit = c.to_digit(10);
+    let mut iterator = input.chars().peekable();
 
-        match digit {
-            Some(d) => {
-                if first == None {
-                    first = Some(d);
-                }
+    while let Some(c) = iterator.next() {
+        let next = match iterator.peek() {
+            None => input.chars().next().unwrap(),
+            Some(x) => *x,
+        };
 
-                if Some(d) == previous {
-                    sum += d;
-                }
-
-                previous = Some(d);
-            },
-            None => {},
-        }
-    }
-
-    match first {
-        None => {},
-        Some(d) => {
-            if first == previous {
-                sum += d;
-            }
+        if c == next {
+            sum += c.to_digit(10).unwrap();
         }
     }
 
@@ -52,5 +35,5 @@ fn main() {
     let mut input = String::new();
     f.read_to_string(&mut input).unwrap();
 
-    println!("{}", solve(input.as_str()));
+    println!("{}", solve(input.trim()));
 }
