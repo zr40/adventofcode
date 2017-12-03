@@ -1,7 +1,6 @@
 use std::io::Read;
 use std::fs::File;
 
-#[derive(Debug)]
 enum Direction {
     Up,
     Left,
