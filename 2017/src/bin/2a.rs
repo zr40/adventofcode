@@ -17,7 +17,7 @@ fn solve(input: &str) -> u32 {
 
 #[test]
 fn test() {
-    assert_eq!(solve("5\t1\t9\t5\n7\t5\t3\n2\t4\t6\t8"), 18);
+    assert_eq!(solve("5 1 9 5\n7 5 3\n2 4 6 8"), 18);
 }
 
 fn main() {
