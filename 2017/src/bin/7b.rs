@@ -8,7 +8,7 @@ fn solve(input: &str) {
     let mut holding = HashMap::new();
     let mut weights = HashMap::new();
 
-    for line in input.split("\n") {
+    for line in input.lines() {
         let mut line = line.split(" -> ");
 
         let program = line.next().unwrap();

@@ -5,7 +5,7 @@ use std::collections::HashMap;
 fn solve(input: &str) -> &str {
     let mut held_by = HashMap::new();
 
-    for line in input.split("\n") {
+    for line in input.lines() {
         let mut line = line.split(" -> ");
 
         let program = line.next().unwrap().split(' ').next().unwrap();
