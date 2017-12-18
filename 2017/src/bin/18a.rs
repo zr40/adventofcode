@@ -12,25 +12,24 @@ fn solve(input: &str) -> i64 {
 
     loop {
         let instruction = &instructions[pos];
+        let left = i64::from_str_radix(instruction[1], 10).unwrap_or(*registers.get(instruction[1]).unwrap_or(&0));
+        let right = if instruction.len() == 2 {
+            0
+        } else {
+            i64::from_str_radix(instruction[2], 10).unwrap_or(*registers.get(instruction[2]).unwrap_or(&0))
+        };
 
         match instruction[0] {
             "set" => {
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*registers.get(instruction[2]).unwrap_or(&0));
                 registers.insert(instruction[1], right);
             }
             "add" => {
-                let left = *registers.get(instruction[1]).unwrap_or(&0);
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*registers.get(instruction[2]).unwrap_or(&0));
                 registers.insert(instruction[1], left + right);
             }
             "mul" => {
-                let left = *registers.get(instruction[1]).unwrap_or(&0);
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*registers.get(instruction[2]).unwrap_or(&0));
                 registers.insert(instruction[1], left * right);
             }
             "mod" => {
-                let left = *registers.get(instruction[1]).unwrap_or(&0);
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*registers.get(instruction[2]).unwrap_or(&0));
                 registers.insert(instruction[1], left % right);
             }
             "snd" => {
@@ -42,8 +41,6 @@ fn solve(input: &str) -> i64 {
                 }
             }
             "jgz" => {
-                let left = i64::from_str_radix(instruction[1], 10).unwrap_or(*registers.get(instruction[1]).unwrap_or(&0));
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*registers.get(instruction[2]).unwrap_or(&0));
                 if left > 0 {
                     pos = (pos as isize + right as isize - 1) as usize;
                 }

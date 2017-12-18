@@ -50,29 +50,27 @@ fn solve(input: &str) -> u32 {
         }
 
         let instruction = &instructions[*current_pos];
+        let left = i64::from_str_radix(instruction[1], 10).unwrap_or(*current_registers.get(instruction[1]).unwrap_or(&0));
+        let right = if instruction.len() == 2 {
+            0
+        } else {
+            i64::from_str_radix(instruction[2], 10).unwrap_or(*current_registers.get(instruction[2]).unwrap_or(&0))
+        };
 
         match instruction[0] {
             "set" => {
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*current_registers.get(instruction[2]).unwrap_or(&0));
                 current_registers.insert(instruction[1], right);
             }
             "add" => {
-                let left = *current_registers.get(instruction[1]).unwrap_or(&0);
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*current_registers.get(instruction[2]).unwrap_or(&0));
                 current_registers.insert(instruction[1], left + right);
             }
             "mul" => {
-                let left = *current_registers.get(instruction[1]).unwrap_or(&0);
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*current_registers.get(instruction[2]).unwrap_or(&0));
                 current_registers.insert(instruction[1], left * right);
             }
             "mod" => {
-                let left = *current_registers.get(instruction[1]).unwrap_or(&0);
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*current_registers.get(instruction[2]).unwrap_or(&0));
                 current_registers.insert(instruction[1], left % right);
             }
             "snd" => {
-                let left = *current_registers.get(instruction[1]).unwrap_or(&0);
                 other_queue.push_back(left);
                 *other_blocked = false;
                 if !current_execution_0 {
@@ -96,8 +94,6 @@ fn solve(input: &str) -> u32 {
                 };
             }
             "jgz" => {
-                let left = i64::from_str_radix(instruction[1], 10).unwrap_or(*current_registers.get(instruction[1]).unwrap_or(&0));
-                let right = i64::from_str_radix(instruction[2], 10).unwrap_or(*current_registers.get(instruction[2]).unwrap_or(&0));
                 if left > 0 {
                     *current_pos = (*current_pos as isize + right as isize - 1) as usize;
                 }
