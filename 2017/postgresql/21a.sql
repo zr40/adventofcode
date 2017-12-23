@@ -1,6 +1,6 @@
 begin;
-create schema aoc_20a;
-set search_path to aoc_20a;
+create schema aoc_21a;
+set search_path to aoc_21a;
 
 create table input (line text);
 \copy input from 'input/21'
