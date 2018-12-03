@@ -2,10 +2,10 @@ begin;
 create schema aoc;
 set search_path to aoc;
 
-create table input (line text);
+create temporary table input (line text);
 \copy input from input/1
 
-create table numbers_seen (i bigint primary key);
+create temporary table numbers_seen (i bigint primary key);
 
 set statement_timeout to '5s';
 
