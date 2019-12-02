@@ -1,0 +1,26 @@
+zr40 ~/git/adventofcode/2019/postgresql % ./run 2b
+ ?column? 
+----------
+     9425
+(1 row)
+
+zr40 ~/git/adventofcode/2019/postgresql % ./run 2b-volatile-broken     
+psql:2b-volatile-broken.sql:55: ERROR:  division by zero
+CONTEXT:  SQL function "hcf" during startup
+SQL function "opcode_2" statement 2
+SQL function "opcode_1" statement 2
+SQL function "opcode_1" statement 2
+SQL function "opcode_2" statement 2
+SQL function "opcode_2" statement 2
+SQL function "opcode_1" statement 2
+SQL function "opcode_2" statement 2
+SQL function "opcode_1" statement 2
+SQL function "opcode_1" statement 2
+SQL function "opcode_1" statement 2
+SQL function "opcode_2" statement 2
+SQL function "opcode_1" statement 2
+SQL function "opcode_1" statement 2
+SQL function "opcode_1" statement 2
+SQL function "opcode_1" statement 2
+SQL function "find_answer" statement 5
+zr40 ~/git/adventofcode/2019/postgresql %
