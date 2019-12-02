@@ -11,24 +11,20 @@ create function intcode_vm(pc integer) returns void volatile language sql as $$
     select 0/0;
 $$;
 
-create function read_memory(read_position integer) returns integer volatile language sql as $$
+create function read_memory(read_position integer) returns integer stable language sql as $$
     select value from memory where position = read_position;
 $$;
-create function read_pointer(read_position integer) returns integer volatile language sql as $$
+create function read_pointer(read_position integer) returns integer stable language sql as $$
     select mem_value.value from memory as mem_value inner join memory as mem_pointer on mem_pointer.value = mem_value.position where mem_pointer.position = read_position;
 $$;
 
 create function opcode_1(pc integer) returns void volatile language sql as $$
-    insert into memory (position, value)
-        select read_memory(pc + 3), read_pointer(pc + 1) + read_pointer(pc + 2)
-        on conflict (position) do update set value = excluded.value;
+    update memory set value = read_pointer(pc + 1) + read_pointer(pc + 2) where position = read_memory(pc + 3);
     select intcode_vm(pc + 4);
 $$;
 
 create function opcode_2(pc integer) returns void volatile language sql as $$
-    insert into memory (position, value)
-        select read_memory(pc + 3), read_pointer(pc + 1) * read_pointer(pc + 2)
-        on conflict (position) do update set value = excluded.value;
+    update memory set value = read_pointer(pc + 1) * read_pointer(pc + 2) where position = read_memory(pc + 3);
     select intcode_vm(pc + 4);
 $$;
 
