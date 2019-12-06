@@ -10,18 +10,16 @@ create temporary table orbits (object text primary key, orbiting text not null);
 insert into orbits (orbiting, object)
 select split_part(line, ')', 1), split_part(line, ')', 2) from input;
 
-with recursive orbit_count as (
-    select object, orbiting as next_orbit, 0 as orbit_count
+explain analyze with recursive orbit_count as (
+    select orbiting
     from orbits
 
     union all
 
-    select orbit_count.object, orbits.orbiting, orbit_count.orbit_count + 1
+    select orbits.orbiting
     from orbit_count
-    left join orbits on orbit_count.next_orbit = orbits.object
-    where orbit_count.next_orbit is not null
+    inner join orbits on orbit_count.orbiting = orbits.object
 )
-select sum(orbit_count) from orbit_count
-where next_orbit is null;
+select count(*) from orbit_count;
 
 rollback;
