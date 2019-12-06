@@ -11,9 +11,7 @@ insert into orbits (orbiting, object)
 select split_part(line, ')', 1), split_part(line, ')', 2) from input;
 
 with recursive orbit_count as (
-    select object, 1 as steps
-    from orbits
-    where orbiting = 'COM'
+    select 'COM' as object, 0 as steps
 
     union all
 
