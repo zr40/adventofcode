@@ -18,7 +18,13 @@ with recursive bus as (
 
     select num, bus.pos, c.min, c.max
     from intervals
-    cross join lateral (select id, pos from bus where bus.pos > intervals.pos order by bus.pos limit 1) as bus
+    cross join lateral (
+        select id, pos
+        from bus
+        where bus.pos > intervals.pos
+        order by bus.pos
+        limit 1
+    ) as bus
     cross join lateral (
         with recursive seq as (
             select start::bigint as pos
