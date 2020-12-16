@@ -67,7 +67,7 @@ $$;
 
 delete from rules where exists (
     select
-    from rules as
+    from rules as r2
     where rules.field = r2.field
     and rules.valid > r2.valid
 );
