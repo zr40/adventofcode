@@ -1,6 +1,6 @@
 begin;
-create schema aoc2;
-set search_path to aoc2;
+create schema aoc;
+set search_path to aoc;
 set jit to off;
 
 create temporary table input (line text, line_number integer generated always as identity);
