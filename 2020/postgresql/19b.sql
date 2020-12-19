@@ -40,7 +40,7 @@ do $$
             with new_rules (num, regexp) as (
                 select
                     unparsed_rules.num,
-                    case when string_agg(r, '') ~ '\|' then '(' else '' end ||
+                    case when string_agg(r, '') ~ '\|' then '(?:' else '' end ||
                     string_agg(
                         case
                             when r = '|' then '|'
@@ -69,7 +69,7 @@ do $$
             select
                 num,
                 case num
-                    when 8 then format('(%s)+', regexp)
+                    when 8 then format('(?:%s)+', regexp)
                     when 11 then regexp
                     else regexp
                 end

@@ -37,7 +37,7 @@ do $$
             with new_rules (num, regexp) as (
                 select
                     unparsed_rules.num,
-                    case when string_agg(r, '') ~ '\|' then '(' else '' end ||
+                    case when string_agg(r, '') ~ '\|' then '(?:' else '' end ||
                     string_agg(
                         case
                             when r = '|' then '|'
