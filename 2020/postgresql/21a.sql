@@ -29,18 +29,18 @@ create function pass() returns boolean language sql as $$
     with result (allergen, ingredient) as (
         select unique_allergens.allergen, (array_agg(unique_ingredients.ingredient))[1], count(*)
         from unique_allergens
-                 cross join unique_ingredients
+        cross join unique_ingredients
         where not exists(
+            select
+            from allergens
+            where allergens.allergen = unique_allergens.allergen
+            and not exists(
                 select
-                from allergens
-                where allergens.allergen = unique_allergens.allergen
-                  and not exists(
-                        select
-                        from ingredients
-                        where ingredients.ingredient = unique_ingredients.ingredient
-                          and ingredients.line_number = allergens.line_number
-                    )
+                from ingredients
+                where ingredients.ingredient = unique_ingredients.ingredient
+                and ingredients.line_number = allergens.line_number
             )
+        )
         group by allergen
         having count(*) = 1
     ), del_ua as (
