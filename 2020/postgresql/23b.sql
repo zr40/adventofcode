@@ -12,12 +12,9 @@ create temporary table input (line text);
 create unlogged table state (cup integer primary key, clockwise_of integer null, id integer not null generated always as identity);
 create index on state(clockwise_of);
 
-with cups (cup, clockwise_of) as (
-    select cup::integer - 1, lag(cup) over (order by pos rows between unbounded preceding and unbounded following)::integer - 1/*, 999999*/
-    from input, regexp_split_to_table(line, '') with ordinality as _(cup, pos)
-)
 insert into state (cup, clockwise_of)
-select cup, clockwise_of from cups;
+select cup::integer - 1, lag(cup) over (order by pos)::integer - 1
+from input, regexp_split_to_table(line, '') with ordinality as _(cup, pos);
 
 insert into state (cup, clockwise_of)
 select 9, cup
@@ -128,4 +125,4 @@ where cup1.clockwise_of = 0;
 
 
 --rollback;
---drop schema aoc cascade;
+drop schema aoc cascade;
