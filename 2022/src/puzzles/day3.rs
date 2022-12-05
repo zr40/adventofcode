@@ -10,22 +10,18 @@ fn solve_a_for(input: &str) -> u32 {
     for line in input.lines() {
         let len = line.len();
         let middle = len / 2;
-        let left = &line[..middle];
-        let right = &line[middle..];
+        let (left, right) = line.split_at(middle);
 
         let mut item_types_seen = HashSet::new();
         for item_type in left.chars() {
             item_types_seen.insert(item_type);
         }
 
-        if let Some(duplicate_item_type) = right
+        let duplicate_item_type = right
             .chars()
             .find(|item_type| item_types_seen.contains(item_type))
-        {
-            sum += item_type_to_priority(duplicate_item_type);
-        } else {
-            panic!("no duplicate item type found");
-        }
+            .expect("no duplicate item type found");
+        sum += item_type_to_priority(duplicate_item_type);
     }
 
     sum
