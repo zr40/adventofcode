@@ -4,6 +4,7 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 pub static PUZZLES: OrderedMap<&'static str, fn() -> ()> = phf_ordered_map! {
     "1a" => day1::solve_a,
@@ -14,4 +15,6 @@ pub static PUZZLES: OrderedMap<&'static str, fn() -> ()> = phf_ordered_map! {
     "3b" => day3::solve_b,
     "4a" => day4::solve_a,
     "4b" => day4::solve_b,
+    "5a" => day5::solve_a,
+    "5b" => day5::solve_b,
 };
