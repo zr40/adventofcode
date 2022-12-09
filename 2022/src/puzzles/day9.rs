@@ -9,7 +9,7 @@ const INPUT: &str = include_str!("../input/9");
 fn solve_for(input: &str, knot_count: usize) -> usize {
     let mut visited = HashSet::new();
 
-    let mut knots = vec![(0, 0); knot_count];
+    let mut knots: Vec<(i32, i32)> = vec![(0, 0); knot_count];
 
     for line in input.lines() {
         let (direction, distance) = line.split_once(' ').unwrap();
@@ -31,15 +31,7 @@ fn solve_for(input: &str, knot_count: usize) -> usize {
                 let tail = knots[i];
                 knots[i] = match (head.0 - tail.0, head.1 - tail.1) {
                     (-1..=1, -1..=1) => tail,
-                    (-2, 0) => (tail.0 - 1, tail.1),
-                    (2, 0) => (tail.0 + 1, tail.1),
-                    (0, -2) => (tail.0, tail.1 - 1),
-                    (0, 2) => (tail.0, tail.1 + 1),
-                    (-2, -2) | (-2, -1) | (-1, -2) => (tail.0 - 1, tail.1 - 1),
-                    (-2, 2) | (-2, 1) | (-1, 2) => (tail.0 - 1, tail.1 + 1),
-                    (2, -2) | (2, -1) | (1, -2) => (tail.0 + 1, tail.1 - 1),
-                    (2, 2) | (2, 1) | (1, 2) => (tail.0 + 1, tail.1 + 1),
-                    _ => panic!("tail no longer touching head"),
+                    (x, y) => (tail.0 + x.signum(), tail.1 + y.signum()),
                 };
             }
             visited.insert(knots[knot_count - 1]);
