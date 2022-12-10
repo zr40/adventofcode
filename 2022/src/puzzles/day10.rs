@@ -58,7 +58,7 @@ impl Cpu {
     }
 }
 
-fn solve_a_for(input: &str) -> i32 {
+fn solve_for(input: &str) -> (i32, String) {
     let mut cpu = Cpu::new();
     for line in input.lines() {
         let mut line = line.split(' ');
@@ -68,49 +68,42 @@ fn solve_a_for(input: &str) -> i32 {
             unknown => panic!("unknown instruction {unknown}"),
         });
     }
-    cpu.signal_strength
-}
-
-fn solve_b_for(input: &str) -> String {
-    let mut cpu = Cpu::new();
-    for line in input.lines() {
-        let mut line = line.split(' ');
-        cpu.execute(match line.next().unwrap() {
-            "addx" => Instruction::AddX(line.next().unwrap().parse().unwrap()),
-            "noop" => Instruction::Noop,
-            unknown => panic!("unknown instruction {unknown}"),
-        });
-    }
-    cpu.display
+    (cpu.signal_strength, cpu.display)
 }
 
 #[test]
-fn a_example() {
-    assert_eq!(solve_a_for(EXAMPLE), 13140);
-}
-
-#[test]
-fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 14060);
-}
-
-#[test]
-fn b_example() {
+fn example() {
+    let (signal_strength, display) = solve_for(EXAMPLE);
+    assert_eq!(signal_strength, 13140);
     assert_eq!(
-        solve_b_for(EXAMPLE),
-        "##..##..##..##..##..##..##..##..##..##..\n###...###...###...###...###...###...###.\n####....####....####....####....####....\n#####.....#####.....#####.....#####.....\n######......######......######......####\n#######.......#######.......#######....."
+        display,
+        "\
+##..##..##..##..##..##..##..##..##..##..
+###...###...###...###...###...###...###.
+####....####....####....####....####....
+#####.....#####.....#####.....#####.....
+######......######......######......####
+#######.......#######.......#######....."
     );
 }
 
 #[test]
-fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), "###...##..###..#..#.####.#..#.####...##.\n#..#.#..#.#..#.#.#..#....#.#..#.......#.\n#..#.#..#.#..#.##...###..##...###.....#.\n###..####.###..#.#..#....#.#..#.......#.\n#....#..#.#....#.#..#....#.#..#....#..#.\n#....#..#.#....#..#.#....#..#.####..##..");
+fn puzzle() {
+    let (signal_strength, display) = solve_for(INPUT);
+    assert_eq!(signal_strength, 14060);
+    assert_eq!(
+        display,
+        "\
+###...##..###..#..#.####.#..#.####...##.
+#..#.#..#.#..#.#.#..#....#.#..#.......#.
+#..#.#..#.#..#.##...###..##...###.....#.
+###..####.###..#.#..#....#.#..#.......#.
+#....#..#.#....#.#..#....#.#..#....#..#.
+#....#..#.#....#..#.#....#..#.####..##.."
+    );
 }
 
-pub fn solve_a() {
-    println!("{}", solve_a_for(INPUT));
-}
-
-pub fn solve_b() {
-    println!("{}", solve_b_for(INPUT));
+pub fn solve_both() {
+    let (signal_strength, display) = solve_for(INPUT);
+    println!("{signal_strength}\n10b:\n{display}");
 }
