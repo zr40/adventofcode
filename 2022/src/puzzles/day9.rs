@@ -53,6 +53,10 @@ fn a_puzzle() {
 #[test]
 fn b_example() {
     assert_eq!(solve_for(EXAMPLE, 10), 1);
+}
+
+#[test]
+fn b_example_large() {
     assert_eq!(solve_for(EXAMPLE_LARGE, 10), 36);
 }
 
