@@ -2,6 +2,7 @@ use phf::{phf_ordered_map, OrderedMap};
 
 mod day1;
 mod day10;
+mod day11;
 mod day2;
 mod day3;
 mod day4;
@@ -31,4 +32,6 @@ pub static PUZZLES: OrderedMap<&'static str, fn() -> ()> = phf_ordered_map! {
     "9a" => day9::solve_a,
     "9b" => day9::solve_b,
     "10a" => day10::solve_both,
+    "11a" => day11::solve_a,
+    "11b" => day11::solve_b,
 };
