@@ -1,4 +1,5 @@
-use std::{collections::VecDeque, str::Lines};
+use std::collections::VecDeque;
+use std::str::Lines;
 
 #[allow(dead_code)]
 const EXAMPLE: &str = include_str!("../input/11_example");
@@ -94,9 +95,9 @@ fn solve_for(input: &str, divide: bool, rounds: usize) -> usize {
         monkeys.push(Monkey::from_lines(&mut lines));
     }
 
-    let multiple = monkeys.iter().map(|m| m.test).fold(1, |acc, x| acc * x);
+    let multiple: u64 = monkeys.iter().map(|m| m.test).product();
 
-    for i in 0..rounds {
+    for _ in 0..rounds {
         for monkey in 0..monkeys.len() {
             loop {
                 let monkey = &mut monkeys[monkey];
