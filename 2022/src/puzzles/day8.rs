@@ -2,15 +2,11 @@
 const EXAMPLE: &str = include_str!("../input/8_example");
 const INPUT: &str = include_str!("../input/8");
 
-fn parse_input(input: &str) -> Vec<Vec<i8>> {
+fn parse_input(input: &str) -> Vec<Vec<u8>> {
     let mut field = vec![];
 
     for line in input.lines() {
-        field.push(
-            line.chars()
-                .map(|x| (x as u32 - '0' as u32) as i8)
-                .collect(),
-        );
+        field.push(line.chars().map(|x| (x as u8 - b'0' + 1)).collect());
     }
 
     field
@@ -24,42 +20,28 @@ fn solve_a_for(input: &str) -> usize {
     }
 
     for i in 0..field.len() {
-        let mut highest_seen = -1;
+        let mut highest_seen = (0, 0, 0, 0);
+
         for j in 0..field.len() {
-            if field[i][j] > highest_seen {
-                highest_seen = field[i][j];
+            if field[i][j] > highest_seen.0 {
+                highest_seen.0 = field[i][j];
                 visible_trees[i][j] = true;
             }
-        }
-    }
 
-    for i in 0..field.len() {
-        let mut highest_seen = -1;
-        for j in 0..field.len() {
-            if field[j][i] > highest_seen {
-                highest_seen = field[j][i];
+            if field[j][i] > highest_seen.1 {
+                highest_seen.1 = field[j][i];
                 visible_trees[j][i] = true;
             }
-        }
-    }
 
-    for i in 0..field.len() {
-        let mut highest_seen = -1;
-        for j in 0..field.len() {
             let j = field.len() - j - 1;
-            if field[i][j] > highest_seen {
-                highest_seen = field[i][j];
+
+            if field[i][j] > highest_seen.2 {
+                highest_seen.2 = field[i][j];
                 visible_trees[i][j] = true;
             }
-        }
-    }
 
-    for i in 0..field.len() {
-        let mut highest_seen = -1;
-        for j in 0..field.len() {
-            let j = field.len() - j - 1;
-            if field[j][i] > highest_seen {
-                highest_seen = field[j][i];
+            if field[j][i] > highest_seen.3 {
+                highest_seen.3 = field[j][i];
                 visible_trees[j][i] = true;
             }
         }
