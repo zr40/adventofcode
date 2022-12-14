@@ -5,6 +5,7 @@ mod day10;
 mod day11;
 mod day12;
 mod day13;
+mod day14;
 mod day2;
 mod day3;
 mod day4;
@@ -40,4 +41,6 @@ pub static PUZZLES: OrderedMap<&'static str, fn() -> ()> = phf_ordered_map! {
     "12b" => day12::solve_b,
     "13a" => day13::solve_a,
     "13b" => day13::solve_b,
+    "14a" => day14::solve_a,
+    "14b" => day14::solve_b,
 };
