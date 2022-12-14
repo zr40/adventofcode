@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 #[allow(dead_code)]
 const EXAMPLE: &str = include_str!("../input/14_example");
 const INPUT: &str = include_str!("../input/14");
@@ -16,15 +14,19 @@ fn parse_coords(input: &str) -> Coords {
     (x.parse().unwrap(), y.parse().unwrap())
 }
 
+const HEIGHT: i32 = 165;
+const WIDTH: i32 = 500;
+
 fn solve_for(input: &str, mode: Mode) -> usize {
-    let mut cave: HashSet<Coords> = HashSet::with_capacity(50000);
+    let mut cave: Vec<bool> = Vec::with_capacity((WIDTH * HEIGHT) as usize);
+    cave.resize((WIDTH * HEIGHT) as usize, false);
     let mut deepest = 0;
 
     for line in input.lines() {
         let mut coords = line.split(" -> ");
 
         let mut start = parse_coords(coords.next().unwrap());
-        cave.insert(start);
+        cave[(start.1 * WIDTH + start.0) as usize] = true;
         deepest = deepest.max(start.1);
 
         for end in coords {
@@ -36,42 +38,44 @@ fn solve_for(input: &str, mode: Mode) -> usize {
                     start.0 + (end.0 - start.0).signum(),
                     start.1 + (end.1 - start.1).signum(),
                 );
-                cave.insert(start);
+                cave[(start.1 * WIDTH + start.0) as usize] = true;
             }
         }
     }
 
-    let start_len = cave.len();
+    let mut units = 0;
 
     loop {
         let mut sand = (500, 0);
         loop {
             if let Mode::Abyss = mode {
                 if sand.1 == deepest {
-                    return cave.len() - start_len;
+                    return units;
                 }
             }
 
             if let Mode::Floor = mode {
                 if sand.1 == deepest + 1 {
-                    cave.insert(sand);
+                    cave[((sand.1) * WIDTH + sand.0) as usize] = true;
+                    units += 1;
                     break;
                 }
             }
 
-            if !cave.contains(&(sand.0, sand.1 + 1)) {
+            if !cave[((sand.1 + 1) * WIDTH + sand.0) as usize] {
                 sand = (sand.0, sand.1 + 1);
-            } else if !cave.contains(&(sand.0 - 1, sand.1 + 1)) {
+            } else if !cave[((sand.1 + 1) * WIDTH + sand.0 - 1) as usize] {
                 sand = (sand.0 - 1, sand.1 + 1);
-            } else if !cave.contains(&(sand.0 + 1, sand.1 + 1)) {
+            } else if !cave[((sand.1 + 1) * WIDTH + sand.0 + 1) as usize] {
                 sand = (sand.0 + 1, sand.1 + 1);
             } else {
                 if let Mode::Floor = mode {
                     if sand == (500, 0) {
-                        return cave.len() + 1 - start_len;
+                        return units + 1;
                     }
                 }
-                cave.insert(sand);
+                cave[((sand.1) * WIDTH + sand.0) as usize] = true;
+                units += 1;
                 break;
             }
         }
