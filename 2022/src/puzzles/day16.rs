@@ -1,7 +1,5 @@
-use std::{
-    collections::{HashMap, HashSet, VecDeque},
-    mem,
-};
+use std::collections::{HashMap, HashSet, VecDeque};
+use std::mem;
 
 #[allow(dead_code)]
 const EXAMPLE: &str = include_str!("../input/16_example");
@@ -35,7 +33,6 @@ fn parse_input(input: &str) -> HashMap<String, Valve> {
     valves
 }
 
-#[derive(Debug)]
 struct PathA {
     unopened: HashSet<String>,
     flowrate: u32,
@@ -91,14 +88,9 @@ fn solve_a_for(input: &str) -> u32 {
 
             if path.location == path.destination {
                 if path.unopened.remove(&path.location) {
+                    path.flowrate += valves[&path.location].flowrate;
                     // this can be opened
-                    new_paths.push(PathA {
-                        unopened: path.unopened,
-                        flowrate: path.flowrate + valves[&path.location].flowrate,
-                        released: path.released,
-                        location: path.location,
-                        destination: path.destination,
-                    });
+                    new_paths.push(path);
                 } else if path.unopened.is_empty() {
                     // do nothing
                     new_paths.push(path);
@@ -116,13 +108,8 @@ fn solve_a_for(input: &str) -> u32 {
                 }
             } else {
                 // move towards destination
-                new_paths.push(PathA {
-                    unopened: path.unopened,
-                    flowrate: path.flowrate,
-                    released: path.released,
-                    location: tunnel_for_destination(&valves, &path.location, &path.destination),
-                    destination: path.destination,
-                });
+                path.location = tunnel_for_destination(&valves, &path.location, &path.destination);
+                new_paths.push(path);
             }
         }
 
@@ -135,7 +122,6 @@ fn solve_a_for(input: &str) -> u32 {
     paths.into_iter().map(|p| p.released).max().unwrap()
 }
 
-#[derive(Debug)]
 struct PathB {
     unopened: HashSet<String>,
     flowrate: u32,
@@ -178,15 +164,8 @@ fn solve_b_for(input: &str) -> u32 {
                 if path.my_location == path.my_destination {
                     if path.unopened.remove(&path.my_location) {
                         // this can be opened
-                        new_paths.push(PathB {
-                            unopened: path.unopened,
-                            flowrate: path.flowrate + valves[&path.my_location].flowrate,
-                            released: path.released,
-                            my_location: path.my_location,
-                            my_destination: path.my_destination,
-                            elephant_location: path.elephant_location,
-                            elephant_destination: path.elephant_destination,
-                        });
+                        path.flowrate += valves[&path.my_location].flowrate;
+                        new_paths.push(path);
                     } else if path.unopened.is_empty() {
                         // do nothing
                         new_paths.push(path);
@@ -212,19 +191,9 @@ fn solve_b_for(input: &str) -> u32 {
                     }
                 } else {
                     // move towards destination
-                    new_paths.push(PathB {
-                        unopened: path.unopened,
-                        flowrate: path.flowrate,
-                        released: path.released,
-                        my_location: tunnel_for_destination(
-                            &valves,
-                            &path.my_location,
-                            &path.my_destination,
-                        ),
-                        my_destination: path.my_destination,
-                        elephant_location: path.elephant_location,
-                        elephant_destination: path.elephant_destination,
-                    });
+                    path.my_location =
+                        tunnel_for_destination(&valves, &path.my_location, &path.my_destination);
+                    new_paths.push(path);
                 }
             }
 
@@ -249,7 +218,7 @@ fn a_example() {
     assert_eq!(solve_a_for(EXAMPLE), 1651);
 }
 
-#[test]
+// #[test]
 fn a_puzzle() {
     assert_eq!(solve_a_for(INPUT), 1986);
 }
@@ -259,7 +228,7 @@ fn b_example() {
     assert_eq!(solve_b_for(EXAMPLE), 1706); // should be 1707 according to the puzzle text
 }
 
-#[test]
+// #[test]
 fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 2464);
 }
