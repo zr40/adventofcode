@@ -7,10 +7,19 @@ const INPUT: &str = include_str!("../input/16");
 
 struct Valve {
     flowrate: u32,
-    tunnels: Vec<String>,
+    tunnels: Vec<u16>,
 }
 
-fn parse_input(input: &str) -> HashMap<String, Valve> {
+fn label_to_u16(label: &str) -> u16 {
+    let mut label = label.chars();
+
+    let a = label.next().unwrap() as u8 - b'A';
+    let b = label.next().unwrap() as u8 - b'A';
+
+    a as u16 * 26 + b as u16
+}
+
+fn parse_input(input: &str) -> HashMap<u16, Valve> {
     let mut valves = HashMap::new();
 
     for line in input.lines() {
@@ -20,10 +29,10 @@ fn parse_input(input: &str) -> HashMap<String, Valve> {
         let (_, line) = line.split_once("valve").unwrap();
         let (_, tunnels) = line.split_once(' ').unwrap();
 
-        let tunnels = tunnels.split(", ").map(|s| s.to_owned()).collect();
+        let tunnels = tunnels.split(", ").map(label_to_u16).collect();
 
         valves.insert(
-            label.to_owned(),
+            label_to_u16(label),
             Valve {
                 flowrate: flowrate.parse().unwrap(),
                 tunnels,
@@ -34,28 +43,24 @@ fn parse_input(input: &str) -> HashMap<String, Valve> {
 }
 
 struct PathA {
-    unopened: HashSet<String>,
+    unopened: HashSet<u16>,
     flowrate: u32,
     released: u32,
-    location: String,
-    destination: String,
+    location: u16,
+    destination: u16,
 }
 
-fn tunnel_for_destination(
-    valves: &HashMap<String, Valve>,
-    current: &str,
-    destination: &str,
-) -> String {
+fn tunnel_for_destination(valves: &HashMap<u16, Valve>, current: u16, destination: u16) -> u16 {
     let mut queue = VecDeque::new();
     queue.push_back(destination);
 
     while let Some(next) = queue.pop_front() {
-        let valve = &valves[next];
+        let valve = &valves[&next];
         for tunnel in &valve.tunnels {
-            if tunnel == current {
-                return next.to_owned();
+            if *tunnel == current {
+                return next;
             }
-            queue.push_back(tunnel);
+            queue.push_back(*tunnel);
         }
     }
 
@@ -68,7 +73,7 @@ fn solve_a_for(input: &str) -> u32 {
     let mut unopened = HashSet::new();
     for (location, valve) in &valves {
         if valve.flowrate != 0 {
-            unopened.insert(location.to_owned());
+            unopened.insert(*location);
         }
     }
 
@@ -76,8 +81,8 @@ fn solve_a_for(input: &str) -> u32 {
         unopened,
         flowrate: 0,
         released: 0,
-        location: "AA".to_owned(),
-        destination: "AA".to_owned(),
+        location: 0,
+        destination: 0,
     }];
 
     for _ in 0..30 {
@@ -101,14 +106,14 @@ fn solve_a_for(input: &str) -> u32 {
                             unopened: path.unopened.clone(),
                             flowrate: path.flowrate,
                             released: path.released,
-                            location: tunnel_for_destination(&valves, &path.location, destination),
-                            destination: destination.to_owned(),
+                            location: tunnel_for_destination(&valves, path.location, *destination),
+                            destination: *destination,
                         });
                     }
                 }
             } else {
                 // move towards destination
-                path.location = tunnel_for_destination(&valves, &path.location, &path.destination);
+                path.location = tunnel_for_destination(&valves, path.location, path.destination);
                 new_paths.push(path);
             }
         }
@@ -123,13 +128,13 @@ fn solve_a_for(input: &str) -> u32 {
 }
 
 struct PathB {
-    unopened: HashSet<String>,
+    unopened: HashSet<u16>,
     flowrate: u32,
     released: u32,
-    my_location: String,
-    my_destination: String,
-    elephant_location: String,
-    elephant_destination: String,
+    my_location: u16,
+    my_destination: u16,
+    elephant_location: u16,
+    elephant_destination: u16,
 }
 
 fn solve_b_for(input: &str) -> u32 {
@@ -138,7 +143,7 @@ fn solve_b_for(input: &str) -> u32 {
     let mut unopened = HashSet::new();
     for (location, valve) in &valves {
         if valve.flowrate != 0 {
-            unopened.insert(location.to_owned());
+            unopened.insert(*location);
         }
     }
 
@@ -146,10 +151,10 @@ fn solve_b_for(input: &str) -> u32 {
         unopened,
         flowrate: 0,
         released: 0,
-        my_location: "AA".to_owned(),
-        my_destination: "AA".to_owned(),
-        elephant_location: "AA".to_owned(),
-        elephant_destination: "AA".to_owned(),
+        my_location: 0,
+        my_destination: 0,
+        elephant_location: 0,
+        elephant_destination: 0,
     }];
 
     for _ in 0..26 {
@@ -172,19 +177,19 @@ fn solve_b_for(input: &str) -> u32 {
                     } else {
                         // next destinations
                         for destination in &path.unopened {
-                            if destination != &path.elephant_destination {
+                            if *destination != path.elephant_destination {
                                 new_paths.push(PathB {
                                     unopened: path.unopened.clone(),
                                     flowrate: path.flowrate,
                                     released: path.released,
                                     my_location: tunnel_for_destination(
                                         &valves,
-                                        &path.my_location,
-                                        destination,
+                                        path.my_location,
+                                        *destination,
                                     ),
-                                    my_destination: destination.to_owned(),
-                                    elephant_location: path.elephant_location.to_owned(),
-                                    elephant_destination: path.elephant_destination.to_owned(),
+                                    my_destination: *destination,
+                                    elephant_location: path.elephant_location,
+                                    elephant_destination: path.elephant_destination,
                                 });
                             }
                         }
@@ -192,7 +197,7 @@ fn solve_b_for(input: &str) -> u32 {
                 } else {
                     // move towards destination
                     path.my_location =
-                        tunnel_for_destination(&valves, &path.my_location, &path.my_destination);
+                        tunnel_for_destination(&valves, path.my_location, path.my_destination);
                     new_paths.push(path);
                 }
             }
