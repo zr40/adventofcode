@@ -1,3 +1,4 @@
+#![feature(drain_filter)]
 use std::env::args;
 
 use crate::puzzles::PUZZLES;
