@@ -53,14 +53,11 @@ fn solve_a_for(input: &str) -> u32 {
                         });
                         number = 0;
                     }
-                    adjacent_to_symbol.insert((row - 1, col - 1));
-                    adjacent_to_symbol.insert((row - 1, col));
-                    adjacent_to_symbol.insert((row - 1, col + 1));
-                    adjacent_to_symbol.insert((row, col - 1));
-                    adjacent_to_symbol.insert((row, col + 1));
-                    adjacent_to_symbol.insert((row + 1, col - 1));
-                    adjacent_to_symbol.insert((row + 1, col));
-                    adjacent_to_symbol.insert((row + 1, col + 1));
+                    for row in (row - 1)..=(row + 1) {
+                        for col in (col - 1)..=(col + 1) {
+                            adjacent_to_symbol.insert((row, col));
+                        }
+                    }
                 }
                 None => {
                     if number != 0 {
@@ -135,14 +132,11 @@ fn solve_b_for(input: &str) -> u32 {
                     if sym == '*' {
                         let index = gears.len();
                         gears.push(vec![]);
-                        adjacent_to_gear.insert((row - 1, col - 1), index);
-                        adjacent_to_gear.insert((row - 1, col), index);
-                        adjacent_to_gear.insert((row - 1, col + 1), index);
-                        adjacent_to_gear.insert((row, col - 1), index);
-                        adjacent_to_gear.insert((row, col + 1), index);
-                        adjacent_to_gear.insert((row + 1, col - 1), index);
-                        adjacent_to_gear.insert((row + 1, col), index);
-                        adjacent_to_gear.insert((row + 1, col + 1), index);
+                        for row in (row - 1)..=(row + 1) {
+                            for col in (col - 1)..=(col + 1) {
+                                adjacent_to_gear.insert((row, col), index);
+                            }
+                        }
                     }
                 }
                 None => {
