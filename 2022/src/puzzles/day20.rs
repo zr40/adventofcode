@@ -40,7 +40,7 @@ fn solve_for(input: &str, mode: Mode) -> i64 {
                     let item = numbers.remove(current_index).unwrap();
                     let mut new_index = current_index as i64 + item.number;
 
-                    new_index %= (size as i64 - 1);
+                    new_index %= size as i64 - 1;
                     if new_index < 0 {
                         new_index += size as i64 - 1;
                     } else if new_index >= size as i64 {

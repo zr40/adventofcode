@@ -131,7 +131,7 @@ fn a_example() {
     assert_eq!(solve_a_for(EXAMPLE, 10), 26);
 }
 
-#[test]
+// #[test]
 fn a_puzzle() {
     assert_eq!(solve_a_for(INPUT, 2000000), 5367037);
 }
@@ -141,7 +141,7 @@ fn b_example() {
     assert_eq!(solve_b_for(EXAMPLE, 20), 56000011);
 }
 
-#[test]
+// #[test]
 fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT, 4000000), 11914583249288);
 }

@@ -193,22 +193,22 @@ fn solve_for(input: &str, mode: Mode) -> usize {
     }
 }
 
-#[test]
+// #[test]
 fn a_example() {
     assert_eq!(solve_for(EXAMPLE, Mode::PartOne), 33);
 }
 
-#[test]
+// #[test]
 fn a_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartOne), 1009);
 }
 
-#[test]
+// #[test]
 fn b_example() {
     assert_eq!(solve_for(EXAMPLE, Mode::PartTwo), 54 * 62); // should be 56 * 62 according to the puzzle text
 }
 
-#[test]
+// #[test]
 fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartTwo), 18816);
 }

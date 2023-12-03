@@ -95,7 +95,7 @@ fn solve_a_for(input: &str) -> usize {
     packet_pairs
         .iter()
         .enumerate()
-        .map(|(index, (left, right))| match left.cmp(&right) {
+        .map(|(index, (left, right))| match left.cmp(right) {
             Ordering::Less => index + 1,
             _ => 0,
         })
