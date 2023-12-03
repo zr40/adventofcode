@@ -32,7 +32,7 @@ fn solve_a_for(input: &str) -> u32 {
                     end_col = col;
                     number = number * 10 + ch.to_digit(10).unwrap();
                 }
-                Some((_, '.')) => {
+                Some((col, ch)) => {
                     if number != 0 {
                         parts.push(Part {
                             number,
@@ -42,20 +42,11 @@ fn solve_a_for(input: &str) -> u32 {
                         });
                         number = 0;
                     }
-                }
-                Some((col, _)) => {
-                    if number != 0 {
-                        parts.push(Part {
-                            number,
-                            row,
-                            start_col,
-                            end_col,
-                        });
-                        number = 0;
-                    }
-                    for row in (row - 1)..=(row + 1) {
-                        for col in (col - 1)..=(col + 1) {
-                            adjacent_to_symbol.insert((row, col));
+                    if ch != '.' {
+                        for row in (row - 1)..=(row + 1) {
+                            for col in (col - 1)..=(col + 1) {
+                                adjacent_to_symbol.insert((row, col));
+                            }
                         }
                     }
                 }
@@ -107,17 +98,6 @@ fn solve_b_for(input: &str) -> u32 {
                     }
                     end_col = col;
                     number = number * 10 + ch.to_digit(10).unwrap();
-                }
-                Some((_, '.')) => {
-                    if number != 0 {
-                        parts.push(Part {
-                            number,
-                            row,
-                            start_col,
-                            end_col,
-                        });
-                        number = 0;
-                    }
                 }
                 Some((col, sym)) => {
                     if number != 0 {
