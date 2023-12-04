@@ -38,13 +38,16 @@ fn solve_a_for(input: &str) -> u32 {
 fn solve_b_for(input: &str) -> u32 {
     let mut card_copies: Vec<_> = input.lines().map(|_| 1).collect();
 
-    for (card, line) in input.lines().enumerate() {
-        for card_to_copy in 1..=matching_numbers(line) {
-            card_copies[card + card_to_copy] += card_copies[card];
-        }
-    }
-
-    card_copies.into_iter().sum()
+    input
+        .lines()
+        .enumerate()
+        .map(|(card, line)| {
+            for card_to_copy in 1..=matching_numbers(line) {
+                card_copies[card + card_to_copy] += card_copies[card];
+            }
+            card_copies[card]
+        })
+        .sum()
 }
 
 #[test]
