@@ -1,8 +1,8 @@
 use std::collections::HashSet;
 
-#[allow(dead_code)]
+#[cfg(test)]
 const EXAMPLE_A: &str = include_str!("../input/4a_example");
-#[allow(dead_code)]
+#[cfg(test)]
 const EXAMPLE_B: &str = include_str!("../input/4b_example");
 const INPUT: &str = include_str!("../input/4");
 

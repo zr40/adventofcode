@@ -1,4 +1,4 @@
-#[allow(dead_code)]
+#[cfg(test)]
 const EXAMPLE: &str = include_str!("../input/2_example");
 const INPUT: &str = include_str!("../input/2");
 
