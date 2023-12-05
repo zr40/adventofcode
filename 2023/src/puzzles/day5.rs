@@ -4,62 +4,12 @@ use std::collections::BTreeMap;
 const EXAMPLE: &str = include_str!("../input/5_example");
 const INPUT: &str = include_str!("../input/5");
 
-#[derive(Debug)]
-struct Map {
-    destination_range_start: u64,
-    source_range_start: u64,
-    range_length: u64,
+enum Mode {
+    PartA,
+    PartB,
 }
 
-fn solve_a_for(input: &str) -> u64 {
-    let mut lines = input.lines();
-    let mut seeds = lines.next().unwrap().split(' ');
-    seeds.next();
-    let seeds: Vec<u64> = seeds.map(|seed| seed.parse().unwrap()).collect();
-
-    let mut maps = vec![];
-    assert_eq!(lines.next().unwrap(), "");
-
-    while let Some(line) = lines.next() {
-        let mut current_map = vec![];
-        assert!(line.ends_with(" map:"));
-
-        for line in lines.by_ref() {
-            if line.is_empty() {
-                break;
-            }
-
-            let mut parts = line.split(' ').map(|n| n.parse().unwrap());
-
-            current_map.push(Map {
-                destination_range_start: parts.next().unwrap(),
-                source_range_start: parts.next().unwrap(),
-                range_length: parts.next().unwrap(),
-            });
-        }
-        maps.push(current_map);
-    }
-
-    seeds
-        .into_iter()
-        .map(|mut seed| {
-            for map in &maps {
-                for item in map {
-                    if (item.source_range_start..(item.source_range_start + item.range_length))
-                        .contains(&seed)
-                    {
-                        seed = seed - item.source_range_start + item.destination_range_start;
-                        break;
-                    }
-                }
-            }
-            seed
-        })
-        .min()
-        .unwrap()
-}
-
-fn solve_b_for(input: &str) -> u64 {
+fn solve_for(input: &str, mode: Mode) -> u64 {
     let mut lines = input.lines();
     let mut seeds = lines.next().unwrap().split(' ');
     seeds.next();
@@ -68,7 +18,10 @@ fn solve_b_for(input: &str) -> u64 {
     while let Some(range_start) = seeds.next() {
         current_ranges.insert(
             range_start.parse().unwrap(),
-            seeds.next().unwrap().parse().unwrap(),
+            match mode {
+                Mode::PartA => 1,
+                Mode::PartB => seeds.next().unwrap().parse().unwrap(),
+            },
         );
     }
 
@@ -128,28 +81,28 @@ fn solve_b_for(input: &str) -> u64 {
 
 #[test]
 fn a_example() {
-    assert_eq!(solve_a_for(EXAMPLE), 35);
+    assert_eq!(solve_for(EXAMPLE, Mode::PartA), 35);
 }
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 457535844);
+    assert_eq!(solve_for(INPUT, Mode::PartA), 457535844);
 }
 
 #[test]
 fn b_example() {
-    assert_eq!(solve_b_for(EXAMPLE), 46);
+    assert_eq!(solve_for(EXAMPLE, Mode::PartB), 46);
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 41222968);
+    assert_eq!(solve_for(INPUT, Mode::PartB), 41222968);
 }
 
 pub fn solve_a() {
-    println!("{}", solve_a_for(INPUT));
+    println!("{}", solve_for(INPUT, Mode::PartA));
 }
 
 pub fn solve_b() {
-    println!("{}", solve_b_for(INPUT));
+    println!("{}", solve_for(INPUT, Mode::PartB));
 }
