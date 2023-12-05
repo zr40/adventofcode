@@ -1,3 +1,5 @@
+#![feature(btree_extract_if)]
+
 use std::env::args;
 
 use crate::puzzles::PUZZLES;
