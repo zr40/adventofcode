@@ -14,8 +14,13 @@ pub(crate) enum Day {
 }
 
 pub(crate) enum DayTiming {
-    Separate { a: Duration, b: Duration },
+    Separate {
+        a: Duration,
+        b: Duration,
+    },
     Pair(Duration),
+    #[cfg(debug_assertions)]
+    SkipSlow,
 }
 
 pub(crate) struct DayResult {
@@ -50,6 +55,22 @@ impl Day {
                 let (result_a, result_b) = p();
                 let duration = start.elapsed();
 
+                #[cfg(debug_assertions)]
+                if let PuzzleResult::SkipSlow = result_a {
+                    DayResult {
+                        a: result_a,
+                        b: result_b,
+                        timing: DayTiming::SkipSlow,
+                    }
+                } else {
+                    DayResult {
+                        a: result_a,
+                        b: result_b,
+                        timing: DayTiming::Pair(duration),
+                    }
+                }
+
+                #[cfg(not(debug_assertions))]
                 DayResult {
                     a: result_a,
                     b: result_b,

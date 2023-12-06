@@ -53,6 +53,10 @@ impl Year {
                     );
                     total_duration += total;
                 }
+                #[cfg(debug_assertions)]
+                DayTiming::SkipSlow => {
+                    println!("  {:>2} | slow puzzle skipped in debug build", index + 1);
+                }
             };
         }
         println!(

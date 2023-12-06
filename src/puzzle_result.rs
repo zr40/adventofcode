@@ -7,6 +7,8 @@ pub(crate) enum PuzzleResult {
     Usize(usize),
     #[allow(dead_code)]
     Todo,
+    #[cfg(debug_assertions)]
+    SkipSlow,
 }
 
 impl From<i32> for PuzzleResult {
@@ -41,6 +43,8 @@ impl Display for PuzzleResult {
             Self::U64(v) => v.fmt(f),
             Self::Usize(v) => v.fmt(f),
             Self::Todo => "TODO".fmt(f),
+            #[cfg(debug_assertions)]
+            Self::SkipSlow => "Skipped".fmt(f),
         }
     }
 }

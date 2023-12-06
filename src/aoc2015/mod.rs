@@ -3,6 +3,7 @@ use crate::day::Day;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 pub(crate) static DAYS: &[Day] = &[
     Day::Separate {
@@ -17,4 +18,5 @@ pub(crate) static DAYS: &[Day] = &[
         a: day3::solve_a,
         b: day3::solve_b,
     },
+    Day::Pair(day4::solve),
 ];
