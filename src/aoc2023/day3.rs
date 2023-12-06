@@ -1,8 +1,8 @@
 use std::collections::{HashMap, HashSet};
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("../input/3_example");
-const INPUT: &str = include_str!("../input/3");
+const EXAMPLE: &str = include_str!("input/3_example");
+const INPUT: &str = include_str!("input/3");
 
 struct Part {
     number: u32,

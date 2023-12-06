@@ -3,9 +3,9 @@
 
 use std::env::args;
 
-use crate::puzzles::PUZZLES;
+use crate::aoc2023::PUZZLES;
 
-mod puzzles;
+mod aoc2023;
 
 fn main() {
     if args().len() == 1 {

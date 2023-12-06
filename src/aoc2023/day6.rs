@@ -1,6 +1,6 @@
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("../input/6_example");
-const INPUT: &str = include_str!("../input/6");
+const EXAMPLE: &str = include_str!("input/6_example");
+const INPUT: &str = include_str!("input/6");
 
 fn solve_with_quadratic_equation(time: u64, distance: u64) -> u64 {
     let time = time as f64;

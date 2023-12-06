@@ -1,8 +1,8 @@
 #[cfg(test)]
-const EXAMPLE_A: &str = include_str!("../input/1a_example");
+const EXAMPLE_A: &str = include_str!("input/1a_example");
 #[cfg(test)]
-const EXAMPLE_B: &str = include_str!("../input/1b_example");
-const INPUT: &str = include_str!("../input/1");
+const EXAMPLE_B: &str = include_str!("input/1b_example");
+const INPUT: &str = include_str!("input/1");
 
 fn solve_a_for(input: &str) -> u32 {
     input

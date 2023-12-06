@@ -1,10 +1,10 @@
 use std::collections::HashSet;
 
 #[cfg(test)]
-const EXAMPLE_A: &str = include_str!("../input/4a_example");
+const EXAMPLE_A: &str = include_str!("input/4a_example");
 #[cfg(test)]
-const EXAMPLE_B: &str = include_str!("../input/4b_example");
-const INPUT: &str = include_str!("../input/4");
+const EXAMPLE_B: &str = include_str!("input/4b_example");
+const INPUT: &str = include_str!("input/4");
 
 fn matching_numbers(line: &str) -> usize {
     let mut tokens = line

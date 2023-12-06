@@ -1,6 +1,6 @@
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("../input/2_example");
-const INPUT: &str = include_str!("../input/2");
+const EXAMPLE: &str = include_str!("input/2_example");
+const INPUT: &str = include_str!("input/2");
 
 fn solve_a_for(input: &str) -> usize {
     let mut sum_of_possible_games = 0;
