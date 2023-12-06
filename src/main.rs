@@ -1,5 +1,6 @@
 #![feature(btree_extract_if)]
 #![feature(float_next_up_down)]
+#![feature(iter_map_windows)]
 
 use std::env::args;
 
