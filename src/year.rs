@@ -1,17 +1,23 @@
 use std::time::Duration;
 
-use crate::aoc2023;
 use crate::day::{Day, DayTiming};
+use crate::{aoc2015, aoc2023};
 
 pub(crate) struct Year {
     pub(crate) year: u16,
     days: &'static [Day],
 }
 
-pub(crate) static YEARS: &[Year] = &[Year {
-    year: 2023,
-    days: &aoc2023::DAYS,
-}];
+pub(crate) static YEARS: &[Year] = &[
+    Year {
+        year: 2015,
+        days: aoc2015::DAYS,
+    },
+    Year {
+        year: 2023,
+        days: aoc2023::DAYS,
+    },
+];
 
 impl Year {
     pub(crate) fn run_all(&self) {
@@ -50,7 +56,7 @@ impl Year {
             };
         }
         println!(
-            "Total run time: {:.1} ms",
+            "Total run time: {:.1} ms\n",
             total_duration.as_micros() as f64 / 1000.0
         );
     }

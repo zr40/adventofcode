@@ -1,11 +1,18 @@
 use std::fmt::Display;
 
 pub(crate) enum PuzzleResult {
+    I32(i32),
     U32(u32),
     U64(u64),
     Usize(usize),
     #[allow(dead_code)]
     Todo,
+}
+
+impl From<i32> for PuzzleResult {
+    fn from(value: i32) -> Self {
+        Self::I32(value)
+    }
 }
 
 impl From<u32> for PuzzleResult {
@@ -29,6 +36,7 @@ impl From<usize> for PuzzleResult {
 impl Display for PuzzleResult {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            Self::I32(v) => v.fmt(f),
             Self::U32(v) => v.fmt(f),
             Self::U64(v) => v.fmt(f),
             Self::Usize(v) => v.fmt(f),

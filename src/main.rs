@@ -7,6 +7,7 @@ use day::Day;
 use puzzle_result::PuzzleResult;
 use year::YEARS;
 
+mod aoc2015;
 mod aoc2023;
 mod day;
 mod puzzle_result;
