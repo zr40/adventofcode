@@ -3,39 +3,30 @@
 
 use std::env::args;
 
-use puzzle::{run_all_in_year, Day, YEARS};
+use day::Day;
 use puzzle_result::PuzzleResult;
+use year::YEARS;
 
 mod aoc2023;
-mod puzzle;
+mod day;
 mod puzzle_result;
-
-enum Mode {
-    AllYears,
-    SpecificYear(u16),
-}
+mod year;
 
 fn main() {
-    let mut mode = Mode::SpecificYear(*YEARS.into_iter().last().unwrap().0);
-
-    for arg in args().skip(1) {
-        if arg == "all" {
-            mode = Mode::AllYears;
-        } else {
-            let year = arg.parse().unwrap();
-            mode = Mode::SpecificYear(year);
-        }
-    }
-
-    match mode {
-        Mode::AllYears => {
-            for (year, puzzles) in YEARS.into_iter() {
-                run_all_in_year(*year, puzzles);
+    match args().nth(1).as_deref() {
+        None => YEARS.last().unwrap().run_all(),
+        Some("all") => {
+            for year in YEARS {
+                year.run_all();
             }
         }
-        Mode::SpecificYear(year) => {
-            let puzzles = YEARS.get(&year).expect("unknown year");
-            run_all_in_year(year, puzzles);
+        Some(year) => {
+            let year = year.parse().unwrap();
+
+            match YEARS.iter().find(|y| y.year == year) {
+                Some(year) => year.run_all(),
+                None => println!("unknown year {year}"),
+            }
         }
     }
 }
