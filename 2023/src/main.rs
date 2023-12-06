@@ -1,4 +1,5 @@
 #![feature(btree_extract_if)]
+#![feature(float_next_up_down)]
 
 use std::env::args;
 
