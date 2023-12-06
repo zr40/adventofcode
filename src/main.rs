@@ -3,22 +3,39 @@
 
 use std::env::args;
 
-use crate::aoc2023::PUZZLES;
+use puzzle::{run_all_in_year, Day, YEARS};
+use puzzle_result::PuzzleResult;
 
 mod aoc2023;
+mod puzzle;
+mod puzzle_result;
+
+enum Mode {
+    AllYears,
+    SpecificYear(u16),
+}
 
 fn main() {
-    if args().len() == 1 {
-        for (name, func) in &PUZZLES {
-            print!("{name}: ");
-            func();
+    let mut mode = Mode::SpecificYear(*YEARS.into_iter().last().unwrap().0);
+
+    for arg in args().skip(1) {
+        if arg == "all" {
+            mode = Mode::AllYears;
+        } else {
+            let year = arg.parse().unwrap();
+            mode = Mode::SpecificYear(year);
         }
-    } else {
-        for arg in args() {
-            if let Some(func) = PUZZLES.get(&arg) {
-                print!("{arg}: ");
-                func();
+    }
+
+    match mode {
+        Mode::AllYears => {
+            for (year, puzzles) in YEARS.into_iter() {
+                run_all_in_year(*year, puzzles);
             }
+        }
+        Mode::SpecificYear(year) => {
+            let puzzles = YEARS.get(&year).expect("unknown year");
+            run_all_in_year(year, puzzles);
         }
     }
 }

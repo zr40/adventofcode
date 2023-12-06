@@ -1,3 +1,5 @@
+use crate::PuzzleResult;
+
 #[cfg(test)]
 const EXAMPLE_A: &str = include_str!("input/1a_example");
 #[cfg(test)]
@@ -72,10 +74,10 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 52840);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_a_for(INPUT));
+pub fn solve_a() -> PuzzleResult {
+    solve_a_for(INPUT).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_b_for(INPUT));
+pub fn solve_b() -> PuzzleResult {
+    solve_b_for(INPUT).into()
 }

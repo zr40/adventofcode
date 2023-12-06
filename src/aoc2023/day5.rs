@@ -1,5 +1,7 @@
 use std::collections::BTreeMap;
 
+use crate::PuzzleResult;
+
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/5_example");
 const INPUT: &str = include_str!("input/5");
@@ -99,10 +101,10 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartB), 41222968);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, Mode::PartA));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, Mode::PartA).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, Mode::PartB));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, Mode::PartB).into()
 }

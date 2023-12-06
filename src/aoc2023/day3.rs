@@ -1,5 +1,7 @@
 use std::collections::{HashMap, HashSet};
 
+use crate::PuzzleResult;
+
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/3_example");
 const INPUT: &str = include_str!("input/3");
@@ -174,10 +176,10 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 91031374);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_a_for(INPUT));
+pub fn solve_a() -> PuzzleResult {
+    solve_a_for(INPUT).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_b_for(INPUT));
+pub fn solve_b() -> PuzzleResult {
+    solve_b_for(INPUT).into()
 }
