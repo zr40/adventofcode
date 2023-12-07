@@ -89,19 +89,33 @@ fn solve_b_for(input: &str) -> u32 {
 }
 
 #[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
     assert_eq!(solve_a_for(INPUT), 400410);
 }
 
 #[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 15343601);
 }
 
+#[cfg(debug_assertions)]
+pub fn solve_a() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
+
+#[cfg(debug_assertions)]
+pub fn solve_b() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
+
+#[cfg(not(debug_assertions))]
 pub fn solve_a() -> PuzzleResult {
     solve_a_for(INPUT).into()
 }
 
+#[cfg(not(debug_assertions))]
 pub fn solve_b() -> PuzzleResult {
     solve_b_for(INPUT).into()
 }

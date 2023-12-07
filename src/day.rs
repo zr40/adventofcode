@@ -41,6 +41,25 @@ impl Day {
                 let result_b = b();
                 let duration_b = start.elapsed();
 
+                #[cfg(debug_assertions)]
+                if let PuzzleResult::SkipSlow = result_a {
+                    DayResult {
+                        a: result_a,
+                        b: result_b,
+                        timing: DayTiming::SkipSlow,
+                    }
+                } else {
+                    DayResult {
+                        a: result_a,
+                        b: result_b,
+                        timing: DayTiming::Separate {
+                            a: duration_a,
+                            b: duration_b,
+                        },
+                    }
+                }
+
+                #[cfg(not(debug_assertions))]
                 DayResult {
                     a: result_a,
                     b: result_b,
