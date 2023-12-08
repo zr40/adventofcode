@@ -17,7 +17,7 @@ enum Direction {
     Right,
 }
 
-fn solve_a_for(input: &str) -> usize {
+fn parse(input: &str) -> (Vec<Direction>, BTreeMap<String, (String, String)>) {
     let mut lines = input.lines();
     let instructions: Vec<_> = lines
         .next()
@@ -41,6 +41,12 @@ fn solve_a_for(input: &str) -> usize {
             )
         })
         .collect();
+
+    (instructions, directions)
+}
+
+fn solve_a_for(input: &str) -> usize {
+    let (instructions, directions) = parse(input);
 
     let mut location = "AAA";
     let mut steps = 0;
@@ -62,35 +68,9 @@ fn solve_a_for(input: &str) -> usize {
 }
 
 fn solve_b_for(input: &str) -> usize {
-    let mut lines = input.lines();
-    let instructions: Vec<_> = lines
-        .next()
-        .unwrap()
-        .chars()
-        .map(|ch| match ch {
-            'L' => Direction::Left,
-            'R' => Direction::Right,
-            ch => panic!("unexpected {ch}"),
-        })
-        .collect();
-    lines.next();
+    let (instructions, directions) = parse(input);
 
-    let mut locations = vec![];
-
-    let directions: BTreeMap<String, (String, String)> = lines
-        .map(|line| {
-            let (from, line) = line.split_once(" = (").unwrap();
-            let (left, right) = line.split_once(", ").unwrap();
-            if from.ends_with('A') {
-                locations.push(from);
-            }
-
-            (
-                from.to_string(),
-                (left.to_string(), right[0..3].to_string()),
-            )
-        })
-        .collect();
+    let locations: Vec<_> = directions.keys().filter(|k| k.ends_with('A')).collect();
 
     locations
         .into_iter()
