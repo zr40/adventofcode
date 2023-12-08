@@ -7,6 +7,7 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 
 pub(crate) static DAYS: &[Day] = &[
     Day::Separate {
@@ -36,5 +37,9 @@ pub(crate) static DAYS: &[Day] = &[
     Day::Separate {
         a: day7::solve_a,
         b: day7::solve_b,
+    },
+    Day::Separate {
+        a: day8::solve_a,
+        b: day8::solve_b,
     },
 ];
