@@ -33,9 +33,10 @@ fn solve_for(input: &str, mode: Mode) -> usize {
 
         if let Mode::PartB = mode {
             robosanta = !robosanta;
-            position = match robosanta {
-                false => &mut santa_position,
-                true => &mut robosanta_position,
+            position = if robosanta {
+                &mut robosanta_position
+            } else {
+                &mut santa_position
             };
         }
     }

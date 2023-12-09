@@ -78,7 +78,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
 
             let mut card_counts: BTreeMap<Card, i8> = BTreeMap::new();
             card_counts.insert(Card::A, 0);
-            for card in cards.iter() {
+            for card in &cards {
                 card_counts.insert(*card, card_counts.get(card).unwrap_or(&0) - 1);
             }
             let jokers = card_counts.remove(&Card::Joker).unwrap_or(0);

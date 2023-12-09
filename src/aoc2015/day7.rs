@@ -90,7 +90,6 @@ impl Circuit {
                 Gate::Lshift(w, n) => self.evaluate(&w) << n,
                 Gate::Rshift(w, n) => self.evaluate(&w) >> n,
                 Gate::Not(w) => !self.evaluate(&w),
-                _ => todo!("{gate:?}"),
             };
             self.known_signals.insert(wire.to_string(), signal);
         }

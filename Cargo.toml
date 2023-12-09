@@ -13,3 +13,32 @@ lto = true
 codegen-units = 1
 strip = true
 panic = "abort"
+
+[lints.rust]
+future_incompatible = { level = "warn", priority = -1 }
+rust_2018_idioms = { level = "warn", priority = -1 }
+
+pointer_structural_match = "deny"
+unsafe_code = "deny"
+
+deprecated_in_future = "warn"
+noop_method_call = "warn"
+single_use_lifetimes = "warn"
+trivial_casts = "warn"
+trivial_numeric_casts = "warn"
+unused_crate_dependencies = "warn"
+unused_lifetimes = "warn"
+unused_qualifications = "warn"
+variant_size_differences = "warn"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+
+cast_lossless = "allow"
+cast_possible_truncation = "allow"
+cast_precision_loss = "allow"
+cast_sign_loss = "allow"
+match_on_vec_items = "allow"
+needless_pass_by_value = "allow"
+struct_field_names = "allow"
+unreadable_literal = "allow"

@@ -21,9 +21,9 @@ fn solve_a_for(input: &str) -> usize {
             let amount = amount.parse().unwrap();
             let color = words.next().unwrap();
             if color.starts_with("red") {
-                red = red.max(amount)
+                red = red.max(amount);
             } else if color.starts_with("green") {
-                green = green.max(amount)
+                green = green.max(amount);
             } else if color.starts_with("blue") {
                 blue = blue.max(amount);
             } else {
@@ -54,9 +54,9 @@ fn solve_b_for(input: &str) -> u32 {
             let amount = amount.parse().unwrap();
             let color = words.next().unwrap();
             if color.starts_with("red") {
-                red = red.max(amount)
+                red = red.max(amount);
             } else if color.starts_with("green") {
-                green = green.max(amount)
+                green = green.max(amount);
             } else if color.starts_with("blue") {
                 blue = blue.max(amount);
             } else {

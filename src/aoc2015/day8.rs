@@ -18,7 +18,7 @@ fn solve_a_for(input: &str) -> usize {
                             iter.next();
                             iter.next();
                         }
-                        Some('\\') | Some('"') => waste += 1,
+                        Some('\\' | '"') => waste += 1,
                         other => panic!("unknown {other:?}"),
                     }
                 }

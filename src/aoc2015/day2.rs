@@ -7,7 +7,7 @@ fn solve_a_for(input: &str) -> u32 {
         .lines()
         .map(|line| {
             let mut dims: Vec<u32> = line.split('x').map(|n| n.parse().unwrap()).collect();
-            dims.sort();
+            dims.sort_unstable();
 
             (dims[0] * dims[1] + dims[1] * dims[2] + dims[2] * dims[0]) * 2 + dims[0] * dims[1]
         })
@@ -19,7 +19,7 @@ fn solve_b_for(input: &str) -> u32 {
         .lines()
         .map(|line| {
             let mut dims: Vec<u32> = line.split('x').map(|n| n.parse().unwrap()).collect();
-            dims.sort();
+            dims.sort_unstable();
 
             (dims[0] + dims[1]) * 2 + dims.iter().product::<u32>()
         })

@@ -24,9 +24,8 @@ fn solve_b_for(input: &str) -> u32 {
         };
         if level.is_negative() {
             return index;
-        } else {
-            index += 1;
         }
+        index += 1;
     }
     panic!("did not reach basement")
 }

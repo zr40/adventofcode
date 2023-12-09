@@ -51,7 +51,7 @@ fn solve_a_for(input: &str) -> usize {
     let mut location = "AAA";
     let mut steps = 0;
     'outer: loop {
-        for instruction in instructions.iter() {
+        for instruction in &instructions {
             let direction = &directions[location];
             location = match instruction {
                 Direction::Left => &direction.0,
@@ -77,7 +77,7 @@ fn solve_b_for(input: &str) -> usize {
         .map(|mut location| {
             let mut steps = 0;
             'outer: loop {
-                for instruction in instructions.iter() {
+                for instruction in &instructions {
                     let direction = &directions[location];
                     location = match instruction {
                         Direction::Left => &direction.0,
