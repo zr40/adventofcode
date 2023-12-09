@@ -42,7 +42,7 @@ fn parse_line(line: &str) -> Line {
 }
 
 fn solve_a_for(input: &str) -> usize {
-    let mut grid: Vec<bool> = vec![false; 1000000];
+    let mut grid: Box<[bool]> = vec![false; 1000000].into_boxed_slice();
 
     for line in input.lines() {
         let line = parse_line(line);
@@ -61,11 +61,11 @@ fn solve_a_for(input: &str) -> usize {
         }
     }
 
-    grid.into_iter().filter(|c| *c).count()
+    grid.iter().filter(|c| **c).count()
 }
 
 fn solve_b_for(input: &str) -> u32 {
-    let mut grid: Vec<u32> = vec![0; 1000000];
+    let mut grid: Box<[u32]> = vec![0; 1000000].into_boxed_slice();
 
     for line in input.lines() {
         let line = parse_line(line);
@@ -85,37 +85,23 @@ fn solve_b_for(input: &str) -> u32 {
         }
     }
 
-    grid.into_iter().sum()
+    grid.iter().sum()
 }
 
 #[test]
-#[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
     assert_eq!(solve_a_for(INPUT), 400410);
 }
 
 #[test]
-#[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 15343601);
 }
 
-#[cfg(debug_assertions)]
-pub fn solve_a() -> PuzzleResult {
-    PuzzleResult::SkipSlow
-}
-
-#[cfg(debug_assertions)]
-pub fn solve_b() -> PuzzleResult {
-    PuzzleResult::SkipSlow
-}
-
-#[cfg(not(debug_assertions))]
 pub fn solve_a() -> PuzzleResult {
     solve_a_for(INPUT).into()
 }
 
-#[cfg(not(debug_assertions))]
 pub fn solve_b() -> PuzzleResult {
     solve_b_for(INPUT).into()
 }
