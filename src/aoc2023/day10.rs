@@ -58,18 +58,18 @@ impl Tile {
 
     fn output(&self, input: Direction) -> Direction {
         match (input, self) {
-            (Direction::North, Tile::PipeSouthEast) => Direction::East,
-            (Direction::North, Tile::PipeSouthWest) => Direction::West,
-            (Direction::North, Tile::PipeNorthSouth) => Direction::North,
-            (Direction::East, Tile::PipeEastWest) => Direction::East,
-            (Direction::East, Tile::PipeNorthWest) => Direction::North,
-            (Direction::East, Tile::PipeSouthWest) => Direction::South,
-            (Direction::South, Tile::PipeNorthEast) => Direction::East,
-            (Direction::South, Tile::PipeNorthSouth) => Direction::South,
-            (Direction::South, Tile::PipeNorthWest) => Direction::West,
-            (Direction::West, Tile::PipeEastWest) => Direction::West,
-            (Direction::West, Tile::PipeNorthEast) => Direction::North,
-            (Direction::West, Tile::PipeSouthEast) => Direction::South,
+            (Direction::North, Tile::PipeNorthSouth)
+            | (Direction::East, Tile::PipeNorthWest)
+            | (Direction::West, Tile::PipeNorthEast) => Direction::North,
+            (Direction::North, Tile::PipeSouthEast)
+            | (Direction::East, Tile::PipeEastWest)
+            | (Direction::South, Tile::PipeNorthEast) => Direction::East,
+            (Direction::East, Tile::PipeSouthWest)
+            | (Direction::South, Tile::PipeNorthSouth)
+            | (Direction::West, Tile::PipeSouthEast) => Direction::South,
+            (Direction::North, Tile::PipeSouthWest)
+            | (Direction::South, Tile::PipeNorthWest)
+            | (Direction::West, Tile::PipeEastWest) => Direction::West,
             (input, tile) => panic!("no output found for {tile:?} coming in from {input:?}"),
         }
     }
@@ -161,7 +161,7 @@ fn solve_b_for(input: &str) -> usize {
     } else {
         panic!("could not find connecting pipe")
     };
-    let mut steps = 0;
+
     loop {
         match direction {
             Direction::North => y -= 1,
@@ -169,7 +169,7 @@ fn solve_b_for(input: &str) -> usize {
             Direction::South => y += 1,
             Direction::West => x -= 1,
         };
-        steps += 1;
+
         let tile = &map[y][x];
 
         enclosure[y][x] = true;
@@ -198,8 +198,25 @@ fn solve_b_for(input: &str) -> usize {
         }
     }
 
+    let mut escape_map = build_escape_map(&map);
+    flood_fill(&mut escape_map);
+
+    escape_map
+        .iter()
+        .enumerate()
+        .filter(|(index, _)| index % 2 == 1)
+        .map(|(_, line)| {
+            line.iter()
+                .enumerate()
+                .filter(|(index, contained)| index % 2 == 1 && **contained)
+                .count()
+        })
+        .sum()
+}
+
+fn build_escape_map(map: &Vec<Vec<Tile>>) -> Vec<Vec<bool>> {
     let mut escape_map = vec![vec![true; map[0].len() * 2 + 1]];
-    for (y, row) in map.iter().enumerate() {
+    for row in map {
         let mut escape_line = vec![true];
         for tile in row {
             match tile {
@@ -219,7 +236,7 @@ fn solve_b_for(input: &str) -> usize {
         }
         escape_map.push(escape_line);
         let mut escape_line = vec![true];
-        for (x, tile) in row.iter().enumerate() {
+        for tile in row {
             match tile {
                 Tile::PipeSouthEast | Tile::PipeSouthWest | Tile::PipeNorthSouth => {
                     escape_line.push(false);
@@ -231,30 +248,23 @@ fn solve_b_for(input: &str) -> usize {
         escape_map.push(escape_line);
     }
 
+    escape_map
+}
+
+#[allow(clippy::ptr_arg)]
+fn flood_fill(map: &mut Vec<Vec<bool>>) {
     let mut flood = vec![(0, 0)];
     while let Some((x, y)) = flood.pop() {
-        if let Some(row) = escape_map.get(y) {
+        if let Some(row) = map.get(y) {
             if let Some(true) = row.get(x) {
                 flood.push((x + 1, y));
                 flood.push((x.max(1) - 1, y));
                 flood.push((x, y + 1));
                 flood.push((x, y.max(1) - 1));
-                escape_map[y][x] = false;
+                map[y][x] = false;
             }
         }
     }
-
-    escape_map
-        .iter()
-        .enumerate()
-        .filter(|(index, _)| index % 2 == 1)
-        .map(|(_, line)| {
-            line.iter()
-                .enumerate()
-                .filter(|(index, contained)| index % 2 == 1 && **contained)
-                .count()
-        })
-        .sum()
 }
 
 #[test]
