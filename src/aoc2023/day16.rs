@@ -2,34 +2,12 @@ use std::collections::HashSet;
 
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 
+use crate::common::direction::Direction;
 use crate::PuzzleResult;
 
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/16_example");
 const INPUT: &str = include_str!("input/16");
-
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
-enum Direction {
-    North,
-    East,
-    South,
-    West,
-}
-
-impl Direction {
-    fn step(self, x: usize, y: usize, bound_x: usize, bound_y: usize) -> Option<(usize, usize)> {
-        match self {
-            Direction::North if y == 0 => None,
-            Direction::East if x + 1 == bound_x => None,
-            Direction::South if y + 1 == bound_y => None,
-            Direction::West if x == 0 => None,
-            Direction::North => Some((x, y - 1)),
-            Direction::East => Some((x + 1, y)),
-            Direction::South => Some((x, y + 1)),
-            Direction::West => Some((x - 1, y)),
-        }
-    }
-}
 
 enum Tile {
     Empty,
