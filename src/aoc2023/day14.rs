@@ -185,11 +185,11 @@ fn move_east(map: &mut Vec<Vec<Space>>) {
     }
 }
 
-fn cycle(mut map: &mut Vec<Vec<Space>>) {
-    move_north(&mut map);
-    move_west(&mut map);
-    move_south(&mut map);
-    move_east(&mut map);
+fn cycle(map: &mut Vec<Vec<Space>>) {
+    move_north(map);
+    move_west(map);
+    move_south(map);
+    move_east(map);
 }
 
 #[test]

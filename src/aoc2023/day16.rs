@@ -19,6 +19,7 @@ enum Tile {
 
 impl Tile {
     fn output(&self, input_beam: Direction) -> (Direction, Option<Direction>) {
+        #[allow(clippy::match_same_arms)]
         match (self, input_beam) {
             (Tile::Empty, input_beam) => (input_beam, None),
             (Tile::MirrorNorthEast, Direction::North) => (Direction::East, None),
