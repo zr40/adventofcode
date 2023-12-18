@@ -25,15 +25,15 @@ impl Year {
 
         let mut total_duration = Duration::ZERO;
 
-        println!(" Day |    Part One   |    Part Two   |       Duration        ");
-        println!("-----+---------------+---------------+-----------+-----------");
+        println!(" Day |    Part One    |    Part Two    |       Duration        ");
+        println!("-----+----------------+----------------+-----------+-----------");
         for (index, day) in self.days.iter().enumerate() {
             let result = day.run();
 
             match result.timing {
                 DayTiming::Separate { a, b } => {
                     println!(
-                        "  {:>2} | {:>13} | {:>13} | {:>6.2} ms | {:>6.2} ms",
+                        "  {:>2} | {:>14} | {:>14} | {:>6.2} ms | {:>6.2} ms",
                         index + 1,
                         result.a,
                         result.b,
@@ -45,7 +45,7 @@ impl Year {
                 }
                 DayTiming::Pair(total) => {
                     println!(
-                        "  {:>2} | {:>13} | {:>13} |    (pair) | {:>6.2} ms",
+                        "  {:>2} | {:>14} | {:>14} |    (pair) | {:>6.2} ms",
                         index + 1,
                         result.a,
                         result.b,
