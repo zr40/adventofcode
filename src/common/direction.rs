@@ -43,4 +43,13 @@ impl Direction {
             Direction::West => Direction::North,
         }
     }
+
+    pub fn step_unbounded(self, x: isize, y: isize) -> (isize, isize) {
+        match self {
+            Direction::North => (x, y - 1),
+            Direction::East => (x + 1, y),
+            Direction::South => (x, y + 1),
+            Direction::West => (x - 1, y),
+        }
+    }
 }
