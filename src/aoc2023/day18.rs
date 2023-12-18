@@ -14,7 +14,7 @@ enum Mode {
 
 struct Instruction {
     direction: Direction,
-    length: usize,
+    length: isize,
 }
 
 fn parse(input: &str, mode: Mode) -> Vec<Instruction> {
@@ -43,7 +43,7 @@ fn parse(input: &str, mode: Mode) -> Vec<Instruction> {
                 "3" => Direction::North,
                 ch => panic!("unknown direction '{ch}'"),
             };
-            let swapped_length = usize::from_str_radix(&color[0..5], 16).unwrap();
+            let swapped_length = isize::from_str_radix(&color[0..5], 16).unwrap();
 
             match mode {
                 Mode::PartA => Instruction { direction, length },
@@ -56,7 +56,7 @@ fn parse(input: &str, mode: Mode) -> Vec<Instruction> {
         .collect()
 }
 
-fn solve_for(input: &str, mode: Mode) -> usize {
+fn solve_for(input: &str, mode: Mode) -> isize {
     let instructions = parse(input, mode);
     let mut map = BTreeSet::new();
     map.insert((0, 0));
@@ -64,28 +64,19 @@ fn solve_for(input: &str, mode: Mode) -> usize {
     let mut x = 0;
     let mut y = 0;
 
-    for instruction in instructions {
-        for _ in 0..instruction.length {
-            (x, y) = instruction.direction.step_unbounded(x, y);
-            map.insert((x, y));
-        }
+    let mut vertices = vec![(0, 0)];
+    for instruction in &instructions {
+        (x, y) = instruction.direction.move_for(x, y, instruction.length);
+        vertices.push((x, y));
     }
 
-    let mut queue = vec![(1, 1)];
-
-    while let Some((x, y)) = queue.pop() {
-        if map.contains(&(x, y)) {
-            continue;
-        }
-        map.insert((x, y));
-
-        queue.push((x + 1, y));
-        queue.push((x - 1, y));
-        queue.push((x, y + 1));
-        queue.push((x, y - 1));
-    }
-
-    map.len()
+    vertices
+        .into_iter()
+        .map_windows(|[i, j]| i.0 * j.1 - i.1 * j.0)
+        .sum::<isize>()
+        / 2
+        + instructions.into_iter().map(|i| i.length).sum::<isize>() / 2
+        + 1
 }
 
 #[test]
@@ -99,15 +90,13 @@ fn a_puzzle() {
 }
 
 #[test]
-#[ignore = "part two not implemented"]
 fn b_example() {
     assert_eq!(solve_for(EXAMPLE, Mode::PartB), 952408144115);
 }
 
 #[test]
-#[ignore = "part two not implemented"]
 fn b_puzzle() {
-    assert_eq!(solve_for(EXAMPLE, Mode::PartB), todo!());
+    assert_eq!(solve_for(INPUT, Mode::PartB), 85070763635666);
 }
 
 pub fn solve_a() -> PuzzleResult {
@@ -115,5 +104,5 @@ pub fn solve_a() -> PuzzleResult {
 }
 
 pub fn solve_b() -> PuzzleResult {
-    PuzzleResult::Todo
+    solve_for(INPUT, Mode::PartB).into()
 }
