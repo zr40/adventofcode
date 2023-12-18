@@ -64,7 +64,7 @@ fn solve_for(input: &str, mode: Mode) -> isize {
     let mut x = 0;
     let mut y = 0;
 
-    let mut vertices = vec![(0, 0)];
+    let mut vertices = vec![];
     for instruction in &instructions {
         (x, y) = instruction.direction.move_for(x, y, instruction.length);
         vertices.push((x, y));
