@@ -1,8 +1,10 @@
 use std::collections::HashSet;
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/3_example");
-const INPUT: &str = include_str!("../input/3");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/3_example");
+const INPUT: &str = include_str!("input/3");
 
 fn solve_a_for(input: &str) -> u32 {
     let mut sum = 0;
@@ -92,10 +94,10 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 2646);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_a_for(INPUT));
+pub fn solve_a() -> PuzzleResult {
+    solve_a_for(INPUT).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_b_for(INPUT));
+pub fn solve_b() -> PuzzleResult {
+    solve_b_for(INPUT).into()
 }

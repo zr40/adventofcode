@@ -1,8 +1,10 @@
 use std::collections::{HashMap, HashSet};
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/17_example");
-const INPUT: &str = include_str!("../input/17");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/17_example");
+const INPUT: &str = include_str!("input/17");
 
 fn movement_blocked(
     chamber: &HashSet<(i64, i64)>,
@@ -112,10 +114,10 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, 1000000000000), 1524637681145);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, 2022));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, 2022).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, 1000000000000));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, 1000000000000).into()
 }

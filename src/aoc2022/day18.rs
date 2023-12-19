@@ -1,8 +1,10 @@
 use std::collections::HashSet;
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/18_example");
-const INPUT: &str = include_str!("../input/18");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/18_example");
+const INPUT: &str = include_str!("input/18");
 
 enum Mode {
     Adjacent,
@@ -114,10 +116,10 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::Exterior), 2014);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, Mode::Adjacent));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, Mode::Adjacent).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, Mode::Exterior));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, Mode::Exterior).into()
 }

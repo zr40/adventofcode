@@ -1,6 +1,8 @@
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/19_example");
-const INPUT: &str = include_str!("../input/19");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/19_example");
+const INPUT: &str = include_str!("input/19");
 
 struct Blueprint {
     id: usize,
@@ -104,7 +106,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
                         clay: new_state.clay,
                         obsidian: new_state.obsidian - blueprint.geode_robot_obsidian_cost,
                         geodes: new_state.geodes,
-                    })
+                    });
                 }
 
                 if state.clay >= blueprint.obsidian_robot_clay_cost
@@ -120,7 +122,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
                         clay: new_state.clay - blueprint.obsidian_robot_clay_cost,
                         obsidian: new_state.obsidian,
                         geodes: new_state.geodes,
-                    })
+                    });
                 }
                 if state.ore >= blueprint.clay_robot_ore_cost
                     && state.clay < blueprint.obsidian_robot_clay_cost
@@ -134,7 +136,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
                         clay: new_state.clay,
                         obsidian: new_state.obsidian,
                         geodes: new_state.geodes,
-                    })
+                    });
                 }
 
                 if state.ore >= blueprint.ore_robot_ore_cost {
@@ -147,7 +149,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
                         clay: new_state.clay,
                         obsidian: new_state.obsidian,
                         geodes: new_state.geodes,
-                    })
+                    });
                 }
 
                 new_states.push(new_state);
@@ -193,30 +195,42 @@ fn solve_for(input: &str, mode: Mode) -> usize {
     }
 }
 
-// #[test]
+#[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn a_example() {
     assert_eq!(solve_for(EXAMPLE, Mode::PartOne), 33);
 }
 
-// #[test]
+#[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartOne), 1009);
 }
 
-// #[test]
+#[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn b_example() {
     assert_eq!(solve_for(EXAMPLE, Mode::PartTwo), 54 * 62); // should be 56 * 62 according to the puzzle text
 }
 
-// #[test]
+#[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartTwo), 18816);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, Mode::PartOne));
+pub fn solve_a() -> PuzzleResult {
+    #[cfg(debug_assertions)]
+    return PuzzleResult::SkipSlow;
+
+    #[cfg(not(debug_assertions))]
+    solve_for(INPUT, Mode::PartOne).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, Mode::PartTwo));
+pub fn solve_b() -> PuzzleResult {
+    #[cfg(debug_assertions)]
+    return PuzzleResult::SkipSlow;
+
+    #[cfg(not(debug_assertions))]
+    solve_for(INPUT, Mode::PartTwo).into()
 }

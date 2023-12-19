@@ -1,6 +1,8 @@
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/14_example");
-const INPUT: &str = include_str!("../input/14");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/14_example");
+const INPUT: &str = include_str!("input/14");
 
 type Coords = (i32, i32);
 
@@ -102,10 +104,10 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::Floor), 24589);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, Mode::Abyss));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, Mode::Abyss).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, Mode::Floor));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, Mode::Floor).into()
 }

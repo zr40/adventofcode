@@ -183,22 +183,18 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::UltraCrucible), 734);
 }
 
-#[cfg(debug_assertions)]
 pub fn solve_a() -> PuzzleResult {
-    PuzzleResult::SkipSlow
-}
+    #[cfg(debug_assertions)]
+    return PuzzleResult::SkipSlow;
 
-#[cfg(debug_assertions)]
-pub fn solve_b() -> PuzzleResult {
-    PuzzleResult::SkipSlow
-}
-
-#[cfg(not(debug_assertions))]
-pub fn solve_a() -> PuzzleResult {
+    #[cfg(not(debug_assertions))]
     solve_for(INPUT, Mode::Crucible).into()
 }
 
-#[cfg(not(debug_assertions))]
 pub fn solve_b() -> PuzzleResult {
+    #[cfg(debug_assertions)]
+    return PuzzleResult::SkipSlow;
+
+    #[cfg(not(debug_assertions))]
     solve_for(INPUT, Mode::UltraCrucible).into()
 }

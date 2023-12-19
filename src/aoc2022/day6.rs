@@ -1,10 +1,12 @@
 use std::collections::BTreeSet;
 
-const INPUT: &str = include_str!("../input/6");
+use crate::puzzle_result::PuzzleResult;
+
+const INPUT: &str = include_str!("input/6");
 
 fn solve_for(input: &str, marker_size: usize) -> usize {
     let chars: Vec<char> = input.chars().collect();
-    for i in 0..chars.len() - marker_size + 1 {
+    for i in 0..=chars.len() - marker_size {
         let mut set = BTreeSet::new();
 
         for j in 0..marker_size {
@@ -46,10 +48,10 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, 14), 2665);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, 4));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, 4).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, 14));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, 14).into()
 }

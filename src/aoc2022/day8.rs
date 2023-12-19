@@ -1,6 +1,8 @@
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/8_example");
-const INPUT: &str = include_str!("../input/8");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/8_example");
+const INPUT: &str = include_str!("input/8");
 
 fn parse_input(input: &str) -> Vec<Vec<u8>> {
     let mut field = vec![];
@@ -143,10 +145,10 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 479400);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_a_for(INPUT));
+pub fn solve_a() -> PuzzleResult {
+    solve_a_for(INPUT).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_b_for(INPUT));
+pub fn solve_b() -> PuzzleResult {
+    solve_b_for(INPUT).into()
 }

@@ -1,9 +1,11 @@
 use std::collections::VecDeque;
 use std::str::Lines;
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/11_example");
-const INPUT: &str = include_str!("../input/11");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/11_example");
+const INPUT: &str = include_str!("input/11");
 
 enum Operation {
     Plus(u64),
@@ -21,7 +23,7 @@ struct Monkey {
 }
 
 impl Monkey {
-    fn from_lines(lines: &mut Lines) -> Monkey {
+    fn from_lines(lines: &mut Lines<'_>) -> Monkey {
         let items = lines
             .next()
             .unwrap()
@@ -160,10 +162,10 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, false, 10000), 14561971968);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, true, 20));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, true, 20).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, false, 10000));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, false, 10000).into()
 }

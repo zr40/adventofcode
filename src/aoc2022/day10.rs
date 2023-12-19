@@ -1,6 +1,8 @@
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/10_example");
-const INPUT: &str = include_str!("../input/10");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/10_example");
+const INPUT: &str = include_str!("input/10");
 
 struct Cpu {
     x: i32,
@@ -103,7 +105,7 @@ fn puzzle() {
     );
 }
 
-pub fn solve_both() {
+pub fn solve_both() -> (PuzzleResult, PuzzleResult) {
     let (signal_strength, display) = solve_for(INPUT);
-    println!("{signal_strength}\n10b:\n{display}");
+    (signal_strength.into(), PuzzleResult::Multiline(display))
 }

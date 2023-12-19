@@ -1,6 +1,8 @@
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/5_example");
-const INPUT: &str = include_str!("../input/5");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/5_example");
+const INPUT: &str = include_str!("input/5");
 
 enum Mode {
     CrateMover9000,
@@ -21,7 +23,7 @@ fn solve_for(input: &str, mode: Mode) -> String {
             break;
         }
 
-        for i in 0..chars.len() / 4 + 1 {
+        for i in 0..=chars.len() / 4 {
             if stacks.len() == i {
                 stacks.push(vec![]);
             }
@@ -33,7 +35,7 @@ fn solve_for(input: &str, mode: Mode) -> String {
         }
     }
 
-    for stack in stacks.iter_mut() {
+    for stack in &mut stacks {
         stack.reverse();
     }
 
@@ -85,10 +87,10 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::CrateMover9001), "RMHFJNVFP");
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, Mode::CrateMover9000));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, Mode::CrateMover9000).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, Mode::CrateMover9001));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, Mode::CrateMover9001).into()
 }

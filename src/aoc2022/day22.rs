@@ -1,8 +1,10 @@
 use std::collections::HashMap;
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/22_example");
-const INPUT: &str = include_str!("../input/22");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/22_example");
+const INPUT: &str = include_str!("input/22");
 
 enum Mode {
     PartA,
@@ -157,8 +159,6 @@ fn solve_for(input: &str, mode: Mode) -> usize {
                 for _ in 0..steps {
                     let candidate_pos = direction.step(&map, pos, rows, cols);
 
-                    println!("{candidate_pos:?}");
-
                     if let Tile::Wall = map.get(&candidate_pos).unwrap() {
                         break;
                     }
@@ -183,20 +183,22 @@ fn a_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartA), 29408);
 }
 
-// #[test]
+/*
+#[test]
 fn b_example() {
-    assert_eq!(solve_for(EXAMPLE, Mode::PartB), 0);
+    assert_eq!(solve_for(EXAMPLE, Mode::PartB), 5031);
 }
 
-// #[test]
+#[test]
 fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartB), 0);
 }
+*/
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, Mode::PartA));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, Mode::PartA).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, Mode::PartB));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, Mode::PartB).into()
 }

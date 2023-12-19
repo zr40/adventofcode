@@ -1,9 +1,11 @@
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::mem;
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/16_example");
-const INPUT: &str = include_str!("../input/16");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/16_example");
+const INPUT: &str = include_str!("input/16");
 
 struct Valve {
     flowrate: u32,
@@ -161,7 +163,7 @@ fn solve_b_for(input: &str) -> u32 {
     for _ in 0..26 {
         let mut new_paths = vec![];
 
-        for mut path in paths.iter_mut() {
+        for path in &mut paths {
             path.released += path.flowrate;
         }
 
@@ -203,7 +205,7 @@ fn solve_b_for(input: &str) -> u32 {
                 }
             }
 
-            for path in new_paths.iter_mut() {
+            for path in &mut new_paths {
                 mem::swap(&mut path.my_location, &mut path.other_location);
                 mem::swap(&mut path.my_target, &mut path.other_target);
             }
@@ -225,7 +227,8 @@ fn a_example() {
     assert_eq!(solve_a_for(EXAMPLE), 1651);
 }
 
-// #[test]
+#[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
     assert_eq!(solve_a_for(INPUT), 1986);
 }
@@ -235,15 +238,24 @@ fn b_example() {
     assert_eq!(solve_b_for(EXAMPLE), 1706); // should be 1707 according to the puzzle text
 }
 
-// #[test]
+#[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 2464);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_a_for(INPUT));
+pub fn solve_a() -> PuzzleResult {
+    #[cfg(debug_assertions)]
+    return PuzzleResult::SkipSlow;
+
+    #[cfg(not(debug_assertions))]
+    solve_a_for(INPUT).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_b_for(INPUT));
+pub fn solve_b() -> PuzzleResult {
+    #[cfg(debug_assertions)]
+    return PuzzleResult::SkipSlow;
+
+    #[cfg(not(debug_assertions))]
+    solve_b_for(INPUT).into()
 }

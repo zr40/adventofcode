@@ -1,8 +1,10 @@
 use std::collections::HashMap;
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/21_example");
-const INPUT: &str = include_str!("../input/21");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/21_example");
+const INPUT: &str = include_str!("input/21");
 
 enum Mode {
     PartA,
@@ -23,7 +25,7 @@ enum Monkey<'a> {
     Human,
 }
 
-fn resolve(monkeys: &HashMap<&str, Monkey>, monkey: &str) -> Option<i64> {
+fn resolve(monkeys: &HashMap<&str, Monkey<'_>>, monkey: &str) -> Option<i64> {
     match &monkeys[monkey] {
         Monkey::Constant(c) => Some(*c),
         Monkey::Operation(ml, Operation::Add, mr) => {
@@ -53,7 +55,7 @@ fn resolve(monkeys: &HashMap<&str, Monkey>, monkey: &str) -> Option<i64> {
     }
 }
 
-fn backtrace(monkeys: &HashMap<&str, Monkey>, monkey: &str, expected: i64) -> i64 {
+fn backtrace(monkeys: &HashMap<&str, Monkey<'_>>, monkey: &str, expected: i64) -> i64 {
     match &monkeys[monkey] {
         Monkey::Constant(_) => panic!("backtrace to constant"),
         Monkey::Human => expected,
@@ -146,10 +148,10 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartB), 3952673930912);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, Mode::PartA));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, Mode::PartA).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, Mode::PartB));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, Mode::PartB).into()
 }

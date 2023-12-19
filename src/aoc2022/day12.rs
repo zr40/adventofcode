@@ -1,8 +1,10 @@
 use std::collections::{HashSet, VecDeque};
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/12_example");
-const INPUT: &str = include_str!("../input/12");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/12_example");
+const INPUT: &str = include_str!("input/12");
 
 enum Mode {
     SinglePath,
@@ -114,10 +116,10 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::HikingTrail), 430);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, Mode::SinglePath));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, Mode::SinglePath).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, Mode::HikingTrail));
+pub fn solve_b() -> PuzzleResult {
+    solve_for(INPUT, Mode::HikingTrail).into()
 }

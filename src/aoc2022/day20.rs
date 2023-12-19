@@ -1,11 +1,14 @@
 use std::collections::VecDeque;
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/20_example");
-const INPUT: &str = include_str!("../input/20");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/20_example");
+const INPUT: &str = include_str!("input/20");
 
 enum Mode {
     PartOne,
+    #[cfg_attr(debug_assertions, allow(dead_code))]
     PartTwo,
 }
 
@@ -81,15 +84,20 @@ fn b_example() {
     assert_eq!(solve_for(EXAMPLE, Mode::PartTwo), 1623178306);
 }
 
-// #[test]
+#[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartTwo), 861907680486);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_for(INPUT, Mode::PartOne));
+pub fn solve_a() -> PuzzleResult {
+    solve_for(INPUT, Mode::PartOne).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_for(INPUT, Mode::PartTwo));
+pub fn solve_b() -> PuzzleResult {
+    #[cfg(debug_assertions)]
+    return PuzzleResult::SkipSlow;
+
+    #[cfg(not(debug_assertions))]
+    solve_for(INPUT, Mode::PartTwo).into()
 }

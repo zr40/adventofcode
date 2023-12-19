@@ -2,9 +2,11 @@ use std::cmp::Ordering;
 use std::iter::Peekable;
 use std::str::Bytes;
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/13_example");
-const INPUT: &str = include_str!("../input/13");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/13_example");
+const INPUT: &str = include_str!("input/13");
 
 #[derive(Debug, PartialEq, Eq)]
 enum Item {
@@ -37,7 +39,7 @@ impl PartialOrd for Item {
     }
 }
 
-fn parse_list(iter: &mut Peekable<Bytes>) -> Item {
+fn parse_list(iter: &mut Peekable<Bytes<'_>>) -> Item {
     let mut items = vec![];
 
     assert_eq!(iter.next(), Some(b'['));
@@ -144,10 +146,10 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 21909);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_a_for(INPUT));
+pub fn solve_a() -> PuzzleResult {
+    solve_a_for(INPUT).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_b_for(INPUT));
+pub fn solve_b() -> PuzzleResult {
+    solve_b_for(INPUT).into()
 }

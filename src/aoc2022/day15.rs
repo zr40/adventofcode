@@ -1,8 +1,10 @@
 use std::collections::HashSet;
 
-#[allow(dead_code)]
-const EXAMPLE: &str = include_str!("../input/15_example");
-const INPUT: &str = include_str!("../input/15");
+use crate::puzzle_result::PuzzleResult;
+
+#[cfg(test)]
+const EXAMPLE: &str = include_str!("input/15_example");
+const INPUT: &str = include_str!("input/15");
 
 fn solve_a_for(input: &str, target_y: i32) -> usize {
     let mut positions_without_beacon = HashSet::new();
@@ -23,7 +25,7 @@ fn solve_a_for(input: &str, target_y: i32) -> usize {
         let no_beacon_radius = distance - (sensor_y - target_y).abs();
 
         if no_beacon_radius >= 0 {
-            for x in sensor_x - no_beacon_radius..sensor_x + no_beacon_radius + 1 {
+            for x in sensor_x - no_beacon_radius..=sensor_x + no_beacon_radius {
                 if beacon_x == x && beacon_y == target_y {
                     continue;
                 }
@@ -131,7 +133,8 @@ fn a_example() {
     assert_eq!(solve_a_for(EXAMPLE, 10), 26);
 }
 
-// #[test]
+#[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
     assert_eq!(solve_a_for(INPUT, 2000000), 5367037);
 }
@@ -141,15 +144,24 @@ fn b_example() {
     assert_eq!(solve_b_for(EXAMPLE, 20), 56000011);
 }
 
-// #[test]
+#[test]
+#[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT, 4000000), 11914583249288);
 }
 
-pub fn solve_a() {
-    println!("{}", solve_a_for(INPUT, 2000000));
+pub fn solve_a() -> PuzzleResult {
+    #[cfg(debug_assertions)]
+    return PuzzleResult::SkipSlow;
+
+    #[cfg(not(debug_assertions))]
+    solve_a_for(INPUT, 2000000).into()
 }
 
-pub fn solve_b() {
-    println!("{}", solve_b_for(INPUT, 4000000));
+pub fn solve_b() -> PuzzleResult {
+    #[cfg(debug_assertions)]
+    return PuzzleResult::SkipSlow;
+
+    #[cfg(not(debug_assertions))]
+    solve_b_for(INPUT, 4000000).into()
 }

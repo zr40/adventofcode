@@ -1,7 +1,8 @@
 use std::time::Duration;
 
 use crate::day::{Day, DayTiming};
-use crate::{aoc2015, aoc2023};
+use crate::puzzle_result::PuzzleResult;
+use crate::{aoc2015, aoc2022, aoc2023};
 
 pub(crate) struct Year {
     pub(crate) year: u16,
@@ -12,6 +13,10 @@ pub(crate) static YEARS: &[Year] = &[
     Year {
         year: 2015,
         days: aoc2015::DAYS,
+    },
+    Year {
+        year: 2022,
+        days: aoc2022::DAYS,
     },
     Year {
         year: 2023,
@@ -25,15 +30,15 @@ impl Year {
 
         let mut total_duration = Duration::ZERO;
 
-        println!(" Day |    Part One    |    Part Two    |       Duration        ");
-        println!("-----+----------------+----------------+-----------+-----------");
+        println!(" Day |     Part One    |     Part Two    |         Duration          ");
+        println!("-----+-----------------+-----------------+-------------+-------------");
         for (index, day) in self.days.iter().enumerate() {
             let result = day.run();
 
             match result.timing {
                 DayTiming::Separate { a, b } => {
                     println!(
-                        "  {:>2} | {:>14} | {:>14} | {:>6.2} ms | {:>6.2} ms",
+                        "  {:>2} | {:>15} | {:>15} | {:>8.2} ms | {:>8.2} ms",
                         index + 1,
                         result.a,
                         result.b,
@@ -45,7 +50,7 @@ impl Year {
                 }
                 DayTiming::Pair(total) => {
                     println!(
-                        "  {:>2} | {:>14} | {:>14} |    (pair) | {:>6.2} ms",
+                        "  {:>2} | {:>15} | {:>15} |      (pair) | {:>8.2} ms",
                         index + 1,
                         result.a,
                         result.b,
@@ -58,6 +63,12 @@ impl Year {
                     println!("  {:>2} | slow puzzle skipped in debug build", index + 1);
                 }
             };
+            if let PuzzleResult::Multiline(v) = result.a {
+                println!("{v}");
+            }
+            if let PuzzleResult::Multiline(v) = result.b {
+                println!("{v}");
+            }
         }
         println!(
             "Total run time: {:.1} ms\n",
