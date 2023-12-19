@@ -43,6 +43,23 @@ struct Part {
     s: u64,
 }
 
+struct WorkflowRange {
+    workflow: String,
+    range: Range,
+}
+
+#[derive(Clone, Copy)]
+struct Range {
+    x_min: u64,
+    x_max: u64,
+    m_min: u64,
+    m_max: u64,
+    a_min: u64,
+    a_max: u64,
+    s_min: u64,
+    s_max: u64,
+}
+
 impl Workflow {
     fn evaluate(&self, part: &Part) -> &Action {
         for rule in &self.rules {
@@ -60,6 +77,70 @@ impl Workflow {
             }
         }
         &self.otherwise
+    }
+
+    fn ranges(&self, mut range: Range) -> (Vec<WorkflowRange>, Vec<Range>) {
+        let mut ranges = vec![];
+        let mut outputs = vec![];
+
+        for rule in &self.rules {
+            if match rule.operator {
+                Operator::LessThan => handle_less_than(rule, &mut range, &mut outputs, &mut ranges),
+                Operator::MoreThan => handle_more_than(rule, &mut range, &mut outputs, &mut ranges),
+            } {
+                return (ranges, outputs);
+            }
+        }
+
+        self.otherwise.act(&range, &mut outputs, &mut ranges);
+
+        (ranges, outputs)
+    }
+}
+
+impl Range {
+    fn min_max_for(&self, category: &Category) -> (u64, u64) {
+        match category {
+            Category::X => (self.x_min, self.x_max),
+            Category::M => (self.m_min, self.m_max),
+            Category::A => (self.a_min, self.a_max),
+            Category::S => (self.s_min, self.s_max),
+        }
+    }
+
+    fn set_min(&mut self, category: &Category, value: u64) {
+        match category {
+            Category::X => self.x_min = value,
+            Category::M => self.m_min = value,
+            Category::A => self.a_min = value,
+            Category::S => self.s_min = value,
+        }
+    }
+
+    fn set_max(&mut self, category: &Category, value: u64) {
+        match category {
+            Category::X => self.x_max = value,
+            Category::M => self.m_max = value,
+            Category::A => self.a_max = value,
+            Category::S => self.s_max = value,
+        }
+    }
+}
+
+impl Action {
+    fn act(&self, range: &Range, outputs: &mut Vec<Range>, ranges: &mut Vec<WorkflowRange>) {
+        match self {
+            Action::Accept => {
+                outputs.push(*range);
+            }
+            Action::Reject => {}
+            Action::Workflow(w) => {
+                ranges.push(WorkflowRange {
+                    workflow: w.clone(),
+                    range: *range,
+                });
+            }
+        }
     }
 }
 
@@ -155,172 +236,6 @@ fn solve_a_for(input: &str) -> u64 {
         .sum()
 }
 
-struct WorkflowRange {
-    workflow: String,
-    range: Range,
-}
-
-#[derive(Clone, Copy)]
-struct Range {
-    x_min: u64,
-    x_max: u64,
-    m_min: u64,
-    m_max: u64,
-    a_min: u64,
-    a_max: u64,
-    s_min: u64,
-    s_max: u64,
-}
-
-impl Workflow {
-    fn ranges(&self, mut range: Range) -> (Vec<WorkflowRange>, Vec<Range>) {
-        let mut ranges = vec![];
-        let mut outputs = vec![];
-
-        for rule in &self.rules {
-            match rule.operator {
-                Operator::LessThan => {
-                    let (min, max) = match rule.category {
-                        Category::X => (range.x_min, range.x_max),
-                        Category::M => (range.m_min, range.m_max),
-                        Category::A => (range.a_min, range.a_max),
-                        Category::S => (range.s_min, range.s_max),
-                    };
-                    if max < rule.threshold {
-                        match &rule.action {
-                            Action::Accept => {
-                                outputs.push(range);
-                            }
-                            Action::Reject => {}
-                            Action::Workflow(w) => {
-                                ranges.push(WorkflowRange {
-                                    workflow: w.clone(),
-                                    range,
-                                });
-                            }
-                        }
-                        return (ranges, outputs);
-                    } else if min <= rule.threshold {
-                        match rule.category {
-                            Category::X => range.x_max = rule.threshold - 1,
-                            Category::M => range.m_max = rule.threshold - 1,
-                            Category::A => range.a_max = rule.threshold - 1,
-                            Category::S => range.s_max = rule.threshold - 1,
-                        }
-
-                        match &rule.action {
-                            Action::Accept => {
-                                outputs.push(range);
-                            }
-                            Action::Reject => {}
-                            Action::Workflow(w) => {
-                                ranges.push(WorkflowRange {
-                                    workflow: w.clone(),
-                                    range,
-                                });
-                            }
-                        }
-
-                        match rule.category {
-                            Category::X => {
-                                range.x_max = max;
-                                range.x_min = rule.threshold;
-                            }
-                            Category::M => {
-                                range.m_max = max;
-                                range.m_min = rule.threshold;
-                            }
-                            Category::A => {
-                                range.a_max = max;
-                                range.a_min = rule.threshold;
-                            }
-                            Category::S => {
-                                range.s_max = max;
-                                range.s_min = rule.threshold;
-                            }
-                        }
-                    }
-                }
-                Operator::MoreThan => {
-                    let (min, max) = match rule.category {
-                        Category::X => (range.x_min, range.x_max),
-                        Category::M => (range.m_min, range.m_max),
-                        Category::A => (range.a_min, range.a_max),
-                        Category::S => (range.s_min, range.s_max),
-                    };
-                    if min > rule.threshold {
-                        match &rule.action {
-                            Action::Accept => {
-                                outputs.push(range);
-                            }
-                            Action::Reject => {}
-                            Action::Workflow(w) => {
-                                ranges.push(WorkflowRange {
-                                    workflow: w.clone(),
-                                    range,
-                                });
-                            }
-                        }
-                        return (ranges, outputs);
-                    } else if max >= rule.threshold {
-                        match rule.category {
-                            Category::X => range.x_min = rule.threshold + 1,
-                            Category::M => range.m_min = rule.threshold + 1,
-                            Category::A => range.a_min = rule.threshold + 1,
-                            Category::S => range.s_min = rule.threshold + 1,
-                        }
-
-                        match &rule.action {
-                            Action::Accept => {
-                                outputs.push(range);
-                            }
-                            Action::Reject => {}
-                            Action::Workflow(w) => {
-                                ranges.push(WorkflowRange {
-                                    workflow: w.clone(),
-                                    range,
-                                });
-                            }
-                        }
-
-                        match rule.category {
-                            Category::X => {
-                                range.x_min = min;
-                                range.x_max = rule.threshold;
-                            }
-                            Category::M => {
-                                range.m_min = min;
-                                range.m_max = rule.threshold;
-                            }
-                            Category::A => {
-                                range.a_min = min;
-                                range.a_max = rule.threshold;
-                            }
-                            Category::S => {
-                                range.s_min = min;
-                                range.s_max = rule.threshold;
-                            }
-                        }
-                    }
-                }
-            };
-        }
-
-        match &self.otherwise {
-            Action::Accept => outputs.push(range),
-            Action::Reject => {}
-            Action::Workflow(w) => {
-                ranges.push(WorkflowRange {
-                    workflow: w.clone(),
-                    range,
-                });
-            }
-        }
-
-        (ranges, outputs)
-    }
-}
-
 fn solve_b_for(input: &str) -> u64 {
     let (workflows, _) = parse(input);
 
@@ -356,6 +271,46 @@ fn solve_b_for(input: &str) -> u64 {
                 * (o.s_max - o.s_min + 1)
         })
         .sum()
+}
+
+fn handle_more_than(
+    rule: &Rule,
+    range: &mut Range,
+    outputs: &mut Vec<Range>,
+    ranges: &mut Vec<WorkflowRange>,
+) -> bool {
+    let (min, max) = range.min_max_for(&rule.category);
+    if min > rule.threshold {
+        rule.action.act(range, outputs, ranges);
+        return true;
+    } else if max >= rule.threshold {
+        range.set_min(&rule.category, rule.threshold + 1);
+        rule.action.act(range, outputs, ranges);
+
+        range.set_min(&rule.category, min);
+        range.set_max(&rule.category, rule.threshold);
+    }
+    false
+}
+
+fn handle_less_than(
+    rule: &Rule,
+    range: &mut Range,
+    outputs: &mut Vec<Range>,
+    ranges: &mut Vec<WorkflowRange>,
+) -> bool {
+    let (min, max) = range.min_max_for(&rule.category);
+    if max < rule.threshold {
+        rule.action.act(range, outputs, ranges);
+        return true;
+    } else if min <= rule.threshold {
+        range.set_max(&rule.category, rule.threshold - 1);
+        rule.action.act(range, outputs, ranges);
+
+        range.set_max(&rule.category, max);
+        range.set_min(&rule.category, rule.threshold);
+    }
+    false
 }
 
 #[test]
