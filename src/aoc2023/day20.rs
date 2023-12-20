@@ -31,6 +31,7 @@ enum ModuleType {
 struct Module<'a> {
     module_type: ModuleType,
     destinations: Vec<&'a str>,
+    inputs: Vec<String>,
 }
 
 fn parse(input: &str) -> HashMap<String, Module<'_>> {
@@ -64,6 +65,7 @@ fn parse(input: &str) -> HashMap<String, Module<'_>> {
                 Module {
                     module_type,
                     destinations,
+                    inputs: vec![],
                 },
             )
         })
@@ -78,12 +80,16 @@ fn parse(input: &str) -> HashMap<String, Module<'_>> {
     }
 
     for (source, destination) in destinations {
-        if let Some(Module {
-            module_type: ModuleType::Conjunction { memory },
-            ..
-        }) = modules.get_mut(destination)
-        {
-            memory.insert(source, Pulse::Low);
+        if let Some(module) = modules.get_mut(destination) {
+            module.inputs.push(source.clone());
+
+            if let Module {
+                module_type: ModuleType::Conjunction { memory },
+                ..
+            } = module
+            {
+                memory.insert(source.to_string(), Pulse::Low);
+            }
         }
     }
 
@@ -94,91 +100,6 @@ struct Queue<'a> {
     source: &'a str,
     destination: &'a str,
     pulse: Pulse,
-}
-
-enum Mode {
-    PartA,
-    PartB,
-}
-
-fn solve_for(input: &str, mode: Mode) -> usize {
-    let mut modules = parse(input);
-
-    let mut low_pulses_sent = 0;
-    let mut high_pulses_sent = 0;
-
-    let mut queue = VecDeque::new();
-
-    // FIXME part 2, this will not work on other inputs
-    let mut bb = 0;
-    let mut kk = 0;
-    let mut mr = 0;
-    let mut gl = 0;
-
-    for i in 1.. {
-        match &mode {
-            Mode::PartA => {
-                if i == 1001 {
-                    break;
-                }
-            }
-            Mode::PartB => {}
-        }
-
-        queue.push_back(Queue {
-            source: "",
-            destination: "broadcaster",
-            pulse: Pulse::Low,
-        });
-
-        while let Some(item) = queue.pop_front() {
-            match (&mode, item.pulse, item.destination) {
-                (Mode::PartA, Pulse::Low, _) => low_pulses_sent += 1,
-                (Mode::PartA, Pulse::High, _) => high_pulses_sent += 1,
-                (Mode::PartB, Pulse::Low, "bb") => {
-                    if bb == 0 {
-                        bb = i;
-                    }
-                }
-                (Mode::PartB, Pulse::Low, "kk") => {
-                    if kk == 0 {
-                        kk = i;
-                    }
-                }
-                (Mode::PartB, Pulse::Low, "mr") => {
-                    if mr == 0 {
-                        mr = i;
-                    }
-                }
-                (Mode::PartB, Pulse::Low, "gl") => {
-                    if gl == 0 {
-                        gl = i;
-                    }
-                }
-                (Mode::PartB, _, _) => {}
-            }
-
-            if let Some(module) = modules.get_mut(item.destination) {
-                if let Some(output) = module.receive(item.pulse, item.source) {
-                    for destination in &module.destinations {
-                        queue.push_back(Queue {
-                            source: item.destination,
-                            destination,
-                            pulse: output,
-                        });
-                    }
-                }
-            }
-        }
-
-        if let Mode::PartB = &mode {
-            if bb != 0 && kk != 0 && mr != 0 && gl != 0 {
-                return bb * kk * mr * gl;
-            }
-        }
-    }
-
-    low_pulses_sent * high_pulses_sent
 }
 
 impl Module<'_> {
@@ -213,26 +134,117 @@ impl Module<'_> {
     }
 }
 
+fn solve_a_for(input: &str) -> usize {
+    let mut modules = parse(input);
+
+    let mut low_pulses_sent = 0;
+    let mut high_pulses_sent = 0;
+
+    let mut queue = VecDeque::new();
+
+    for _ in 0..1000 {
+        queue.push_back(Queue {
+            source: "",
+            destination: "broadcaster",
+            pulse: Pulse::Low,
+        });
+
+        while let Some(item) = queue.pop_front() {
+            match item.pulse {
+                Pulse::Low => low_pulses_sent += 1,
+                Pulse::High => high_pulses_sent += 1,
+            }
+
+            if let Some(module) = modules.get_mut(item.destination) {
+                if let Some(output) = module.receive(item.pulse, item.source) {
+                    for destination in &module.destinations {
+                        queue.push_back(Queue {
+                            source: item.destination,
+                            destination,
+                            pulse: output,
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    low_pulses_sent * high_pulses_sent
+}
+
+fn solve_b_for(input: &str) -> usize {
+    let modules = parse(input);
+
+    let mut output = 1;
+
+    let qt = modules
+        .values()
+        .find(|module| module.destinations.contains(&"rx"))
+        .unwrap();
+
+    for bb_name in &qt.inputs {
+        let bb = &modules[bb_name];
+        assert_eq!(bb.inputs.len(), 1);
+
+        let vj_name = &bb.inputs[0];
+        let vj = &modules[vj_name];
+
+        let lc_name = vj
+            .inputs
+            .iter()
+            .find(|name| {
+                let modu = &modules[*name];
+
+                (modu.inputs.len() == 1) && (modu.destinations.len() == 1)
+            })
+            .unwrap();
+
+        let mut lc = &modules[lc_name];
+        let mut acc = 0;
+
+        loop {
+            acc *= 2;
+            if lc.destinations.len() == 2 || (lc.destinations.len() == 1 && lc.inputs.len() == 1) {
+                acc += 1;
+            }
+
+            if lc.inputs.iter().any(|i| i == "broadcaster") {
+                break;
+            }
+
+            lc = &modules[if lc.inputs.len() == 1 {
+                &lc.inputs[0]
+            } else {
+                lc.inputs.iter().find(|i| *i != vj_name).unwrap()
+            }];
+        }
+
+        output *= acc;
+    }
+
+    output
+}
+
 #[test]
 fn a_example() {
-    assert_eq!(solve_for(EXAMPLE_1, Mode::PartA), 32000000);
-    assert_eq!(solve_for(EXAMPLE_2, Mode::PartA), 11687500);
+    assert_eq!(solve_a_for(EXAMPLE_1), 32000000);
+    assert_eq!(solve_a_for(EXAMPLE_2), 11687500);
 }
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartA), 879834312);
+    assert_eq!(solve_a_for(INPUT), 879834312);
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartB), 243037165713371);
+    assert_eq!(solve_b_for(INPUT), 243037165713371);
 }
 
 pub fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartA).into()
+    solve_a_for(INPUT).into()
 }
 
 pub fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartB).into()
+    solve_b_for(INPUT).into()
 }
