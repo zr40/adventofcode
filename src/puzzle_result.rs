@@ -12,7 +12,7 @@ pub(crate) enum PuzzleResult {
     Multiline(String),
     #[allow(dead_code)]
     Todo,
-    #[cfg(debug_assertions)]
+    #[allow(dead_code)]
     SkipSlow,
 }
 
@@ -77,7 +77,6 @@ impl Display for PuzzleResult {
             Self::String(v) => v.fmt(f),
             Self::Multiline(_) => "v v v v v v v v".fmt(f),
             Self::Todo => "TODO".fmt(f),
-            #[cfg(debug_assertions)]
             Self::SkipSlow => "Skipped".fmt(f),
         }
     }
