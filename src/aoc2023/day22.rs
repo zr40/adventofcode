@@ -18,7 +18,7 @@ struct Brick {
 }
 
 fn parse(input: &str) -> Vec<Brick> {
-    input
+    let mut bricks: Vec<Brick> = input
         .lines()
         .map(|line| {
             let (x1, line) = line.split_once(',').unwrap();
@@ -35,26 +35,24 @@ fn parse(input: &str) -> Vec<Brick> {
                 z_high: z2.parse().unwrap(),
             }
         })
-        .collect()
+        .collect();
+    bricks.sort_unstable_by_key(|brick| brick.z_low);
+    bricks
 }
 
-#[cfg_attr(debug_assertions, allow(dead_code))]
-fn solve_a_for(input: &str) -> usize {
-    let mut bricks = parse(input);
-
-    bricks.sort_by_key(|brick| brick.z_low);
-
-    for i in 0..bricks.len() {
-        let brick = &bricks[i];
-        let support = bricks
+impl Brick {
+    fn would_fall_to(&self, bricks: &[Brick], ignore: Option<&Brick>) -> u32 {
+        bricks
             .iter()
             .filter_map(|other| {
-                if brick != other
-                    && brick.x_low <= other.x_high
-                    && other.x_low <= brick.x_high
-                    && brick.y_low <= other.y_high
-                    && other.y_low <= brick.y_high
-                    && brick.z_low >= other.z_high
+                if other == self || Some(other) == ignore {
+                    None
+                } else if self != other
+                    && self.x_low <= other.x_high
+                    && other.x_low <= self.x_high
+                    && self.y_low <= other.y_high
+                    && other.y_low <= self.y_high
+                    && self.z_low >= other.z_high
                 {
                     Some(other.z_high + 1)
                 } else {
@@ -62,12 +60,34 @@ fn solve_a_for(input: &str) -> usize {
                 }
             })
             .max()
-            .unwrap_or(1);
+            .unwrap_or(1)
+    }
+}
+
+fn apply_gravity(bricks: &mut Vec<Brick>, ignore: Option<&Brick>) -> usize {
+    let mut moved = 0;
+    for i in 0..bricks.len() {
+        let brick = &bricks[i];
+        if Some(brick) == ignore {
+            continue;
+        }
+        let support = brick.would_fall_to(bricks, ignore);
         let brick = &mut bricks[i];
         let movement = brick.z_low - support;
-        brick.z_low -= movement;
-        brick.z_high -= movement;
+        if movement > 0 {
+            brick.z_low -= movement;
+            brick.z_high -= movement;
+            moved += 1;
+        }
     }
+    moved
+}
+
+#[cfg_attr(debug_assertions, allow(dead_code))]
+fn solve_a_for(input: &str) -> usize {
+    let mut bricks = parse(input);
+
+    apply_gravity(&mut bricks, None);
 
     bricks
         .par_iter()
@@ -76,25 +96,7 @@ fn solve_a_for(input: &str) -> usize {
                 if brick == *removed {
                     false
                 } else {
-                    let new_z = bricks
-                        .iter()
-                        .filter_map(|other| {
-                            if other == brick || other == *removed {
-                                None
-                            } else if brick != other
-                                && brick.x_low <= other.x_high
-                                && other.x_low <= brick.x_high
-                                && brick.y_low <= other.y_high
-                                && other.y_low <= brick.y_high
-                                && brick.z_low >= other.z_high
-                            {
-                                Some(other.z_high + 1)
-                            } else {
-                                None
-                            }
-                        })
-                        .max()
-                        .unwrap_or(1);
+                    let new_z = brick.would_fall_to(&bricks, Some(*removed));
 
                     new_z != brick.z_low
                 }
@@ -108,70 +110,13 @@ fn solve_a_for(input: &str) -> usize {
 fn solve_b_for(input: &str) -> usize {
     let mut bricks = parse(input);
 
-    bricks.sort_by_key(|brick| brick.z_low);
-
-    for i in 0..bricks.len() {
-        let brick = &bricks[i];
-        let support = bricks
-            .iter()
-            .filter_map(|other| {
-                if brick != other
-                    && brick.x_low <= other.x_high
-                    && other.x_low <= brick.x_high
-                    && brick.y_low <= other.y_high
-                    && other.y_low <= brick.y_high
-                    && brick.z_low >= other.z_high
-                {
-                    Some(other.z_high + 1)
-                } else {
-                    None
-                }
-            })
-            .max()
-            .unwrap_or(1);
-        let brick = &mut bricks[i];
-        let movement = brick.z_low - support;
-        brick.z_low -= movement;
-        brick.z_high -= movement;
-    }
+    apply_gravity(&mut bricks, None);
 
     bricks
         .par_iter()
         .map(|removed| {
             let mut workspace = bricks.clone();
-            let mut moved = 0;
-            for i in 0..workspace.len() {
-                let brick = &workspace[i];
-                if brick == removed {
-                    continue;
-                }
-                let support = workspace
-                    .iter()
-                    .filter_map(|other| {
-                        if removed != other
-                            && brick != other
-                            && brick.x_low <= other.x_high
-                            && other.x_low <= brick.x_high
-                            && brick.y_low <= other.y_high
-                            && other.y_low <= brick.y_high
-                            && brick.z_low >= other.z_high
-                        {
-                            Some(other.z_high + 1)
-                        } else {
-                            None
-                        }
-                    })
-                    .max()
-                    .unwrap_or(1);
-                let brick = &mut workspace[i];
-                let movement = brick.z_low - support;
-                if movement > 0 {
-                    brick.z_low -= movement;
-                    brick.z_high -= movement;
-                    moved += 1;
-                }
-            }
-            moved
+            apply_gravity(&mut workspace, Some(removed))
         })
         .sum()
 }
