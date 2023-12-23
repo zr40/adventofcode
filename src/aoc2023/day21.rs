@@ -1,9 +1,5 @@
 use std::collections::{HashMap, VecDeque};
 
-// use indicatif::ParallelProgressIterator;
-// use num_integer::Integer;
-// use rayon::iter::{IntoParallelIterator, ParallelIterator};
-
 use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
 use crate::common::grid::Grid;
@@ -76,7 +72,6 @@ fn solve_a_for(input: &str, target: usize) -> usize {
     distances.values().filter(|f| *f % 2 == 0).count()
 }
 
-#[allow(clippy::too_many_lines)]
 fn solve_b_for(input: &str, target: isize) -> usize {
     let (map, coord) = parse(input);
     let bounds = map.bounds();
@@ -107,7 +102,6 @@ fn solve_b_for(input: &str, target: isize) -> usize {
     let mut exterior_even = 0usize;
     let mut exterior_odd = 0usize;
 
-    println!("{}", map.len());
     for (coord, even) in reachable {
         let ix = coord.x as isize - 65;
         let iy = coord.y as isize - 65;
@@ -119,15 +113,6 @@ fn solve_b_for(input: &str, target: isize) -> usize {
             (false, false) => exterior_odd += 1,
         }
     }
-
-    println!(
-        "interior: {interior_even} {interior_odd} {}",
-        interior_even + interior_odd
-    );
-    println!(
-        "exterior: {exterior_even} {exterior_odd} {}",
-        exterior_even + exterior_odd
-    );
 
     let step_target = target;
     let tiles = (step_target - 65) / 131;
@@ -167,11 +152,6 @@ fn solve_b_for(input: &str, target: isize) -> usize {
     // Cs = 6 :: 1 full tile, 4 half tiles, 4 3/4 tiles :: (ttb-1)^2 + 2 + (ttb-1) * 3
     // Ds = 6 :: 4 full tiles, 8 1/4 tiles :: (ttb+1)*ttb
 
-    // let interior_even = 1000; // A
-    // let interior_odd = 100; // B
-    // let exterior_even = 10; // C
-    // let exterior_odd = 1; // D
-
     let tiles = tiles as usize;
 
     let a = (tiles + 1) * (tiles + 1);
@@ -179,74 +159,7 @@ fn solve_b_for(input: &str, target: isize) -> usize {
     let c = (tiles - 1) * (tiles - 1) + 2 + (tiles - 1) * 3;
     let d = tiles * (tiles + 1);
 
-    println!("ttb {tiles} a {a} b {b} c {c} d {d} sum {}", a + b + c + d,);
-
     a * interior_even + b * interior_odd + c * exterior_even + d * exterior_odd
-
-    // let tiles = tiles as isize;
-
-    // let mut sum = ((-tiles)..=(tiles))
-    //     .into_par_iter()
-    //     .progress_count(tiles as u64 * 2 + 1)
-    //     .map(|y| {
-    //         let mut sum = 0usize;
-    //         let range = tiles - y.abs();
-    //         for x in (-range)..=(range) {
-    //             if (x + y).is_even() {
-    //                 sum += interior_even + exterior_even;
-    //             } else {
-    //                 sum += interior_odd + exterior_odd;
-    //             }
-    //         }
-    //         if y.is_negative() {
-    //             sum += exterior_odd;
-    //         }
-    //         sum -= exterior_even;
-    //         sum
-    //     })
-    //     .sum();
-    // sum += exterior_even * 2;
-
-    // sum -= exterior_odd * (2 + tiles as usize - 1);
-
-    // As = 9
-    // Bs = 16
-    // Cs =
-    // Ds =
-    // n = 3
-
-    //   ^
-    //  / \
-    // <   >
-    //  \ /
-    //   V
-
-    //     ^         ^
-    //    / \       /|\
-    //   /   \     /#|#\
-    //  /     \   /##|##\
-    // ####    > <---x--->
-    //  \tiles/   \##|##/
-    //   \   /     \#|#/
-    //    \ /       \|/
-    //     v         v
-
-    //              < = A+C+E
-    //              ^ = A+D+E
-    //              > = A+B+D
-    //              V = A+B+C
-    //     top left / = A+C+D+2E
-    //    top right \ = A+B+2D+E
-    // bottom right / = A+2B+C+D
-    //  bottom left \ = A+B+2C+E
-    //       interior = A+B+C+D+E
-
-    // println!(
-    //     "{}",
-    //     interior_count * interiors + exterior_count * exteriors
-    // );
-
-    // sum
 }
 
 #[test]
