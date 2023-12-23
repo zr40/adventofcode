@@ -87,12 +87,7 @@ fn solve_b_for(input: &str, target: isize) -> usize {
     reachable.insert((x, y), true);
 
     while let Some((x, y, even)) = queue.pop_front() {
-        for dir in [
-            Direction::North,
-            Direction::East,
-            Direction::South,
-            Direction::West,
-        ] {
+        for dir in Direction::ALL {
             if let Some((x, y)) = dir.step(x, y, width, height) {
                 if reachable.contains_key(&(x, y)) {
                     continue;

@@ -6,7 +6,13 @@ pub enum Direction {
     West,
 }
 
+#[allow(non_upper_case_globals)]
 impl Direction {
+    pub const Up: Direction = Direction::North;
+    pub const Right: Direction = Direction::East;
+    pub const Down: Direction = Direction::South;
+    pub const Left: Direction = Direction::West;
+
     pub fn step(
         self,
         x: usize,
@@ -52,4 +58,20 @@ impl Direction {
             Direction::West => (x - distance, y),
         }
     }
+
+    pub fn opposite(self) -> Direction {
+        match self {
+            Direction::North => Direction::South,
+            Direction::East => Direction::West,
+            Direction::South => Direction::North,
+            Direction::West => Direction::East,
+        }
+    }
+
+    pub const ALL: [Direction; 4] = [
+        Direction::North,
+        Direction::East,
+        Direction::South,
+        Direction::West,
+    ];
 }
