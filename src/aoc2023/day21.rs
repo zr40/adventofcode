@@ -85,7 +85,7 @@ fn solve_b_for(input: &str, target: isize) -> usize {
 
     let mut queue = VecDeque::new();
     queue.push_back((coord, true));
-    reachable.insert(coord, true);
+    reachable.insert(coord, false);
 
     while let Some((coord, even)) = queue.pop_front() {
         for dir in Direction::ALL {
@@ -96,7 +96,7 @@ fn solve_b_for(input: &str, target: isize) -> usize {
                 if let Tile::Garden = map.at(coord) {
                     queue.push_back((coord, !even));
 
-                    reachable.insert(coord, !even);
+                    reachable.insert(coord, even);
                 }
             }
         }
@@ -163,9 +163,9 @@ fn solve_b_for(input: &str, target: isize) -> usize {
     //
     // tiles to border = 2
     // As = 9 :: 9 full tiles :: (ttb+1)^2
-    // Bs = 4 (4 full tiles) :: ttb^2
-    // Cs = 6 (1 full tile, 4 half tiles, 4 3/4 tiles) :: (ttb-1)^2 + 2 + (ttb-1 * 3)
-    // Ds = 6 (4 full tiles, 8 1/4 tiles) :: (ttb+1)*ttb
+    // Bs = 4 :: 4 full tiles :: ttb^2
+    // Cs = 6 :: 1 full tile, 4 half tiles, 4 3/4 tiles :: (ttb-1)^2 + 2 + (ttb-1) * 3
+    // Ds = 6 :: 4 full tiles, 8 1/4 tiles :: (ttb+1)*ttb
 
     // let interior_even = 1000; // A
     // let interior_odd = 100; // B
@@ -260,9 +260,8 @@ fn a_puzzle() {
 }
 
 #[test]
-#[ignore = "todo"]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT, 26501365), 0);
+    assert_eq!(solve_b_for(INPUT, 26501365), 625587097150084);
 }
 
 pub fn solve_a() -> PuzzleResult {
@@ -270,6 +269,5 @@ pub fn solve_a() -> PuzzleResult {
 }
 
 pub fn solve_b() -> PuzzleResult {
-    // solve_b_for(INPUT, 26501365).into()
-    PuzzleResult::Todo
+    solve_b_for(INPUT, 26501365).into()
 }
