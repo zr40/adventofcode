@@ -1,6 +1,8 @@
 use std::collections::BTreeMap;
 
+use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
+use crate::common::grid::Grid;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -9,6 +11,7 @@ const INPUT: &str = include_str!("input/23");
 
 enum Mode {
     Slopes,
+    #[cfg_attr(debug_assertions, allow(dead_code))]
     Paths,
 }
 
@@ -18,12 +21,6 @@ enum Tile {
     Forest,
     SlopeRight,
     SlopeDown,
-}
-
-#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
-struct Coordinate {
-    x: usize,
-    y: usize,
 }
 
 fn parse(input: &str, mode: Mode) -> Vec<Vec<Tile>> {
@@ -50,8 +47,7 @@ fn determine_edges(map: Vec<Vec<Tile>>) -> BTreeMap<Coordinate, Vec<(Coordinate,
     let mut paths = BTreeMap::new();
     let mut queue = vec![Coordinate { x: 1, y: 0 }];
 
-    let width = map[0].len();
-    let height = map.len();
+    let bounds = map.bounds();
 
     while let Some(coord) = queue.pop() {
         if paths.contains_key(&coord) {
@@ -62,9 +58,9 @@ fn determine_edges(map: Vec<Vec<Tile>>) -> BTreeMap<Coordinate, Vec<(Coordinate,
             let mut coord = coord;
             let mut distance = 0;
 
-            while let Some((x, y)) = direction.step(coord.x, coord.y, width, height) {
+            while let Some(new_coord) = direction.step(coord, bounds) {
                 // move in the previously selected direction
-                match (map[y][x], direction) {
+                match (map.at(new_coord), direction) {
                     (Tile::Forest, _) => break,
                     (Tile::Path, _) => {}
                     (Tile::SlopeRight, Direction::Left) => break,
@@ -74,7 +70,7 @@ fn determine_edges(map: Vec<Vec<Tile>>) -> BTreeMap<Coordinate, Vec<(Coordinate,
                     (Tile::SlopeDown, Direction::Down) => {}
                     (Tile::SlopeDown, _) => panic!("invalid direction for tile"),
                 }
-                coord = Coordinate { x, y };
+                coord = new_coord;
                 distance += 1;
 
                 // check new directions
@@ -84,19 +80,19 @@ fn determine_edges(map: Vec<Vec<Tile>>) -> BTreeMap<Coordinate, Vec<(Coordinate,
                         if dir.opposite() == direction {
                             false
                         } else {
-                            match dir.step(x, y, width, height) {
-                                Some((x, y)) => match (map[y][x], **dir) {
+                            match dir.step(coord, bounds) {
+                                Some(coord) => match (map.at(coord), **dir) {
                                     (Tile::Forest, _) => false,
                                     (Tile::Path, _) => true,
                                     (Tile::SlopeRight, Direction::Left) => false,
                                     (Tile::SlopeRight, Direction::Right) => true,
                                     (Tile::SlopeRight, _) => {
-                                        panic!("invalid direction {direction:?} {dir:?} for tile {x}x{y}")
+                                        panic!("invalid direction for tile")
                                     }
                                     (Tile::SlopeDown, Direction::Up) => false,
                                     (Tile::SlopeDown, Direction::Down) => true,
                                     (Tile::SlopeDown, _) => {
-                                        panic!("invalid direction {direction:?} {dir:?} for tile {x}x{y}")
+                                        panic!("invalid direction for tile")
                                     }
                                 },
                                 None => false,

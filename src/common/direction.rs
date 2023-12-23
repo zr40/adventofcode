@@ -1,3 +1,5 @@
+use super::coordinate::Coordinate;
+
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, PartialOrd, Ord)]
 pub enum Direction {
     North,
@@ -13,22 +15,28 @@ impl Direction {
     pub const Down: Direction = Direction::South;
     pub const Left: Direction = Direction::West;
 
-    pub fn step(
-        self,
-        x: usize,
-        y: usize,
-        bound_x: usize,
-        bound_y: usize,
-    ) -> Option<(usize, usize)> {
+    pub fn step(self, coord: Coordinate, bounds: Coordinate) -> Option<Coordinate> {
         match self {
-            Direction::North if y == 0 => None,
-            Direction::East if x + 1 == bound_x => None,
-            Direction::South if y + 1 == bound_y => None,
-            Direction::West if x == 0 => None,
-            Direction::North => Some((x, y - 1)),
-            Direction::East => Some((x + 1, y)),
-            Direction::South => Some((x, y + 1)),
-            Direction::West => Some((x - 1, y)),
+            Direction::North if coord.y == 0 => None,
+            Direction::East if coord.x + 1 == bounds.x => None,
+            Direction::South if coord.y + 1 == bounds.y => None,
+            Direction::West if coord.x == 0 => None,
+            Direction::North => Some(Coordinate {
+                x: coord.x,
+                y: coord.y - 1,
+            }),
+            Direction::East => Some(Coordinate {
+                x: coord.x + 1,
+                y: coord.y,
+            }),
+            Direction::South => Some(Coordinate {
+                x: coord.x,
+                y: coord.y + 1,
+            }),
+            Direction::West => Some(Coordinate {
+                x: coord.x - 1,
+                y: coord.y,
+            }),
         }
     }
 

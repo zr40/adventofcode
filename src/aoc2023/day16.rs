@@ -2,7 +2,9 @@ use std::collections::HashSet;
 
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 
+use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
+use crate::common::grid::Grid;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -62,31 +64,29 @@ fn parse(input: &str) -> Vec<Vec<Tile>> {
         .collect()
 }
 
-fn solve_for(
-    grid: &Vec<Vec<Tile>>,
-    start_x: usize,
-    start_y: usize,
-    start_direction: Direction,
-) -> usize {
-    let mut beams = vec![(start_x, start_y, start_direction)];
+fn solve_for(grid: &Vec<Vec<Tile>>, start: Coordinate, start_direction: Direction) -> usize {
+    let mut beams = vec![(start, start_direction)];
     let mut energized = HashSet::new();
     let mut visited = HashSet::new();
 
-    let len = grid.len();
+    let bounds = Coordinate {
+        x: grid[0].len(),
+        y: grid.len(),
+    };
 
-    while let Some((x, y, direction)) = beams.pop() {
-        if !visited.insert((x, y, direction)) {
+    while let Some((coord, direction)) = beams.pop() {
+        if !visited.insert((coord, direction)) {
             continue;
         }
-        energized.insert((x, y));
+        energized.insert(coord);
 
-        let (a, b) = grid[y][x].output(direction);
-        if let Some((x, y)) = a.step(x, y, len, len) {
-            beams.push((x, y, a));
+        let (a, b) = grid.at(coord).output(direction);
+        if let Some(coord) = a.step(coord, bounds) {
+            beams.push((coord, a));
         }
         if let Some(b) = b {
-            if let Some((x, y)) = b.step(x, y, len, len) {
-                beams.push((x, y, b));
+            if let Some(coord) = b.step(coord, bounds) {
+                beams.push((coord, b));
             }
         }
     }
@@ -94,7 +94,7 @@ fn solve_for(
 }
 
 fn solve_a_for(input: &str) -> usize {
-    solve_for(&parse(input), 0, 0, Direction::East)
+    solve_for(&parse(input), Coordinate { x: 0, y: 0 }, Direction::East)
 }
 
 fn solve_b_for(input: &str) -> usize {
@@ -104,10 +104,22 @@ fn solve_b_for(input: &str) -> usize {
     (0..grid.len())
         .into_par_iter()
         .map(|start| {
-            solve_for(&grid, start, edge, Direction::North)
-                .max(solve_for(&grid, 0, start, Direction::East))
-                .max(solve_for(&grid, start, 0, Direction::South))
-                .max(solve_for(&grid, edge, start, Direction::West))
+            solve_for(&grid, Coordinate { x: start, y: edge }, Direction::North)
+                .max(solve_for(
+                    &grid,
+                    Coordinate { x: 0, y: start },
+                    Direction::East,
+                ))
+                .max(solve_for(
+                    &grid,
+                    Coordinate { x: start, y: 0 },
+                    Direction::South,
+                ))
+                .max(solve_for(
+                    &grid,
+                    Coordinate { x: edge, y: start },
+                    Direction::West,
+                ))
         })
         .max()
         .unwrap()

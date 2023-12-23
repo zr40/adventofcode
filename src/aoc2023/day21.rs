@@ -1,10 +1,12 @@
 use std::collections::{HashMap, VecDeque};
 
-use indicatif::ParallelProgressIterator;
-use num_integer::Integer;
-use rayon::iter::{IntoParallelIterator, ParallelIterator};
+// use indicatif::ParallelProgressIterator;
+// use num_integer::Integer;
+// use rayon::iter::{IntoParallelIterator, ParallelIterator};
 
+use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
+use crate::common::grid::Grid;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -16,9 +18,8 @@ enum Tile {
     Rock,
 }
 
-fn parse(input: &str) -> (Vec<Vec<Tile>>, usize, usize) {
-    let mut x = 0;
-    let mut y = 0;
+fn parse(input: &str) -> (Vec<Vec<Tile>>, Coordinate) {
+    let mut start = Coordinate { x: 0, y: 0 };
     let map = input
         .lines()
         .enumerate()
@@ -29,8 +30,7 @@ fn parse(input: &str) -> (Vec<Vec<Tile>>, usize, usize) {
                     '#' => Tile::Rock,
                     '.' => Tile::Garden,
                     'S' => {
-                        x = col;
-                        y = row;
+                        start = Coordinate { x: col, y: row };
                         Tile::Garden
                     }
                     ch => panic!("unknown tile '{ch}'"),
@@ -38,19 +38,21 @@ fn parse(input: &str) -> (Vec<Vec<Tile>>, usize, usize) {
                 .collect()
         })
         .collect();
-    (map, x, y)
+    (map, start)
 }
 
 fn solve_a_for(input: &str, target: usize) -> usize {
-    let (map, x, y) = parse(input);
+    let (map, coord) = parse(input);
 
-    let mut distances: HashMap<(usize, usize), usize> = HashMap::new();
-    distances.insert((x, y), 0);
+    let mut distances: HashMap<Coordinate, usize> = HashMap::new();
+    distances.insert(coord, 0);
 
     let mut queue = VecDeque::new();
-    queue.push_back((x, y, 0));
+    queue.push_back((coord, 0));
 
-    while let Some((x, y, distance)) = queue.pop_front() {
+    let bounds = map.bounds();
+
+    while let Some((coord, distance)) = queue.pop_front() {
         if distance != target {
             for dir in [
                 Direction::North,
@@ -58,13 +60,13 @@ fn solve_a_for(input: &str, target: usize) -> usize {
                 Direction::South,
                 Direction::West,
             ] {
-                if let Some((x, y)) = dir.step(x, y, map[0].len(), map.len()) {
-                    if distances.contains_key(&(x, y)) {
+                if let Some(coord) = dir.step(coord, bounds) {
+                    if distances.contains_key(&coord) {
                         continue;
                     }
-                    if let Tile::Garden = map[y][x] {
-                        queue.push_back((x, y, distance + 1));
-                        distances.insert((x, y), distance + 1);
+                    if let Tile::Garden = map.at(coord) {
+                        queue.push_back((coord, distance + 1));
+                        distances.insert(coord, distance + 1);
                     }
                 }
             }
@@ -76,26 +78,25 @@ fn solve_a_for(input: &str, target: usize) -> usize {
 
 #[allow(clippy::too_many_lines)]
 fn solve_b_for(input: &str, target: isize) -> usize {
-    let (map, x, y) = parse(input);
-    let width = map[0].len();
-    let height = map.len();
+    let (map, coord) = parse(input);
+    let bounds = map.bounds();
 
-    let mut reachable: HashMap<(usize, usize), bool> = HashMap::new();
+    let mut reachable: HashMap<Coordinate, bool> = HashMap::new();
 
     let mut queue = VecDeque::new();
-    queue.push_back((x, y, true));
-    reachable.insert((x, y), true);
+    queue.push_back((coord, true));
+    reachable.insert(coord, true);
 
-    while let Some((x, y, even)) = queue.pop_front() {
+    while let Some((coord, even)) = queue.pop_front() {
         for dir in Direction::ALL {
-            if let Some((x, y)) = dir.step(x, y, width, height) {
-                if reachable.contains_key(&(x, y)) {
+            if let Some(coord) = dir.step(coord, bounds) {
+                if reachable.contains_key(&coord) {
                     continue;
                 }
-                if let Tile::Garden = map[y][x] {
-                    queue.push_back((x, y, !even));
+                if let Tile::Garden = map.at(coord) {
+                    queue.push_back((coord, !even));
 
-                    reachable.insert((x, y), !even);
+                    reachable.insert(coord, !even);
                 }
             }
         }
@@ -107,9 +108,9 @@ fn solve_b_for(input: &str, target: isize) -> usize {
     let mut exterior_odd = 0usize;
 
     println!("{}", map.len());
-    for ((x, y), even) in reachable {
-        let ix = x as isize - 65;
-        let iy = y as isize - 65;
+    for (coord, even) in reachable {
+        let ix = coord.x as isize - 65;
+        let iy = coord.y as isize - 65;
 
         match (ix.abs() + iy.abs() <= 65, even) {
             (true, true) => interior_even += 1,

@@ -1,7 +1,9 @@
 use std::collections::btree_map::Entry;
 use std::collections::{BTreeMap, BinaryHeap};
 
+use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
+use crate::common::grid::Grid;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -25,10 +27,9 @@ enum Mode {
     UltraCrucible,
 }
 
-#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
 struct State {
-    x: usize,
-    y: usize,
+    coord: Coordinate,
     direction: Direction,
     straight_length: usize,
 }
@@ -57,11 +58,15 @@ fn solve_for(input: &str, mode: Mode) -> u32 {
     let map = parse(input);
     let mut visited: BTreeMap<State, u32> = BTreeMap::new();
     let mut queue = BinaryHeap::new();
+    let bounds = map.bounds();
+    let target = Coordinate {
+        x: bounds.x - 1,
+        y: bounds.y - 1,
+    };
 
     queue.push(QueueItem {
         state: State {
-            x: 0,
-            y: 0,
+            coord: Coordinate { x: 0, y: 0 },
             direction: Direction::East,
             straight_length: 0,
         },
@@ -87,7 +92,7 @@ fn solve_for(input: &str, mode: Mode) -> u32 {
             }
         }
 
-        if visit.x == map[0].len() - 1 && visit.y == map.len() - 1 {
+        if visit.coord == target {
             continue;
         }
 
@@ -97,19 +102,14 @@ fn solve_for(input: &str, mode: Mode) -> u32 {
                 Mode::UltraCrucible => 10,
             }
         {
-            if let Some((new_x, new_y)) =
-                visit
-                    .direction
-                    .step(visit.x, visit.y, map[0].len(), map.len())
-            {
+            if let Some(new_coord) = visit.direction.step(visit.coord, bounds) {
                 queue.push(QueueItem {
                     state: State {
-                        x: new_x,
-                        y: new_y,
+                        coord: new_coord,
                         direction: visit.direction,
                         straight_length: visit.straight_length + 1,
                     },
-                    distance: distance + map[new_y][new_x],
+                    distance: distance + map.at(new_coord),
                 });
             }
         }
@@ -119,27 +119,25 @@ fn solve_for(input: &str, mode: Mode) -> u32 {
             Mode::UltraCrucible => visit.straight_length >= 4 && visit.straight_length <= 10,
         } {
             let left = visit.direction.left();
-            if let Some((new_x, new_y)) = left.step(visit.x, visit.y, map[0].len(), map.len()) {
+            if let Some(new_coord) = left.step(visit.coord, bounds) {
                 queue.push(QueueItem {
                     state: State {
-                        x: new_x,
-                        y: new_y,
+                        coord: new_coord,
                         direction: left,
                         straight_length: 1,
                     },
-                    distance: distance + map[new_y][new_x],
+                    distance: distance + map.at(new_coord),
                 });
             }
             let right = visit.direction.right();
-            if let Some((new_x, new_y)) = right.step(visit.x, visit.y, map[0].len(), map.len()) {
+            if let Some(new_coord) = right.step(visit.coord, bounds) {
                 queue.push(QueueItem {
                     state: State {
-                        x: new_x,
-                        y: new_y,
+                        coord: new_coord,
                         direction: right,
                         straight_length: 1,
                     },
-                    distance: distance + map[new_y][new_x],
+                    distance: distance + map.at(new_coord),
                 });
             }
         }
@@ -148,8 +146,7 @@ fn solve_for(input: &str, mode: Mode) -> u32 {
     visited
         .into_iter()
         .filter(|(v, _)| {
-            v.x == map[0].len() - 1
-                && v.y == map.len() - 1
+            v.coord == target
                 && match mode {
                     Mode::Crucible => true,
                     Mode::UltraCrucible => v.straight_length >= 4,
