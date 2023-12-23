@@ -99,8 +99,7 @@ fn solve_b_for(input: &str, target: isize) -> usize {
 
     let mut interior_even = 0usize;
     let mut interior_odd = 0usize;
-    let mut exterior_even = 0usize;
-    let mut exterior_odd = 0usize;
+    let mut exterior = 0usize;
 
     for (coord, even) in reachable {
         let ix = coord.x as isize - 65;
@@ -109,8 +108,7 @@ fn solve_b_for(input: &str, target: isize) -> usize {
         match (ix.abs() + iy.abs() <= 65, even) {
             (true, true) => interior_even += 1,
             (true, false) => interior_odd += 1,
-            (false, true) => exterior_even += 1,
-            (false, false) => exterior_odd += 1,
+            (false, _) => exterior += 1,
         }
     }
 
@@ -152,14 +150,16 @@ fn solve_b_for(input: &str, target: isize) -> usize {
     // Cs = 6 :: 1 full tile, 4 half tiles, 4 3/4 tiles :: (ttb-1)^2 + 2 + (ttb-1) * 3
     // Ds = 6 :: 4 full tiles, 8 1/4 tiles :: (ttb+1)*ttb
 
+    // C = D so even/odd is not distinguished for exterior
+
     let tiles = tiles as usize;
 
     let a = (tiles + 1) * (tiles + 1);
     let b = tiles * tiles;
-    let c = (tiles - 1) * (tiles - 1) + 2 + (tiles - 1) * 3;
+    // let c = (tiles - 1) * (tiles - 1) + 2 + (tiles - 1) * 3;
     let d = tiles * (tiles + 1);
 
-    a * interior_even + b * interior_odd + c * exterior_even + d * exterior_odd
+    a * interior_even + b * interior_odd + d * exterior
 }
 
 #[test]
