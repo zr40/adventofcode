@@ -9,6 +9,7 @@ dependencies = [
  "itertools",
  "md-5",
  "num-integer",
+ "rational",
  "rayon",
 ]
 
@@ -147,6 +148,12 @@ checksum = "39e3200413f237f41ab11ad6d161bc7239c84dcb631773ccd7de3dfe4b5c267c"
 dependencies = [
  "autocfg",
 ]
+
+[[package]]
+name = "rational"
+version = "1.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "04cb5b80a07a398dd9368df8c2e8ae1be87d960a9a64a8c2a2f7996bf7ce4fac"
 
 [[package]]
 name = "rayon"

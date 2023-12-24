@@ -25,7 +25,7 @@ fn main() {
             }
         }
         Some(year) => {
-            let year = year.parse().unwrap();
+            let year: u16 = year.parse().unwrap();
 
             match YEARS.iter().find(|y| y.year == year) {
                 Some(year) => year.run_all(),

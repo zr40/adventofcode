@@ -8,6 +8,7 @@ md-5 = "0.10.6"
 itertools = "0.12.0"
 num-integer = "0.1.45"
 rayon = "1.8.0"
+rational = "1.5.0"
 
 [profile.release]
 lto = true
