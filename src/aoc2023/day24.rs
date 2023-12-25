@@ -117,11 +117,13 @@ fn a_puzzle() {
 }
 
 #[test]
+#[ignore = "todo"]
 fn b_example() {
     assert_eq!(solve_b_for(EXAMPLE), 47);
 }
 
 #[test]
+#[ignore = "todo"]
 fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 0);
 }
@@ -131,5 +133,6 @@ pub fn solve_a() -> PuzzleResult {
 }
 
 pub fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    // solve_b_for(INPUT).into()
+    PuzzleResult::Todo
 }

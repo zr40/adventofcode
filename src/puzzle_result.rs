@@ -14,6 +14,7 @@ pub(crate) enum PuzzleResult {
     Todo,
     #[allow(dead_code)]
     SkipSlow,
+    None,
 }
 
 impl From<i32> for PuzzleResult {
@@ -78,6 +79,7 @@ impl Display for PuzzleResult {
             Self::Multiline(_) => "v v v v v v v v".fmt(f),
             Self::Todo => "TODO".fmt(f),
             Self::SkipSlow => "Skipped".fmt(f),
+            Self::None => "".fmt(f),
         }
     }
 }

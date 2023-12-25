@@ -58,6 +58,16 @@ impl Year {
                     );
                     total_duration += total;
                 }
+                DayTiming::Single(a) => {
+                    println!(
+                        "  {:>2} | {:>15} | {:>15} | {:>8.2} ms |",
+                        index + 1,
+                        result.a,
+                        result.b,
+                        a.as_micros() as f64 / 1000.0
+                    );
+                    total_duration += a;
+                }
                 #[cfg(debug_assertions)]
                 DayTiming::SkipSlow => {
                     println!("  {:>2} | slow puzzle skipped in debug build", index + 1);

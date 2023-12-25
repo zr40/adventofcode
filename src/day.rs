@@ -11,6 +11,7 @@ pub(crate) enum Day {
         b: SeparatePuzzle,
     },
     Pair(PairedPuzzle),
+    Single(SeparatePuzzle),
 }
 
 pub(crate) enum DayTiming {
@@ -19,6 +20,7 @@ pub(crate) enum DayTiming {
         b: Duration,
     },
     Pair(Duration),
+    Single(Duration),
     #[cfg(debug_assertions)]
     SkipSlow,
 }
@@ -94,6 +96,17 @@ impl Day {
                     a: result_a,
                     b: result_b,
                     timing: DayTiming::Pair(duration),
+                }
+            }
+            Day::Single(p) => {
+                let start = Instant::now();
+                let result = p();
+                let duration = start.elapsed();
+
+                DayResult {
+                    a: result,
+                    b: PuzzleResult::None,
+                    timing: DayTiming::Single(duration),
                 }
             }
         }
