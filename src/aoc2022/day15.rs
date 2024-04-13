@@ -165,3 +165,10 @@ pub fn solve_b() -> PuzzleResult {
     #[cfg(not(debug_assertions))]
     solve_b_for(INPUT, 4000000).into()
 }
+
+#[cfg(debug_assertions)]
+#[allow(dead_code)]
+fn dead_code() {
+    solve_a_for(INPUT, 2000000);
+    solve_b_for(INPUT, 4000000);
+}

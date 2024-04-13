@@ -245,10 +245,6 @@ fn b_puzzle() {
 }
 
 pub fn solve_a() -> PuzzleResult {
-    #[cfg(debug_assertions)]
-    return PuzzleResult::SkipSlow;
-
-    #[cfg(not(debug_assertions))]
     solve_a_for(INPUT).into()
 }
 
@@ -258,4 +254,10 @@ pub fn solve_b() -> PuzzleResult {
 
     #[cfg(not(debug_assertions))]
     solve_b_for(INPUT).into()
+}
+
+#[cfg(debug_assertions)]
+#[allow(dead_code)]
+fn dead_code() {
+    solve_b_for(INPUT);
 }

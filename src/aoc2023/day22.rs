@@ -4,7 +4,6 @@ use crate::PuzzleResult;
 
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/22_example");
-#[cfg_attr(debug_assertions, allow(dead_code))]
 const INPUT: &str = include_str!("input/22");
 
 #[derive(Debug, PartialEq, Clone)]
@@ -64,7 +63,7 @@ impl Brick {
     }
 }
 
-fn apply_gravity(bricks: &mut Vec<Brick>, ignore: Option<&Brick>) -> usize {
+fn apply_gravity(bricks: &mut [Brick], ignore: Option<&Brick>) -> usize {
     let mut moved = 0;
     for i in 0..bricks.len() {
         let brick = &bricks[i];
@@ -83,7 +82,6 @@ fn apply_gravity(bricks: &mut Vec<Brick>, ignore: Option<&Brick>) -> usize {
     moved
 }
 
-#[cfg_attr(debug_assertions, allow(dead_code))]
 fn solve_a_for(input: &str) -> usize {
     let mut bricks = parse(input);
 
@@ -106,7 +104,6 @@ fn solve_a_for(input: &str) -> usize {
         .count()
 }
 
-#[cfg_attr(debug_assertions, allow(dead_code))]
 fn solve_b_for(input: &str) -> usize {
     let mut bricks = parse(input);
 
@@ -157,4 +154,11 @@ pub fn solve_b() -> PuzzleResult {
 
     #[cfg(not(debug_assertions))]
     solve_b_for(INPUT).into()
+}
+
+#[cfg(debug_assertions)]
+#[allow(dead_code)]
+fn dead_code() {
+    solve_a_for(INPUT);
+    solve_b_for(INPUT);
 }

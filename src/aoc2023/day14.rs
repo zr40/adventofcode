@@ -66,9 +66,9 @@ fn solve_b_for(input: &str) -> usize {
             let remaining = TARGET - n;
             n += remaining - (remaining % interval);
             break;
-        } else {
-            seen.insert(map.clone(), n);
         }
+
+        seen.insert(map.clone(), n);
     }
 
     while n < TARGET {
@@ -89,7 +89,7 @@ fn solve_b_for(input: &str) -> usize {
         .sum()
 }
 
-fn move_north(map: &mut Vec<Vec<Space>>) {
+fn move_north(map: &mut [Vec<Space>]) {
     // ^
     for y in 1..map.len() {
         for x in 0..map[0].len() {
@@ -113,7 +113,7 @@ fn move_north(map: &mut Vec<Vec<Space>>) {
     }
 }
 
-fn move_west(map: &mut Vec<Vec<Space>>) {
+fn move_west(map: &mut [Vec<Space>]) {
     // <
     for y in 0..map[0].len() {
         for x in 1..map.len() {
@@ -137,14 +137,14 @@ fn move_west(map: &mut Vec<Vec<Space>>) {
     }
 }
 
-fn move_south(map: &mut Vec<Vec<Space>>) {
+fn move_south(map: &mut [Vec<Space>]) {
     // v
     for src_y in (0..map.len() - 1).rev() {
         for x in 0..map[0].len() {
             if let Space::Boulder = map[src_y][x] {
                 let mut target_y = src_y;
-                for check_y in src_y + 1..map.len() {
-                    match map[check_y][x] {
+                for (check_y, check_row) in map.iter().enumerate().skip(src_y + 1) {
+                    match check_row[x] {
                         Space::Empty => target_y = check_y,
                         _ => {
                             break;
@@ -161,7 +161,7 @@ fn move_south(map: &mut Vec<Vec<Space>>) {
     }
 }
 
-fn move_east(map: &mut Vec<Vec<Space>>) {
+fn move_east(map: &mut [Vec<Space>]) {
     // >
     for y in 0..map.len() {
         for src_x in (0..map[0].len() - 1).rev() {
@@ -185,7 +185,7 @@ fn move_east(map: &mut Vec<Vec<Space>>) {
     }
 }
 
-fn cycle(map: &mut Vec<Vec<Space>>) {
+fn cycle(map: &mut [Vec<Space>]) {
     move_north(map);
     move_west(map);
     move_south(map);

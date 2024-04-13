@@ -1,3 +1,4 @@
+use std::collections::hash_map::Entry;
 use std::collections::{HashMap, HashSet};
 
 use crate::puzzle_result::PuzzleResult;
@@ -68,7 +69,9 @@ fn solve_for(input: &str, iterations: usize) -> i64 {
                 }
 
                 if increase_highest == 0 && i > 1000 {
-                    if highest_at_index.contains_key(&(rock_index, jet_index)) {
+                    if let Entry::Vacant(e) = highest_at_index.entry((rock_index, jet_index)) {
+                        e.insert((highest, i));
+                    } else {
                         let (highest_there, highest_i) = highest_at_index[&(rock_index, jet_index)];
                         let increase = highest - highest_there;
                         let period = i - highest_i;
@@ -78,20 +81,18 @@ fn solve_for(input: &str, iterations: usize) -> i64 {
 
                         increase_highest = periods_remaining * increase as usize;
                         i += periods_remaining * period;
-                    } else {
-                        highest_at_index.insert((rock_index, jet_index), (highest, i));
                     }
                 }
                 break;
-            } else {
-                pos = candidate_pos;
             }
+            pos = candidate_pos;
         }
 
         i += 1;
     }
 
-    highest + 1 + increase_highest as i64
+    #[allow(clippy::cast_possible_wrap)]
+    return highest + 1 + increase_highest as i64;
 }
 
 #[test]

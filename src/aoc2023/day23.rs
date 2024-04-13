@@ -11,7 +11,6 @@ const INPUT: &str = include_str!("input/23");
 
 enum Mode {
     Slopes,
-    #[cfg_attr(debug_assertions, allow(dead_code))]
     Paths,
 }
 
@@ -139,7 +138,9 @@ fn solve_for(input: &str, mode: Mode) -> usize {
         distance: 0,
         path: vec![],
     }];
+
     let mut max = 0;
+
     while let Some(state) = queue.pop() {
         if state.position == target {
             max = max.max(state.distance);
@@ -194,4 +195,10 @@ pub fn solve_b() -> PuzzleResult {
 
     #[cfg(not(debug_assertions))]
     solve_for(INPUT, Mode::Paths).into()
+}
+
+#[cfg(debug_assertions)]
+#[allow(dead_code)]
+fn dead_code() {
+    solve_for(INPUT, Mode::Paths);
 }

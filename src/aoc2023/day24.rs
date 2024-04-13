@@ -41,9 +41,7 @@ fn solve_a_for(input: &str, min: i64, max: i64) -> usize {
     let mut crossed_paths = 0;
     for i in 0..hailstones.len() - 1 {
         let l1 = &hailstones[i];
-        for j in i + 1..hailstones.len() {
-            let l2 = &hailstones[j];
-
+        for l2 in hailstones.iter().skip(i + 1) {
             // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection#Given_two_points_on_each_line
 
             let x1 = Rational::from(l1.px);

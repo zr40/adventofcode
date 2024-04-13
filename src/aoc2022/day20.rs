@@ -8,7 +8,6 @@ const INPUT: &str = include_str!("input/20");
 
 enum Mode {
     PartOne,
-    #[cfg_attr(debug_assertions, allow(dead_code))]
     PartTwo,
 }
 
@@ -39,6 +38,7 @@ fn solve_for(input: &str, mode: Mode) -> i64 {
     } {
         for index in 0..size {
             for current_index in 0..size {
+                #[allow(clippy::cast_possible_wrap)]
                 if numbers[current_index].original_order == index {
                     let item = numbers.remove(current_index).unwrap();
                     let mut new_index = current_index as i64 + item.number;
@@ -100,4 +100,10 @@ pub fn solve_b() -> PuzzleResult {
 
     #[cfg(not(debug_assertions))]
     solve_for(INPUT, Mode::PartTwo).into()
+}
+
+#[cfg(debug_assertions)]
+#[allow(dead_code)]
+fn dead_code() {
+    solve_for(INPUT, Mode::PartTwo);
 }

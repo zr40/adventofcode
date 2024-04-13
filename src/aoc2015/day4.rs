@@ -2,10 +2,8 @@ use md5::{Digest, Md5};
 
 use crate::PuzzleResult;
 
-#[cfg_attr(debug_assertions, allow(dead_code))]
 const INPUT: &str = "bgvyzdsv";
 
-#[cfg_attr(debug_assertions, allow(dead_code))]
 fn solve_for(input: &str) -> (u32, u32) {
     let mut five_zero = 0;
 
@@ -49,4 +47,10 @@ pub fn solve() -> (PuzzleResult, PuzzleResult) {
 pub fn solve() -> (PuzzleResult, PuzzleResult) {
     let (a, b) = solve_for(INPUT);
     (a.into(), b.into())
+}
+
+#[cfg(debug_assertions)]
+#[allow(dead_code)]
+fn dead_code() {
+    solve_for(INPUT);
 }

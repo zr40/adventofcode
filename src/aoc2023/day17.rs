@@ -10,10 +10,8 @@ use crate::PuzzleResult;
 const EXAMPLE: &str = include_str!("input/17_example");
 #[cfg(test)]
 const EXAMPLE_B: &str = include_str!("input/17b_example");
-#[cfg_attr(debug_assertions, allow(dead_code))]
 const INPUT: &str = include_str!("input/17");
 
-#[cfg_attr(debug_assertions, allow(dead_code))]
 fn parse(input: &str) -> Vec<Vec<u32>> {
     input
         .lines()
@@ -21,7 +19,6 @@ fn parse(input: &str) -> Vec<Vec<u32>> {
         .collect()
 }
 
-#[cfg_attr(debug_assertions, allow(dead_code))]
 enum Mode {
     Crucible,
     UltraCrucible,
@@ -53,7 +50,6 @@ impl Ord for QueueItem {
     }
 }
 
-#[cfg_attr(debug_assertions, allow(dead_code))]
 fn solve_for(input: &str, mode: Mode) -> u32 {
     let map = parse(input);
     let mut visited: BTreeMap<State, u32> = BTreeMap::new();
@@ -194,4 +190,11 @@ pub fn solve_b() -> PuzzleResult {
 
     #[cfg(not(debug_assertions))]
     solve_for(INPUT, Mode::UltraCrucible).into()
+}
+
+#[cfg(debug_assertions)]
+#[allow(dead_code)]
+fn dead_code() {
+    solve_for(INPUT, Mode::Crucible);
+    solve_for(INPUT, Mode::UltraCrucible);
 }

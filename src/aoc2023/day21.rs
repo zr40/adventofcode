@@ -102,7 +102,9 @@ fn solve_b_for(input: &str, target: isize) -> usize {
     let mut exterior = 0usize;
 
     for (coord, even) in reachable {
+        #[allow(clippy::cast_possible_wrap)]
         let ix = coord.x as isize - 65;
+        #[allow(clippy::cast_possible_wrap)]
         let iy = coord.y as isize - 65;
 
         match (ix.abs() + iy.abs() <= 65, even) {

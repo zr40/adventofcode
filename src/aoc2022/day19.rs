@@ -53,6 +53,73 @@ struct SolverState {
     geodes: usize,
 }
 
+impl SolverState {
+    fn open_geodes(&self) -> SolverState {
+        SolverState {
+            ore_robots: self.ore_robots,
+            clay_robots: self.clay_robots,
+            obsidian_robots: self.obsidian_robots,
+            geode_robots: self.geode_robots,
+            ore: self.ore + self.ore_robots,
+            clay: self.clay + self.clay_robots,
+            obsidian: self.obsidian + self.obsidian_robots,
+            geodes: self.geodes + self.geode_robots,
+        }
+    }
+
+    fn build_geode_robot(&self, blueprint: &Blueprint) -> SolverState {
+        SolverState {
+            ore_robots: self.ore_robots,
+            clay_robots: self.clay_robots,
+            obsidian_robots: self.obsidian_robots,
+            geode_robots: self.geode_robots + 1,
+            ore: self.ore - blueprint.geode_robot_ore_cost,
+            clay: self.clay,
+            obsidian: self.obsidian - blueprint.geode_robot_obsidian_cost,
+            geodes: self.geodes,
+        }
+    }
+
+    fn build_obsidian_robot(&self, blueprint: &Blueprint) -> SolverState {
+        SolverState {
+            ore_robots: self.ore_robots,
+            clay_robots: self.clay_robots,
+            obsidian_robots: self.obsidian_robots + 1,
+            geode_robots: self.geode_robots,
+            ore: self.ore - blueprint.obsidian_robot_ore_cost,
+            clay: self.clay - blueprint.obsidian_robot_clay_cost,
+            obsidian: self.obsidian,
+            geodes: self.geodes,
+        }
+    }
+
+    fn build_clay_robot(&self, blueprint: &Blueprint) -> SolverState {
+        SolverState {
+            ore_robots: self.ore_robots,
+            clay_robots: self.clay_robots + 1,
+            obsidian_robots: self.obsidian_robots,
+            geode_robots: self.geode_robots,
+            ore: self.ore - blueprint.clay_robot_ore_cost,
+            clay: self.clay,
+            obsidian: self.obsidian,
+            geodes: self.geodes,
+        }
+    }
+
+    fn build_ore_robot(&self, blueprint: &Blueprint) -> SolverState {
+        SolverState {
+            ore_robots: self.ore_robots + 1,
+            clay_robots: self.clay_robots,
+            obsidian_robots: self.obsidian_robots,
+            geode_robots: self.geode_robots,
+            ore: self.ore - blueprint.ore_robot_ore_cost,
+            clay: self.clay,
+            obsidian: self.obsidian,
+            geodes: self.geodes,
+        }
+    }
+}
+
 enum Mode {
     PartOne,
     PartTwo,
@@ -83,73 +150,28 @@ fn solve_for(input: &str, mode: Mode) -> usize {
             let mut new_states = vec![];
 
             for state in states {
-                let new_state = SolverState {
-                    ore_robots: state.ore_robots,
-                    clay_robots: state.clay_robots,
-                    obsidian_robots: state.obsidian_robots,
-                    geode_robots: state.geode_robots,
-                    ore: state.ore + state.ore_robots,
-                    clay: state.clay + state.clay_robots,
-                    obsidian: state.obsidian + state.obsidian_robots,
-                    geodes: state.geodes + state.geode_robots,
-                };
+                let new_state = state.open_geodes();
 
                 if state.obsidian >= blueprint.geode_robot_obsidian_cost
                     && state.ore >= blueprint.geode_robot_ore_cost
                 {
-                    new_states.push(SolverState {
-                        ore_robots: new_state.ore_robots,
-                        clay_robots: new_state.clay_robots,
-                        obsidian_robots: new_state.obsidian_robots,
-                        geode_robots: new_state.geode_robots + 1,
-                        ore: new_state.ore - blueprint.geode_robot_ore_cost,
-                        clay: new_state.clay,
-                        obsidian: new_state.obsidian - blueprint.geode_robot_obsidian_cost,
-                        geodes: new_state.geodes,
-                    });
+                    new_states.push(new_state.build_geode_robot(&blueprint));
                 }
 
                 if state.clay >= blueprint.obsidian_robot_clay_cost
                     && state.ore >= blueprint.obsidian_robot_ore_cost
                     && state.obsidian < blueprint.geode_robot_obsidian_cost
                 {
-                    new_states.push(SolverState {
-                        ore_robots: new_state.ore_robots,
-                        clay_robots: new_state.clay_robots,
-                        obsidian_robots: new_state.obsidian_robots + 1,
-                        geode_robots: new_state.geode_robots,
-                        ore: new_state.ore - blueprint.obsidian_robot_ore_cost,
-                        clay: new_state.clay - blueprint.obsidian_robot_clay_cost,
-                        obsidian: new_state.obsidian,
-                        geodes: new_state.geodes,
-                    });
+                    new_states.push(new_state.build_obsidian_robot(&blueprint));
                 }
                 if state.ore >= blueprint.clay_robot_ore_cost
                     && state.clay < blueprint.obsidian_robot_clay_cost
                 {
-                    new_states.push(SolverState {
-                        ore_robots: new_state.ore_robots,
-                        clay_robots: new_state.clay_robots + 1,
-                        obsidian_robots: new_state.obsidian_robots,
-                        geode_robots: new_state.geode_robots,
-                        ore: new_state.ore - blueprint.clay_robot_ore_cost,
-                        clay: new_state.clay,
-                        obsidian: new_state.obsidian,
-                        geodes: new_state.geodes,
-                    });
+                    new_states.push(new_state.build_clay_robot(&blueprint));
                 }
 
                 if state.ore >= blueprint.ore_robot_ore_cost {
-                    new_states.push(SolverState {
-                        ore_robots: new_state.ore_robots + 1,
-                        clay_robots: new_state.clay_robots,
-                        obsidian_robots: new_state.obsidian_robots,
-                        geode_robots: new_state.geode_robots,
-                        ore: new_state.ore - blueprint.ore_robot_ore_cost,
-                        clay: new_state.clay,
-                        obsidian: new_state.obsidian,
-                        geodes: new_state.geodes,
-                    });
+                    new_states.push(new_state.build_ore_robot(&blueprint));
                 }
 
                 new_states.push(new_state);
@@ -220,17 +242,9 @@ fn b_puzzle() {
 }
 
 pub fn solve_a() -> PuzzleResult {
-    #[cfg(debug_assertions)]
-    return PuzzleResult::SkipSlow;
-
-    #[cfg(not(debug_assertions))]
     solve_for(INPUT, Mode::PartOne).into()
 }
 
 pub fn solve_b() -> PuzzleResult {
-    #[cfg(debug_assertions)]
-    return PuzzleResult::SkipSlow;
-
-    #[cfg(not(debug_assertions))]
     solve_for(INPUT, Mode::PartTwo).into()
 }

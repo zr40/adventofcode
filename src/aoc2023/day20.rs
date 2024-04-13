@@ -20,6 +20,7 @@ enum State {
     Off,
 }
 
+#[allow(variant_size_differences)]
 #[derive(Debug)]
 enum ModuleType {
     Broadcast,

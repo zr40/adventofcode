@@ -117,9 +117,8 @@ fn solve_for(input: &str, mode: Mode) -> i64 {
         Mode::PartB => {
             monkeys.insert("humn", Monkey::Human);
 
-            let (l, r) = match monkeys.remove("root").unwrap() {
-                Monkey::Operation(l, _, r) => (l, r),
-                _ => panic!(),
+            let Monkey::Operation(l, _, r) = monkeys.remove("root").unwrap() else {
+                panic!()
             };
             monkeys.insert("root", Monkey::Operation(l, Operation::Equals, r));
         }
