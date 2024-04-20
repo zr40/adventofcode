@@ -75,10 +75,6 @@ fn solve_for(input: &str) -> usize {
     found * routes.len()
 }
 
-fn solve_b_for(input: &str) -> usize {
-    todo!()
-}
-
 #[test]
 #[ignore = "depends on input"]
 fn example() {
