@@ -2,30 +2,71 @@ use crate::PuzzleResult;
 
 const INPUT: &str = include_str!("input/10");
 
-fn solve_for(input: &str, iterations: usize) -> usize {
-    if iterations == 0 {
-        input.len()
-    } else {
-        let mut buf = String::new();
+struct Sequence {
+    current_digit: char,
+    current_count: u32,
+    output_length: usize,
+}
 
-        let mut digits = input.chars();
-        let mut current_digit = digits.next().unwrap();
-        let mut current_count = 1;
+struct State(pub Vec<Sequence>);
 
-        for digit in digits {
-            if digit == current_digit {
-                current_count += 1;
-            } else {
-                buf.push_str(&format!("{current_count}{current_digit}"));
-                current_digit = digit;
-                current_count = 1;
-            }
+impl State {
+    fn new(iterations: usize) -> State {
+        let mut sequences = vec![];
+
+        for _ in 0..iterations {
+            sequences.push(Sequence {
+                current_digit: ' ',
+                current_count: 0,
+                output_length: 0,
+            });
         }
 
-        buf.push_str(&format!("{current_count}{current_digit}"));
-
-        solve_for(&buf, iterations - 1)
+        State(sequences)
     }
+
+    fn input(&mut self, digit: char, index: usize) {
+        let sequence = &mut self.0[index];
+
+        if digit == sequence.current_digit {
+            sequence.current_count += 1;
+        } else if sequence.current_count == 0 {
+            sequence.current_count = 1;
+            sequence.current_digit = digit;
+        } else {
+            debug_assert!(sequence.current_count <= 10);
+
+            let old_count = sequence.current_count;
+            let old_digit = sequence.current_digit;
+
+            sequence.current_count = 1;
+            sequence.current_digit = digit;
+            sequence.output_length += 2;
+
+            if index + 1 < self.0.len() {
+                self.input(char::from_digit(old_count, 10).unwrap(), index + 1);
+                self.input(old_digit, index + 1);
+            }
+        }
+    }
+
+    fn len(mut self) -> usize {
+        for i in 0..self.0.len() {
+            self.input(' ', i);
+        }
+
+        self.0.last().unwrap().output_length
+    }
+}
+
+fn solve_for(input: &str, iterations: usize) -> usize {
+    let mut state = State::new(iterations);
+
+    for digit in input.chars() {
+        state.input(digit, 0);
+    }
+
+    state.len()
 }
 
 #[test]
