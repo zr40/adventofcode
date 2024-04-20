@@ -3,8 +3,8 @@ use crate::PuzzleResult;
 const INPUT: &str = include_str!("input/10");
 
 struct Sequence {
-    current_digit: char,
-    current_count: u32,
+    current_digit: u8,
+    current_count: u8,
     output_length: usize,
 }
 
@@ -16,7 +16,7 @@ impl State {
 
         for _ in 0..iterations {
             sequences.push(Sequence {
-                current_digit: ' ',
+                current_digit: b' ',
                 current_count: 0,
                 output_length: 0,
             });
@@ -25,7 +25,7 @@ impl State {
         State(sequences)
     }
 
-    fn input(&mut self, digit: char, index: usize) {
+    fn input(&mut self, digit: u8, index: usize) {
         let sequence = &mut self.0[index];
 
         if digit == sequence.current_digit {
@@ -44,7 +44,7 @@ impl State {
             sequence.output_length += 2;
 
             if index + 1 < self.0.len() {
-                self.input(char::from_digit(old_count, 10).unwrap(), index + 1);
+                self.input(b'0' + old_count, index + 1);
                 self.input(old_digit, index + 1);
             }
         }
@@ -52,7 +52,7 @@ impl State {
 
     fn len(mut self) -> usize {
         for i in 0..self.0.len() {
-            self.input(' ', i);
+            self.input(b' ', i);
         }
 
         self.0.last().unwrap().output_length
@@ -62,7 +62,7 @@ impl State {
 fn solve_for(input: &str, iterations: usize) -> usize {
     let mut state = State::new(iterations);
 
-    for digit in input.chars() {
+    for digit in input.bytes() {
         state.input(digit, 0);
     }
 
