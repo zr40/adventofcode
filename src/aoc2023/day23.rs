@@ -139,11 +139,11 @@ fn solve_for(input: &str, mode: Mode) -> usize {
         path: vec![],
     }];
 
-    let mut max = 0;
+    let mut max_distance = 0;
 
     while let Some(state) = queue.pop() {
         if state.position == target {
-            max = max.max(state.distance);
+            max_distance = max_distance.max(state.distance);
             continue;
         }
 
@@ -161,7 +161,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
             });
         }
     }
-    max
+    max_distance
 }
 
 #[test]

@@ -49,6 +49,7 @@ fn parse(input: &str) -> Vec<Hailstone> {
         .collect()
 }
 
+#[allow(clippy::similar_names)]
 fn solve_a_for(input: &str, min: i64, max: i64) -> usize {
     let hailstones = parse(input);
     let mut crossed_paths = 0;
@@ -108,6 +109,7 @@ fn solve_a_for(input: &str, min: i64, max: i64) -> usize {
     crossed_paths
 }
 
+#[allow(clippy::similar_names)]
 fn solve_b_for(input: &str) -> i128 {
     // adapted from https://aoc.csokavar.hu/?day=24
 
