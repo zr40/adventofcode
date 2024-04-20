@@ -3,6 +3,7 @@ use std::fmt::Display;
 pub(crate) enum PuzzleResult {
     I32(i32),
     I64(i64),
+    I128(i128),
     Isize(isize),
     U16(u16),
     U32(u32),
@@ -26,6 +27,12 @@ impl From<i32> for PuzzleResult {
 impl From<i64> for PuzzleResult {
     fn from(value: i64) -> Self {
         Self::I64(value)
+    }
+}
+
+impl From<i128> for PuzzleResult {
+    fn from(value: i128) -> Self {
+        Self::I128(value)
     }
 }
 
@@ -70,6 +77,7 @@ impl Display for PuzzleResult {
         match self {
             Self::I32(v) => v.fmt(f),
             Self::I64(v) => v.fmt(f),
+            Self::I128(v) => v.fmt(f),
             Self::Isize(v) => v.fmt(f),
             Self::U16(v) => v.fmt(f),
             Self::U32(v) => v.fmt(f),
