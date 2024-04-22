@@ -8,7 +8,7 @@ struct Sequence {
     output_length: usize,
 }
 
-struct State(pub Vec<Sequence>);
+struct State(Vec<Sequence>);
 
 impl State {
     fn new(iterations: usize) -> State {
