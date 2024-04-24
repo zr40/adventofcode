@@ -52,10 +52,7 @@ pub(crate) static DAYS: &[Day] = &[
         a: day10::solve_a,
         b: day10::solve_b,
     },
-    Day::Separate {
-        a: day11::solve_a,
-        b: day11::solve_b,
-    },
+    Day::Pair(day11::solve),
     Day::Separate {
         a: day12::solve_a,
         b: day12::solve_b,

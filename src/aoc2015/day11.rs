@@ -61,7 +61,7 @@ fn is_valid(password: &[u8]) -> bool {
         && contains_no_forbidden_letters(password)
         && contains_two_pairs(password)
 }
-fn solve_for(input: &str) -> String {
+fn solve_for(input: &str) -> (String, String) {
     let mut password = input.as_bytes().to_vec();
 
     increment(&mut password);
@@ -70,29 +70,34 @@ fn solve_for(input: &str) -> String {
         increment(&mut password);
     }
 
-    String::from_utf8(password).unwrap()
+    let a = String::from_utf8(password.clone()).unwrap();
+
+    increment(&mut password);
+
+    while !is_valid(&password) {
+        increment(&mut password);
+    }
+
+    let b = String::from_utf8(password).unwrap();
+
+    (a, b)
 }
 
 #[test]
 fn example() {
-    assert_eq!(solve_for("abcdefgh"), "abcdffaa");
-    assert_eq!(solve_for("ghijklmn"), "ghjaabcc");
+    assert_eq!(solve_for("abcdefgh").0, "abcdffaa");
+    assert_eq!(solve_for("ghijklmn").0, "ghjaabcc");
 }
 
 #[test]
-fn a_puzzle() {
-    assert_eq!(solve_for(INPUT), "vzbxxyzz");
+fn puzzle() {
+    let (a, b) = solve_for(INPUT);
+    assert_eq!(a, "vzbxxyzz");
+    assert_eq!(b, "vzcaabcc");
 }
 
-#[test]
-fn b_puzzle() {
-    assert_eq!(solve_for(&solve_for(INPUT)), "vzcaabcc");
-}
+pub fn solve() -> (PuzzleResult, PuzzleResult) {
+    let (a, b) = solve_for(INPUT);
 
-pub fn solve_a() -> PuzzleResult {
-    solve_for(INPUT).into()
-}
-
-pub fn solve_b() -> PuzzleResult {
-    solve_for(&solve_for(INPUT)).into()
+    (a.into(), b.into())
 }
