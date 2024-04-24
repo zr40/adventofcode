@@ -4,6 +4,7 @@ use std::collections::{BTreeMap, BinaryHeap};
 use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
 use crate::common::grid::Grid;
+use crate::day::Day;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -176,19 +177,23 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::UltraCrucible), 734);
 }
 
-pub fn solve_a() -> PuzzleResult {
-    #[cfg(debug_assertions)]
-    return PuzzleResult::SkipSlow;
+#[cfg(debug_assertions)]
+fn solve_a() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
 
-    #[cfg(not(debug_assertions))]
+#[cfg(not(debug_assertions))]
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, Mode::Crucible).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
-    #[cfg(debug_assertions)]
-    return PuzzleResult::SkipSlow;
+#[cfg(debug_assertions)]
+fn solve_b() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
 
-    #[cfg(not(debug_assertions))]
+#[cfg(not(debug_assertions))]
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, Mode::UltraCrucible).into()
 }
 
@@ -198,3 +203,8 @@ fn dead_code() {
     solve_for(INPUT, Mode::Crucible);
     solve_for(INPUT, Mode::UltraCrucible);
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

@@ -1,5 +1,6 @@
 use std::collections::{HashSet, VecDeque};
 
+use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
@@ -116,10 +117,15 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::HikingTrail), 430);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, Mode::SinglePath).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, Mode::HikingTrail).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

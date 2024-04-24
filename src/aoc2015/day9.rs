@@ -2,6 +2,7 @@ use std::collections::BTreeMap;
 
 use itertools::Itertools;
 
+use crate::day::Day;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -70,10 +71,15 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::Max), 736);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, Mode::Min).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, Mode::Max).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

@@ -1,3 +1,4 @@
+use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
@@ -105,7 +106,9 @@ fn puzzle() {
     );
 }
 
-pub fn solve_both() -> (PuzzleResult, PuzzleResult) {
+fn solve_both() -> (PuzzleResult, PuzzleResult) {
     let (signal_strength, display) = solve_for(INPUT);
     (signal_strength.into(), PuzzleResult::Multiline(display))
 }
+
+pub(super) static DAY: Day = Day::Pair(solve_both);

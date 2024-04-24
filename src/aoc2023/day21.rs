@@ -3,6 +3,7 @@ use std::collections::{HashMap, VecDeque};
 use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
 use crate::common::grid::Grid;
+use crate::day::Day;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -179,10 +180,15 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT, 26501365), 625587097150084);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_a_for(INPUT, 64).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_b_for(INPUT, 26501365).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

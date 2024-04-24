@@ -1,5 +1,6 @@
 use std::collections::HashSet;
 
+use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
@@ -150,19 +151,23 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT, 4000000), 11914583249288);
 }
 
-pub fn solve_a() -> PuzzleResult {
-    #[cfg(debug_assertions)]
-    return PuzzleResult::SkipSlow;
+#[cfg(debug_assertions)]
+fn solve_a() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
 
-    #[cfg(not(debug_assertions))]
+#[cfg(not(debug_assertions))]
+fn solve_a() -> PuzzleResult {
     solve_a_for(INPUT, 2000000).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
-    #[cfg(debug_assertions)]
-    return PuzzleResult::SkipSlow;
+#[cfg(debug_assertions)]
+fn solve_b() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
 
-    #[cfg(not(debug_assertions))]
+#[cfg(not(debug_assertions))]
+fn solve_b() -> PuzzleResult {
     solve_b_for(INPUT, 4000000).into()
 }
 
@@ -172,3 +177,8 @@ fn dead_code() {
     solve_a_for(INPUT, 2000000);
     solve_b_for(INPUT, 4000000);
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

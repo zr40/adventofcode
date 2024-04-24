@@ -1,6 +1,7 @@
 use std::collections::hash_map::Entry;
 use std::collections::{HashMap, HashSet};
 
+use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
@@ -115,10 +116,15 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, 1000000000000), 1524637681145);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, 2022).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, 1000000000000).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

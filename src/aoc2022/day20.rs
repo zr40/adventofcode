@@ -1,5 +1,6 @@
 use std::collections::VecDeque;
 
+use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
@@ -90,15 +91,17 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartTwo), 861907680486);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, Mode::PartOne).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
-    #[cfg(debug_assertions)]
-    return PuzzleResult::SkipSlow;
+#[cfg(debug_assertions)]
+fn solve_b() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
 
-    #[cfg(not(debug_assertions))]
+#[cfg(not(debug_assertions))]
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, Mode::PartTwo).into()
 }
 
@@ -107,3 +110,8 @@ pub fn solve_b() -> PuzzleResult {
 fn dead_code() {
     solve_for(INPUT, Mode::PartTwo);
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

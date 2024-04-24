@@ -1,6 +1,7 @@
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 
+use crate::day::Day;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -86,6 +87,8 @@ fn puzzle() {
     assert_eq!(solve_for(INPUT), 538560);
 }
 
-pub fn solve() -> PuzzleResult {
+fn solve() -> PuzzleResult {
     solve_for(INPUT).into()
 }
+
+pub(super) static DAY: Day = Day::Single(solve);

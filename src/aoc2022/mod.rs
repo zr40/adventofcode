@@ -24,89 +24,26 @@ mod day8;
 mod day9;
 
 pub(crate) static DAYS: &[Day] = &[
-    Day::Separate {
-        a: day1::solve_a,
-        b: day1::solve_b,
-    },
-    Day::Separate {
-        a: day2::solve_a,
-        b: day2::solve_b,
-    },
-    Day::Separate {
-        a: day3::solve_a,
-        b: day3::solve_b,
-    },
-    Day::Separate {
-        a: day4::solve_a,
-        b: day4::solve_b,
-    },
-    Day::Separate {
-        a: day5::solve_a,
-        b: day5::solve_b,
-    },
-    Day::Separate {
-        a: day6::solve_a,
-        b: day6::solve_b,
-    },
-    Day::Separate {
-        a: day7::solve_a,
-        b: day7::solve_b,
-    },
-    Day::Separate {
-        a: day8::solve_a,
-        b: day8::solve_b,
-    },
-    Day::Separate {
-        a: day9::solve_a,
-        b: day9::solve_b,
-    },
-    Day::Pair(day10::solve_both),
-    Day::Separate {
-        a: day11::solve_a,
-        b: day11::solve_b,
-    },
-    Day::Separate {
-        a: day12::solve_a,
-        b: day12::solve_b,
-    },
-    Day::Separate {
-        a: day13::solve_a,
-        b: day13::solve_b,
-    },
-    Day::Separate {
-        a: day14::solve_a,
-        b: day14::solve_b,
-    },
-    Day::Separate {
-        a: day15::solve_a,
-        b: day15::solve_b,
-    },
-    Day::Separate {
-        a: day16::solve_a,
-        b: day16::solve_b,
-    },
-    Day::Separate {
-        a: day17::solve_a,
-        b: day17::solve_b,
-    },
-    Day::Separate {
-        a: day18::solve_a,
-        b: day18::solve_b,
-    },
-    Day::Separate {
-        a: day19::solve_a,
-        b: day19::solve_b,
-    },
-    Day::Separate {
-        a: day20::solve_a,
-        b: day20::solve_b,
-    },
-    Day::Separate {
-        a: day21::solve_a,
-        b: day21::solve_b,
-    },
-    Day::Separate {
-        a: day22::solve_a,
-        b: day22::solve_b,
-    },
+    day1::DAY,
+    day2::DAY,
+    day3::DAY,
+    day4::DAY,
+    day5::DAY,
+    day6::DAY,
+    day7::DAY,
+    day8::DAY,
+    day9::DAY,
+    day10::DAY,
+    day11::DAY,
+    day12::DAY,
+    day13::DAY,
+    day14::DAY,
+    day15::DAY,
+    day16::DAY,
+    day17::DAY,
+    day18::DAY,
+    day19::DAY,
+    day20::DAY,
+    day21::DAY,
+    day22::DAY,
 ];

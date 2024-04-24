@@ -5,6 +5,7 @@ use crate::puzzle_result::PuzzleResult;
 type SeparatePuzzle = fn() -> PuzzleResult;
 type PairedPuzzle = fn() -> (PuzzleResult, PuzzleResult);
 
+#[derive(Clone, Copy)]
 pub(crate) enum Day {
     Separate {
         a: SeparatePuzzle,

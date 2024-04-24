@@ -1,5 +1,6 @@
 use std::collections::HashSet;
 
+use crate::day::Day;
 use crate::PuzzleResult;
 
 const INPUT: &str = include_str!("input/3");
@@ -67,10 +68,15 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::PartB), 2341);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, Mode::PartA).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, Mode::PartB).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

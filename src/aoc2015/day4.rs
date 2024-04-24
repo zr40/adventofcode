@@ -1,5 +1,6 @@
 use md5::{Digest, Md5};
 
+use crate::day::Day;
 use crate::PuzzleResult;
 
 const INPUT: &str = "bgvyzdsv";
@@ -39,12 +40,12 @@ fn puzzle() {
 }
 
 #[cfg(debug_assertions)]
-pub fn solve() -> (PuzzleResult, PuzzleResult) {
+fn solve_both() -> (PuzzleResult, PuzzleResult) {
     (PuzzleResult::SkipSlow, PuzzleResult::SkipSlow)
 }
 
 #[cfg(not(debug_assertions))]
-pub fn solve() -> (PuzzleResult, PuzzleResult) {
+fn solve_both() -> (PuzzleResult, PuzzleResult) {
     let (a, b) = solve_for(INPUT);
     (a.into(), b.into())
 }
@@ -54,3 +55,5 @@ pub fn solve() -> (PuzzleResult, PuzzleResult) {
 fn dead_code() {
     solve_for(INPUT);
 }
+
+pub(super) static DAY: Day = Day::Pair(solve_both);

@@ -1,5 +1,6 @@
 use rational::Rational;
 
+use crate::day::Day;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -219,10 +220,15 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 618534564836937);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_a_for(INPUT, 200000000000000, 400000000000000).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_b_for(INPUT).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

@@ -1,6 +1,7 @@
 use std::collections::VecDeque;
 use std::str::Lines;
 
+use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
@@ -162,10 +163,15 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, false, 10000), 14561971968);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, true, 20).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, false, 10000).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

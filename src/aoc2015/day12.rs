@@ -1,5 +1,6 @@
 use json::{parse, JsonValue};
 
+use crate::day::Day;
 use crate::PuzzleResult;
 
 const INPUT: &str = include_str!("input/12");
@@ -67,10 +68,15 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::IgnoreRed), 68466);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, Mode::IncludeRed).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, Mode::IgnoreRed).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

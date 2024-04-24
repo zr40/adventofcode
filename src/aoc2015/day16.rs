@@ -1,3 +1,4 @@
+use crate::day::Day;
 use crate::PuzzleResult;
 
 const INPUT: &str = include_str!("input/16");
@@ -62,10 +63,15 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::Ranges), 260);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, Mode::Exact).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, Mode::Ranges).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

@@ -1,5 +1,6 @@
 use std::collections::BTreeSet;
 
+use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 const INPUT: &str = include_str!("input/6");
@@ -48,10 +49,15 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, 14), 2665);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, 4).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, 14).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

@@ -1,5 +1,6 @@
 use itertools::Itertools;
 
+use crate::day::Day;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -166,10 +167,15 @@ fn b_puzzle() {
     assert_eq!(solve_for(INPUT, Mode::Calories500), 1766400);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_for(INPUT, Mode::Unrestricted).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_for(INPUT, Mode::Calories500).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

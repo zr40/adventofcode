@@ -1,3 +1,4 @@
+use crate::day::Day;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -42,7 +43,9 @@ fn puzzle() {
     assert_eq!(solve_for(INPUT), (1647269739, 864));
 }
 
-pub fn solve() -> (PuzzleResult, PuzzleResult) {
+fn solve_both() -> (PuzzleResult, PuzzleResult) {
     let (a, b) = solve_for(INPUT);
     (a.into(), b.into())
 }
+
+pub(super) static DAY: Day = Day::Pair(solve_both);

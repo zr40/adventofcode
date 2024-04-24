@@ -1,3 +1,4 @@
+use crate::day::Day;
 use crate::PuzzleResult;
 
 const INPUT: &str = include_str!("input/5");
@@ -68,10 +69,15 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 51);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_a_for(INPUT).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_b_for(INPUT).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

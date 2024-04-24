@@ -1,3 +1,4 @@
+use crate::day::Day;
 use crate::PuzzleResult;
 
 #[cfg(test)]
@@ -292,10 +293,15 @@ fn b_puzzle() {
     assert_eq!(solve_b_for(INPUT), 297);
 }
 
-pub fn solve_a() -> PuzzleResult {
+fn solve_a() -> PuzzleResult {
     solve_a_for(INPUT).into()
 }
 
-pub fn solve_b() -> PuzzleResult {
+fn solve_b() -> PuzzleResult {
     solve_b_for(INPUT).into()
 }
+
+pub(super) static DAY: Day = Day::Separate {
+    a: solve_a,
+    b: solve_b,
+};

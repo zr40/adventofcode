@@ -1,5 +1,6 @@
 use itertools::Itertools;
 
+use crate::day::Day;
 use crate::PuzzleResult;
 
 const INPUT: &str = "vzbxkghb";
@@ -96,8 +97,10 @@ fn puzzle() {
     assert_eq!(b, "vzcaabcc");
 }
 
-pub fn solve() -> (PuzzleResult, PuzzleResult) {
+fn solve_both() -> (PuzzleResult, PuzzleResult) {
     let (a, b) = solve_for(INPUT);
 
     (a.into(), b.into())
 }
+
+pub(super) static DAY: Day = Day::Pair(solve_both);
