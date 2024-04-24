@@ -7,8 +7,8 @@ const EXAMPLE: &str = include_str!("input/15_example");
 const INPUT: &str = include_str!("input/15");
 
 enum Mode {
-    PartA,
-    PartB,
+    Unrestricted,
+    Calories500,
 }
 
 struct Ingredient {
@@ -64,7 +64,7 @@ fn solve_for_len_2(in_a: Ingredient, in_b: Ingredient, mode: Mode) -> i32 {
         let texture = a * in_a.texture + b * in_b.texture;
         let calories = a * in_a.calories + b * in_b.calories;
 
-        if let Mode::PartB = mode {
+        if let Mode::Calories500 = mode {
             if calories != 500 {
                 continue;
             }
@@ -100,7 +100,7 @@ fn solve_for_len_4(
                 let calories =
                     a * in_a.calories + b * in_b.calories + c * in_c.calories + d * in_d.calories;
 
-                if let Mode::PartB = mode {
+                if let Mode::Calories500 = mode {
                     if calories != 500 {
                         continue;
                     }
@@ -132,7 +132,7 @@ fn solve_slow(ingredients: Vec<Ingredient>, mode: Mode) -> i32 {
                     texture += teaspoons * ingredient.texture;
                     calories += teaspoons * ingredient.calories;
                 }
-                if let Mode::PartB = mode {
+                if let Mode::Calories500 = mode {
                     if calories != 500 {
                         return None;
                     }
@@ -148,28 +148,28 @@ fn solve_slow(ingredients: Vec<Ingredient>, mode: Mode) -> i32 {
 
 #[test]
 fn a_example() {
-    assert_eq!(solve_for(EXAMPLE, Mode::PartA), 62842880);
+    assert_eq!(solve_for(EXAMPLE, Mode::Unrestricted), 62842880);
 }
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartA), 21367368);
+    assert_eq!(solve_for(INPUT, Mode::Unrestricted), 21367368);
 }
 
 #[test]
 fn b_example() {
-    assert_eq!(solve_for(EXAMPLE, Mode::PartB), 57600000);
+    assert_eq!(solve_for(EXAMPLE, Mode::Calories500), 57600000);
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartB), 1766400);
+    assert_eq!(solve_for(INPUT, Mode::Calories500), 1766400);
 }
 
 pub fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartA).into()
+    solve_for(INPUT, Mode::Unrestricted).into()
 }
 
 pub fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartB).into()
+    solve_for(INPUT, Mode::Calories500).into()
 }
