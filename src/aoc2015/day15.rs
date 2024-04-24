@@ -37,6 +37,83 @@ fn solve_for(input: &str, mode: Mode) -> i32 {
         });
     }
 
+    if ingredients.len() == 2 {
+        solve_for_len_2(ingredients.pop().unwrap(), ingredients.pop().unwrap(), mode)
+    } else if ingredients.len() == 4 {
+        solve_for_len_4(
+            ingredients.pop().unwrap(),
+            ingredients.pop().unwrap(),
+            ingredients.pop().unwrap(),
+            ingredients.pop().unwrap(),
+            mode,
+        )
+    } else {
+        solve_slow(ingredients, mode)
+    }
+}
+
+fn solve_for_len_2(in_a: Ingredient, in_b: Ingredient, mode: Mode) -> i32 {
+    let mut best = 0;
+
+    for a in 1..100 {
+        let b = 100 - a;
+
+        let capacity = a * in_a.capacity + b * in_b.capacity;
+        let durability = a * in_a.durability + b * in_b.durability;
+        let flavor = a * in_a.flavor + b * in_b.flavor;
+        let texture = a * in_a.texture + b * in_b.texture;
+        let calories = a * in_a.calories + b * in_b.calories;
+
+        if let Mode::PartB = mode {
+            if calories != 500 {
+                continue;
+            }
+        }
+        best = best.max(capacity.max(0) * durability.max(0) * flavor.max(0) * texture.max(0));
+    }
+    best
+}
+
+fn solve_for_len_4(
+    in_a: Ingredient,
+    in_b: Ingredient,
+    in_c: Ingredient,
+    in_d: Ingredient,
+    mode: Mode,
+) -> i32 {
+    let mut best = 0;
+
+    for a in 1..100 {
+        for b in 1..(100 - a) {
+            for c in 1..(100 - a - b) {
+                let d = 100 - a - b - c;
+
+                let capacity =
+                    a * in_a.capacity + b * in_b.capacity + c * in_c.capacity + d * in_d.capacity;
+                let durability = a * in_a.durability
+                    + b * in_b.durability
+                    + c * in_c.durability
+                    + d * in_d.durability;
+                let flavor = a * in_a.flavor + b * in_b.flavor + c * in_c.flavor + d * in_d.flavor;
+                let texture =
+                    a * in_a.texture + b * in_b.texture + c * in_c.texture + d * in_d.texture;
+                let calories =
+                    a * in_a.calories + b * in_b.calories + c * in_c.calories + d * in_d.calories;
+
+                if let Mode::PartB = mode {
+                    if calories != 500 {
+                        continue;
+                    }
+                }
+                best =
+                    best.max(capacity.max(0) * durability.max(0) * flavor.max(0) * texture.max(0));
+            }
+        }
+    }
+    best
+}
+
+fn solve_slow(ingredients: Vec<Ingredient>, mode: Mode) -> i32 {
     ingredients
         .iter()
         .map(|_| 1..100)
