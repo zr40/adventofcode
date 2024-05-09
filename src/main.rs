@@ -9,6 +9,7 @@ use puzzle_result::PuzzleResult;
 use year::YEARS;
 
 mod aoc2015;
+mod aoc2016;
 mod aoc2022;
 mod aoc2023;
 mod common;

@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use crate::day::{Day, DayTiming};
 use crate::puzzle_result::PuzzleResult;
-use crate::{aoc2015, aoc2022, aoc2023};
+use crate::{aoc2015, aoc2016, aoc2022, aoc2023};
 
 pub(crate) struct Year {
     pub(crate) year: u16,
@@ -13,6 +13,10 @@ pub(crate) static YEARS: &[Year] = &[
     Year {
         year: 2015,
         days: aoc2015::DAYS,
+    },
+    Year {
+        year: 2016,
+        days: aoc2016::DAYS,
     },
     Year {
         year: 2022,
