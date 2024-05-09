@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use crate::day::{Day, DayTiming};
 use crate::puzzle_result::PuzzleResult;
-use crate::{aoc2015, aoc2016, aoc2022, aoc2023};
+use crate::{aoc2015, aoc2016, aoc2017, aoc2022, aoc2023};
 
 pub(crate) struct Year {
     pub(crate) year: u16,
@@ -17,6 +17,10 @@ pub(crate) static YEARS: &[Year] = &[
     Year {
         year: 2016,
         days: aoc2016::DAYS,
+    },
+    Year {
+        year: 2017,
+        days: aoc2017::DAYS,
     },
     Year {
         year: 2022,
@@ -34,15 +38,15 @@ impl Year {
 
         let mut total_duration = Duration::ZERO;
 
-        println!(" Day |     Part One    |     Part Two    |         Duration          ");
-        println!("-----+-----------------+-----------------+-------------+-------------");
+        println!(" Day |     Part One     |     Part Two     |         Duration          ");
+        println!("-----+------------------+------------------+-------------+-------------");
         for (index, day) in self.days.iter().enumerate() {
             let result = day.run();
 
             match result.timing {
                 DayTiming::Separate { a, b } => {
                     println!(
-                        "  {:>2} | {:>15} | {:>15} | {:>8.2} ms | {:>8.2} ms",
+                        "  {:>2} | {:>16} | {:>16} | {:>8.2} ms | {:>8.2} ms",
                         index + 1,
                         result.a,
                         result.b,
@@ -54,7 +58,7 @@ impl Year {
                 }
                 DayTiming::Pair(total) => {
                     println!(
-                        "  {:>2} | {:>15} | {:>15} |      (pair) | {:>8.2} ms",
+                        "  {:>2} | {:>16} | {:>16} |      (pair) | {:>8.2} ms",
                         index + 1,
                         result.a,
                         result.b,
@@ -64,7 +68,7 @@ impl Year {
                 }
                 DayTiming::Single(a) => {
                     println!(
-                        "  {:>2} | {:>15} | {:>15} | {:>8.2} ms |",
+                        "  {:>2} | {:>16} | {:>16} | {:>8.2} ms |",
                         index + 1,
                         result.a,
                         result.b,

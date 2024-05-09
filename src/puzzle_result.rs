@@ -72,6 +72,12 @@ impl From<String> for PuzzleResult {
     }
 }
 
+impl From<&str> for PuzzleResult {
+    fn from(value: &str) -> Self {
+        Self::String(value.to_owned())
+    }
+}
+
 impl Display for PuzzleResult {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
