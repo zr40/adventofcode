@@ -1,0 +1,9 @@
+In previous years, I've attempted to solve Advent of Code puzzles using PostgreSQL.
+Although currently I'm using Rust for Advent of Code, I wanted to preserve these SQL solutions.
+
+To execute a solution, use the `./run` script.
+Usage: `./run <year> <puzzle>`
+Example: `./run 2021 13b`
+
+The runner script expects `psql` to be able to connect to PostgreSQL using the default connection parameters.
+The solutions will create an "aoc" schema, and will either rollback or abort when done.

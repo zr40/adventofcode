@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+# The psql script expects to find the input data in $PWD/input/, so make sure we're in the right place according to the current repository layout.
+cd ../src/aoc$1
+
+exec psql -Xqv ON_ERROR_STOP=1 -f ../../postgresql/$1/$2.sql
