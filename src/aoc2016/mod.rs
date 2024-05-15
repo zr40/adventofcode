@@ -1,5 +1,6 @@
 use crate::day::Day;
 
 mod day1;
+mod day2;
 
-pub(crate) static DAYS: &[Day] = &[day1::DAY];
+pub(crate) static DAYS: &[Day] = &[day1::DAY, day2::DAY];
