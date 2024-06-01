@@ -1,8 +1,13 @@
+#[cfg(test)]
+use crate::common::const_bool_array::str_to_bool_array;
+use crate::common::ocr::ocr;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/8_example");
+#[cfg(test)]
+const EXAMPLE_EXPECTED: [bool; 21] = str_to_bool_array(include_str!("input/8_example_expected"));
 const INPUT: &str = include_str!("input/8");
 
 struct Screen {
@@ -94,19 +99,6 @@ impl Screen {
             }
         }
     }
-
-    fn display(&self) -> String {
-        let mut display = String::new();
-
-        for (idx, pixel) in self.pixels.iter().enumerate() {
-            if idx % self.width == 0 && idx != 0 {
-                display.push('\n');
-            }
-            display.push(if *pixel { '#' } else { '.' });
-        }
-
-        display
-    }
 }
 
 fn solve_for(input: &str, width: usize, height: usize) -> (usize, String) {
@@ -114,20 +106,14 @@ fn solve_for(input: &str, width: usize, height: usize) -> (usize, String) {
 
     screen.process(input);
 
-    (screen.pixels_lit(), screen.display())
+    (screen.pixels_lit(), ocr(&screen.pixels, screen.width))
 }
 
 #[test]
 fn a_example() {
     let mut screen = Screen::new(7, 3);
     screen.process(EXAMPLE);
-    assert_eq!(
-        screen.display(),
-        "\
-.#..#.#
-#.#....
-.#....."
-    );
+    assert_eq!(screen.pixels, EXAMPLE_EXPECTED);
     assert_eq!(screen.pixels_lit(), 6);
 }
 
@@ -135,21 +121,12 @@ fn a_example() {
 fn puzzle() {
     let (pixels_lit, display) = solve_for(INPUT, 50, 6);
     assert_eq!(pixels_lit, 115);
-    assert_eq!(
-        display,
-        "\
-####.####.####.#...##..#.####.###..####..###...##.
-#....#....#....#...##.#..#....#..#.#......#.....#.
-###..###..###...#.#.##...###..#..#.###....#.....#.
-#....#....#......#..#.#..#....###..#......#.....#.
-#....#....#......#..#.#..#....#.#..#......#..#..#.
-####.#....####...#..#..#.#....#..#.#.....###..##.."
-    );
+    assert_eq!(display, "EFEYKFRFIJ");
 }
 
 fn solve_both() -> (PuzzleResult, PuzzleResult) {
     let (pixels_lit, display) = solve_for(INPUT, 50, 6);
-    (pixels_lit.into(), PuzzleResult::Multiline(display))
+    (pixels_lit.into(), display.into())
 }
 
 pub(super) static DAY: Day = Day::Pair(solve_both);

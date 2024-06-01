@@ -1,15 +1,21 @@
+#[cfg(test)]
+use crate::common::const_bool_array::str_to_bool_array;
+use crate::common::ocr::ocr;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/10_example");
+#[cfg(test)]
+const EXAMPLE_B_EXPECTED: [bool; 240] =
+    str_to_bool_array(include_str!("input/10b_example_expected"));
 const INPUT: &str = include_str!("input/10");
 
 struct Cpu {
     x: i32,
     cycle: i32,
     signal_strength: i32,
-    display: String,
+    display: [bool; 40 * 6],
 }
 
 enum Instruction {
@@ -23,7 +29,7 @@ impl Cpu {
             x: 1,
             cycle: 0,
             signal_strength: 0,
-            display: String::with_capacity(41 * 6),
+            display: [false; 40 * 6],
         }
     }
 
@@ -41,10 +47,6 @@ impl Cpu {
     }
 
     fn tick(&mut self) {
-        if (self.cycle - 1) % 40 + 1 == 40 {
-            self.display.push('\n');
-        }
-
         self.cycle += 1;
 
         if self.cycle % 40 == 20 {
@@ -54,14 +56,14 @@ impl Cpu {
         let pixel = (self.cycle - 1) % 40;
 
         if self.x >= pixel - 1 && self.x <= pixel + 1 {
-            self.display.push('#');
+            self.display[(self.cycle - 1) as usize] = true;
         } else {
-            self.display.push('.');
+            // self.display.push('.');
         }
     }
 }
 
-fn solve_for(input: &str) -> (i32, String) {
+fn solve_without_ocr(input: &str) -> (i32, [bool; 240]) {
     let mut cpu = Cpu::new();
     for line in input.lines() {
         let mut line = line.split(' ');
@@ -74,41 +76,29 @@ fn solve_for(input: &str) -> (i32, String) {
     (cpu.signal_strength, cpu.display)
 }
 
+fn solve_for(input: &str) -> (i32, String) {
+    let (signal_strength, display) = solve_without_ocr(input);
+
+    (signal_strength, ocr(&display, 40))
+}
+
 #[test]
 fn example() {
-    let (signal_strength, display) = solve_for(EXAMPLE);
+    let (signal_strength, display) = solve_without_ocr(EXAMPLE);
     assert_eq!(signal_strength, 13140);
-    assert_eq!(
-        display,
-        "\
-##..##..##..##..##..##..##..##..##..##..
-###...###...###...###...###...###...###.
-####....####....####....####....####....
-#####.....#####.....#####.....#####.....
-######......######......######......####
-#######.......#######.......#######....."
-    );
+    assert_eq!(display, EXAMPLE_B_EXPECTED);
 }
 
 #[test]
 fn puzzle() {
     let (signal_strength, display) = solve_for(INPUT);
     assert_eq!(signal_strength, 14060);
-    assert_eq!(
-        display,
-        "\
-###...##..###..#..#.####.#..#.####...##.
-#..#.#..#.#..#.#.#..#....#.#..#.......#.
-#..#.#..#.#..#.##...###..##...###.....#.
-###..####.###..#.#..#....#.#..#.......#.
-#....#..#.#....#.#..#....#.#..#....#..#.
-#....#..#.#....#..#.#....#..#.####..##.."
-    );
+    assert_eq!(display, "PAPKFKEJ");
 }
 
 fn solve_both() -> (PuzzleResult, PuzzleResult) {
     let (signal_strength, display) = solve_for(INPUT);
-    (signal_strength.into(), PuzzleResult::Multiline(display))
+    (signal_strength.into(), display.into())
 }
 
 pub(super) static DAY: Day = Day::Pair(solve_both);
