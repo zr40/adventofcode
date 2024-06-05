@@ -22,13 +22,7 @@ fn solve_b_for(input: &str, eggnog: u16) -> usize {
     containers
         .into_iter()
         .powerset()
-        .filter_map(|c| {
-            if c.iter().sum::<u16>() == eggnog {
-                Some(c.len())
-            } else {
-                None
-            }
-        })
+        .filter_map(|c| (c.iter().sum::<u16>() == eggnog).then_some(c.len()))
         .min_set()
         .len()
 }

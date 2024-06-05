@@ -69,11 +69,7 @@ fn solve_a_for(input: &str) -> u32 {
         .lines()
         .filter_map(|line| {
             let room = Room::from(line);
-            if room.checksum_valid() {
-                Some(room.sector_id)
-            } else {
-                None
-            }
+            room.checksum_valid().then_some(room.sector_id)
         })
         .sum()
 }
@@ -83,11 +79,8 @@ fn solve_b_for(input: &str) -> u32 {
         .lines()
         .find_map(|line| {
             let room = Room::from(line);
-            if room.checksum_valid() && room.decrypted_name() == "northpole object storage" {
-                Some(room)
-            } else {
-                None
-            }
+            (room.checksum_valid() && room.decrypted_name() == "northpole object storage")
+                .then_some(room)
         })
         .unwrap()
         .sector_id

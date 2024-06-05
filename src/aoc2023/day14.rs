@@ -62,7 +62,7 @@ fn solve_b_for(input: &str) -> usize {
         cycle(&mut map);
 
         if seen.contains_key(&map) {
-            let interval = n - seen.get(&map).unwrap();
+            let interval = n - seen[&map];
 
             let remaining = TARGET - n;
             n += remaining - (remaining % interval);

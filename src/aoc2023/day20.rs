@@ -60,7 +60,7 @@ fn parse(input: &str) -> HashMap<String, Module<'_>> {
                 )
             };
 
-            let name = name.to_string();
+            let name = name.to_owned();
             let destinations = destinations.split(", ").collect();
             (
                 name,
@@ -90,7 +90,7 @@ fn parse(input: &str) -> HashMap<String, Module<'_>> {
                 ..
             } = module
             {
-                memory.insert(source.to_string(), Pulse::Low);
+                memory.insert(source.clone(), Pulse::Low);
             }
         }
     }
@@ -109,7 +109,7 @@ impl Module<'_> {
         match &mut self.module_type {
             ModuleType::Broadcast => Some(pulse),
             ModuleType::Conjunction { memory } => {
-                memory.insert(source.to_string(), pulse);
+                memory.insert(source.to_owned(), pulse);
                 Some(
                     if memory.values().all(|v| match v {
                         Pulse::High => true,

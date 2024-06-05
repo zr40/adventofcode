@@ -160,7 +160,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
                 for _ in 0..steps {
                     let candidate_pos = direction.step(&map, pos, rows, cols);
 
-                    if let Tile::Wall = map.get(&candidate_pos).unwrap() {
+                    if let Tile::Wall = map[&candidate_pos] {
                         break;
                     }
                     pos = candidate_pos;

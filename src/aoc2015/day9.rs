@@ -20,9 +20,9 @@ fn solve_for(input: &str, mode: Mode) -> u32 {
 
     for line in input.lines() {
         let mut iter = line.split(' ');
-        let src = iter.next().unwrap().to_string();
+        let src = iter.next().unwrap().to_owned();
         iter.next();
-        let dest = iter.next().unwrap().to_string();
+        let dest = iter.next().unwrap().to_owned();
         iter.next();
         let distance = iter.next().unwrap().parse().unwrap();
 

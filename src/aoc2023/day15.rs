@@ -39,7 +39,7 @@ fn solve_b_for(input: &str) -> usize {
         };
 
         let hash = hash(label);
-        let slot = hashmap.get_mut(hash).unwrap();
+        let slot = &mut hashmap[hash];
 
         let existing_lens = slot.iter().position(|lens| lens.label == label);
 
@@ -55,7 +55,7 @@ fn solve_b_for(input: &str) -> usize {
             (Operation::Equals, None) => {
                 let value = value.parse().unwrap();
                 slot.push(Lens {
-                    label: label.to_string(),
+                    label: label.to_owned(),
                     value,
                 });
             }

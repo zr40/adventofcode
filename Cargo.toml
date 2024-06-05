@@ -45,3 +45,12 @@ match_on_vec_items = "allow"
 needless_pass_by_value = "allow"
 struct_field_names = "allow"
 unreadable_literal = "allow"
+
+# restrictions group
+self_named_module_files = "deny"
+
+get_unwrap = "warn"
+if_then_some_else_none = "warn"
+redundant_type_annotations = "warn"
+str_to_string = "warn"
+string_to_string = "warn"

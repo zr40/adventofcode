@@ -11,13 +11,13 @@ fn parse_input(input: &str) -> (Vec<String>, BTreeMap<String, usize>) {
     let mut dirs = vec!["/".to_owned()];
     let mut files: BTreeMap<String, usize> = BTreeMap::new();
 
-    let mut cwd = vec!["/".to_string()];
+    let mut cwd = vec!["/".to_owned()];
 
     for line in input.lines() {
         if line == "$ ls" {
         } else if line == "$ cd /" {
             cwd.clear();
-            cwd.push("/".to_string());
+            cwd.push("/".to_owned());
         } else if line == "$ cd .." {
             cwd.pop();
         } else if line.starts_with("$ cd ") {

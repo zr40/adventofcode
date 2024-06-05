@@ -29,7 +29,7 @@ fn parse(input: &str) -> Circuit {
     for line in input.lines() {
         let mut tokens: Vec<_> = line.split(' ').collect();
 
-        let output = tokens.pop().unwrap().to_string();
+        let output = tokens.pop().unwrap().to_owned();
         tokens.pop();
 
         match tokens.len() {
@@ -38,35 +38,34 @@ fn parse(input: &str) -> Circuit {
                     wires.insert(output, Gate::Const(c));
                 }
                 Err(_) => {
-                    wires.insert(output, Gate::Alias(tokens[0].to_string()));
+                    wires.insert(output, Gate::Alias(tokens[0].to_owned()));
                 }
             },
             2 => {
                 assert!(tokens[0] == "NOT");
-                wires.insert(output, Gate::Not(tokens[1].to_string()));
+                wires.insert(output, Gate::Not(tokens[1].to_owned()));
             }
             3 => {
                 match tokens[1] {
                     "AND" => wires.insert(
                         output,
-                        Gate::And(tokens[0].to_string(), tokens[2].to_string()),
+                        Gate::And(tokens[0].to_owned(), tokens[2].to_owned()),
                     ),
-                    "OR" => wires.insert(
-                        output,
-                        Gate::Or(tokens[0].to_string(), tokens[2].to_string()),
-                    ),
+                    "OR" => {
+                        wires.insert(output, Gate::Or(tokens[0].to_owned(), tokens[2].to_owned()))
+                    }
                     "LSHIFT" => wires.insert(
                         output,
-                        Gate::Lshift(tokens[0].to_string(), tokens[2].parse().unwrap()),
+                        Gate::Lshift(tokens[0].to_owned(), tokens[2].parse().unwrap()),
                     ),
                     "RSHIFT" => wires.insert(
                         output,
-                        Gate::Rshift(tokens[0].to_string(), tokens[2].parse().unwrap()),
+                        Gate::Rshift(tokens[0].to_owned(), tokens[2].parse().unwrap()),
                     ),
                     _ => panic!("unknown instruction: {line}"),
                 };
                 if let Ok(n) = tokens[0].parse() {
-                    wires.insert(tokens[0].to_string(), Gate::Const(n));
+                    wires.insert(tokens[0].to_owned(), Gate::Const(n));
                 };
             }
             _ => panic!("unknown instruction: {line}"),
@@ -82,7 +81,7 @@ fn parse(input: &str) -> Circuit {
 impl Circuit {
     fn evaluate(&mut self, wire: &str) -> u16 {
         if !self.known_signals.contains_key(wire) {
-            let gate = self.wires.get(wire).unwrap().clone();
+            let gate = self.wires[wire].clone();
             let signal: u16 = match gate {
                 Gate::Const(n) => n,
                 Gate::Alias(w) => self.evaluate(&w),
@@ -92,7 +91,7 @@ impl Circuit {
                 Gate::Rshift(w, n) => self.evaluate(&w) >> n,
                 Gate::Not(w) => !self.evaluate(&w),
             };
-            self.known_signals.insert(wire.to_string(), signal);
+            self.known_signals.insert(wire.to_owned(), signal);
         }
 
         self.known_signals[wire]
@@ -101,7 +100,7 @@ impl Circuit {
     fn clear_and_override(&mut self) {
         let a = self.evaluate("a");
         self.known_signals.clear();
-        self.known_signals.insert("b".to_string(), a);
+        self.known_signals.insert("b".to_owned(), a);
     }
 }
 

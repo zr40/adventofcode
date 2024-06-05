@@ -36,10 +36,7 @@ fn parse(input: &str) -> (Vec<Direction>, BTreeMap<String, (String, String)>) {
         .map(|line| {
             let (from, line) = line.split_once(" = (").unwrap();
             let (left, right) = line.split_once(", ").unwrap();
-            (
-                from.to_string(),
-                (left.to_string(), right[0..3].to_string()),
-            )
+            (from.to_owned(), (left.to_owned(), right[0..3].to_owned()))
         })
         .collect();
 

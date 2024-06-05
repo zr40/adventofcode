@@ -45,13 +45,8 @@ fn contains_no_forbidden_letters(password: &[u8]) -> bool {
 fn contains_two_pairs(password: &[u8]) -> bool {
     password
         .windows(2)
-        .filter_map(|pair| {
-            if pair[0] == pair[1] {
-                Some(pair[0])
-            } else {
-                None
-            }
-        })
+        .filter(|&pair| pair[0] == pair[1])
+        .map(|pair| pair[0])
         .unique()
         .count()
         >= 2

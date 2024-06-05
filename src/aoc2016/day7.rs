@@ -36,7 +36,7 @@ fn solve_a_for(input: &str) -> usize {
 }
 
 fn supports_ssl(input: &str) -> bool {
-    let mut hypernet: bool = false;
+    let mut hypernet = false;
 
     let mut abas = BTreeSet::new();
     let mut babs = BTreeSet::new();

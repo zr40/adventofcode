@@ -160,7 +160,7 @@ fn parse(input: &str) -> (HashMap<String, Workflow>, Vec<Part>) {
         let otherwise = match rules.pop().unwrap() {
             "R" => Action::Reject,
             "A" => Action::Accept,
-            workflow => Action::Workflow(workflow.to_string()),
+            workflow => Action::Workflow(workflow.to_owned()),
         };
 
         let rules = rules
@@ -187,13 +187,13 @@ fn parse(input: &str) -> (HashMap<String, Workflow>, Vec<Part>) {
                     action: match action {
                         "R" => Action::Reject,
                         "A" => Action::Accept,
-                        workflow => Action::Workflow(workflow.to_string()),
+                        workflow => Action::Workflow(workflow.to_owned()),
                     },
                 }
             })
             .collect();
 
-        workflows.insert(name.to_string(), Workflow { rules, otherwise });
+        workflows.insert(name.to_owned(), Workflow { rules, otherwise });
     }
 
     let parts = lines
@@ -223,14 +223,14 @@ fn solve_a_for(input: &str) -> u64 {
     parts
         .into_iter()
         .map(|part| {
-            let mut workflow = workflows.get("in").unwrap();
+            let mut workflow = &workflows["in"];
 
             loop {
                 let action = workflow.evaluate(&part);
                 match action {
                     Action::Accept => return part.x + part.m + part.a + part.s,
                     Action::Reject => return 0,
-                    Action::Workflow(w) => workflow = workflows.get(w).unwrap(),
+                    Action::Workflow(w) => workflow = &workflows[w],
                 }
             }
         })
@@ -241,7 +241,7 @@ fn solve_b_for(input: &str) -> u64 {
     let (workflows, _) = parse(input);
 
     let mut queue = vec![WorkflowRange {
-        workflow: "in".to_string(),
+        workflow: "in".to_owned(),
         range: Range {
             x_min: 1,
             x_max: 4000,
@@ -257,7 +257,7 @@ fn solve_b_for(input: &str) -> u64 {
     let mut output = vec![];
 
     while let Some(range) = queue.pop() {
-        let workflow = workflows.get(&range.workflow).unwrap();
+        let workflow = &workflows[&range.workflow];
         let (ranges, outputs) = workflow.ranges(range.range);
         queue.extend(ranges);
         output.extend(outputs);

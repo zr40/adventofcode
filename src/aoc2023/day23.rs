@@ -55,10 +55,10 @@ fn determine_edges(map: Vec<Vec<Tile>>) -> BTreeMap<Coordinate, Vec<(Coordinate,
         }
         let mut options = vec![];
         for mut direction in Direction::ALL {
-            let mut coord = coord;
+            let mut cur_coord = coord;
             let mut distance = 0;
 
-            while let Some(new_coord) = direction.step(coord, bounds) {
+            while let Some(new_coord) = direction.step(cur_coord, bounds) {
                 // move in the previously selected direction
                 match (map.at(new_coord), direction) {
                     (Tile::Forest, _) => break,
@@ -70,7 +70,7 @@ fn determine_edges(map: Vec<Vec<Tile>>) -> BTreeMap<Coordinate, Vec<(Coordinate,
                     (Tile::SlopeDown, Direction::Down) => {}
                     (Tile::SlopeDown, _) => panic!("invalid direction for tile"),
                 }
-                coord = new_coord;
+                cur_coord = new_coord;
                 distance += 1;
 
                 // check new directions
@@ -80,7 +80,7 @@ fn determine_edges(map: Vec<Vec<Tile>>) -> BTreeMap<Coordinate, Vec<(Coordinate,
                         if dir.opposite() == direction {
                             false
                         } else {
-                            match dir.step(coord, bounds) {
+                            match dir.step(cur_coord, bounds) {
                                 Some(coord) => match (map.at(coord), **dir) {
                                     (Tile::Forest, _) => false,
                                     (Tile::Path, _) => true,
@@ -110,8 +110,8 @@ fn determine_edges(map: Vec<Vec<Tile>>) -> BTreeMap<Coordinate, Vec<(Coordinate,
                 break;
             }
             if distance > 0 {
-                options.push((coord, distance));
-                queue.push(coord);
+                options.push((cur_coord, distance));
+                queue.push(cur_coord);
             }
         }
         paths.insert(coord, options);
@@ -148,7 +148,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
             continue;
         }
 
-        let edges = edges_at.get(&state.position).unwrap();
+        let edges = &edges_at[&state.position];
         for (coord, dist) in edges {
             if state.path.contains(coord) {
                 continue;

@@ -39,7 +39,7 @@ fn solve_a_for(input: &str) -> usize {
 
         visited.insert(program);
 
-        for connected_program in connections.get(&program).unwrap() {
+        for connected_program in &connections[&program] {
             queue.push(*connected_program);
         }
     }
@@ -50,7 +50,7 @@ fn solve_a_for(input: &str) -> usize {
 fn solve_b_for(input: &str) -> usize {
     let connections = parse(input);
 
-    let mut visited = HashSet::new();
+    let mut visited: HashSet<u32> = HashSet::new();
     let mut groups = 0;
 
     for program in connections.keys() {
@@ -67,9 +67,9 @@ fn solve_b_for(input: &str) -> usize {
                 continue;
             }
 
-            visited.insert(program);
+            visited.insert(*program);
 
-            for connected_program in connections.get(program).unwrap() {
+            for connected_program in &connections[program] {
                 queue.push(connected_program);
             }
         }

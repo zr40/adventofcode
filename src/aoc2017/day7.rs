@@ -27,7 +27,7 @@ fn solve_a_for(input: &str) -> &str {
     let mut program = held_by.keys().next().unwrap();
 
     while held_by.contains_key(program) {
-        program = held_by.get(program).unwrap();
+        program = &held_by[program];
     }
 
     program
@@ -56,9 +56,7 @@ fn solve_b_for(input: &str) -> u32 {
     holding
         .keys()
         .filter_map(|program| {
-            let (min, max) = holding
-                .get(program)
-                .unwrap()
+            let (min, max) = holding[program]
                 .iter()
                 .minmax_by_key(|x| weight_of(x, &holding, &weights))
                 .into_option()
@@ -74,7 +72,7 @@ fn solve_b_for(input: &str) -> u32 {
                 let mut min_program = "";
                 let mut max_program = "";
 
-                for held_program in holding.get(program).unwrap() {
+                for held_program in &holding[program] {
                     let w = weight_of(held_program, &holding, &weights);
                     if w == min_weight {
                         min_count += 1;
@@ -85,15 +83,9 @@ fn solve_b_for(input: &str) -> u32 {
                 }
 
                 if min_count == 1 {
-                    Some((
-                        max_weight,
-                        weights.get(min_program).unwrap() + max_weight - min_weight,
-                    ))
+                    Some((max_weight, weights[min_program] + max_weight - min_weight))
                 } else {
-                    Some((
-                        min_weight,
-                        weights.get(max_program).unwrap() + min_weight - max_weight,
-                    ))
+                    Some((min_weight, weights[max_program] + min_weight - max_weight))
                 }
             }
         })

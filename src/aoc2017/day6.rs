@@ -46,7 +46,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
 
     match mode {
         Mode::CyclesToDuplicate => cycles,
-        Mode::InfiniteLoopCycles => cycles - configurations_seen.get(&banks).unwrap(),
+        Mode::InfiniteLoopCycles => cycles - configurations_seen[&banks],
     }
 }
 

@@ -86,10 +86,10 @@ fn solve_b_for(len: usize, iterations: usize, input: &str) -> String {
                     let a = iter.next().unwrap();
                     let b = iter.next().unwrap();
 
-                    let a = program_numbers.get(a).unwrap();
-                    let b = program_numbers.get(b).unwrap();
+                    let a = program_numbers[a];
+                    let b = program_numbers[b];
 
-                    DanceMove::Partner(*a, *b)
+                    DanceMove::Partner(a, b)
                 }
                 x => panic!("Unknown move {x}"),
             }
