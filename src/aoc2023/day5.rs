@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/5_example");
@@ -19,13 +19,10 @@ fn solve_for(input: &str, mode: Mode) -> u64 {
     let mut current_ranges: BTreeMap<u64, u64> = BTreeMap::new();
 
     while let Some(range_start) = seeds.next() {
-        current_ranges.insert(
-            range_start.parse().unwrap(),
-            match mode {
-                Mode::PartA => 1,
-                Mode::PartB => seeds.next().unwrap().parse().unwrap(),
-            },
-        );
+        current_ranges.insert(range_start.parse().unwrap(), match mode {
+            Mode::PartA => 1,
+            Mode::PartB => seeds.next().unwrap().parse().unwrap(),
+        });
     }
 
     while let Some(line) = lines.next() {

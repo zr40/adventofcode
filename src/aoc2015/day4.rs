@@ -1,7 +1,7 @@
 use md5::{Digest, Md5};
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 const INPUT: &str = "bgvyzdsv";
 

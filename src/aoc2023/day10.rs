@@ -1,5 +1,5 @@
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 #[cfg(test)]
 const EXAMPLE_A1: &str = include_str!("input/10a_example1");

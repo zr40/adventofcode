@@ -1,8 +1,8 @@
 use std::collections::BTreeSet;
 
+use crate::PuzzleResult;
 use crate::common::direction::Direction;
 use crate::day::Day;
-use crate::PuzzleResult;
 
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/18_example");

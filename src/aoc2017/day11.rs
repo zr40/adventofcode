@@ -26,11 +26,7 @@ fn solve_a_for(input: &str) -> i32 {
     x = x.abs();
     y = y.abs();
 
-    if x > y {
-        x
-    } else {
-        x + (y - x) / 2
-    }
+    if x > y { x } else { x + (y - x) / 2 }
 }
 
 fn solve_b_for(input: &str) -> i32 {
@@ -45,11 +41,7 @@ fn solve_b_for(input: &str) -> i32 {
             let xa = x.abs();
             let ya = y.abs();
 
-            if xa > ya {
-                xa
-            } else {
-                xa + (ya - xa) / 2
-            }
+            if xa > ya { xa } else { xa + (ya - xa) / 2 }
         })
         .max()
         .unwrap()

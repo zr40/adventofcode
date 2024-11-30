@@ -2,8 +2,8 @@ use std::collections::BTreeMap;
 
 use num_integer::lcm;
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 #[cfg(test)]
 const EXAMPLE_A1: &str = include_str!("input/8a_example1");

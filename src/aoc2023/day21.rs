@@ -1,10 +1,10 @@
 use std::collections::{HashMap, VecDeque};
 
+use crate::PuzzleResult;
 use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
 use crate::common::grid::Grid;
 use crate::day::Day;
-use crate::PuzzleResult;
 
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/21_example");

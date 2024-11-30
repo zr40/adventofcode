@@ -1,7 +1,7 @@
 use std::collections::{HashMap, VecDeque};
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 #[cfg(test)]
 const EXAMPLE_1: &str = include_str!("input/20_example1");
@@ -62,14 +62,11 @@ fn parse(input: &str) -> HashMap<String, Module<'_>> {
 
             let name = name.to_owned();
             let destinations = destinations.split(", ").collect();
-            (
-                name,
-                Module {
-                    module_type,
-                    destinations,
-                    inputs: vec![],
-                },
-            )
+            (name, Module {
+                module_type,
+                destinations,
+                inputs: vec![],
+            })
         })
         .collect();
 
@@ -121,7 +118,7 @@ impl Module<'_> {
                     },
                 )
             }
-            ModuleType::FlipFlop { ref mut state } => match (pulse, &state) {
+            &mut ModuleType::FlipFlop { ref mut state } => match (pulse, &state) {
                 (Pulse::Low, State::Off) => {
                     *state = State::On;
                     Some(Pulse::High)

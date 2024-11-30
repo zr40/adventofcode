@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/7_example");

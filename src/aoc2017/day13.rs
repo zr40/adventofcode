@@ -15,11 +15,7 @@ fn solve_a_for(input: &str) -> u32 {
 
             let x = position % (range * 2 - 2);
 
-            if x == 0 {
-                position * range
-            } else {
-                0
-            }
+            if x == 0 { position * range } else { 0 }
         })
         .sum()
 }

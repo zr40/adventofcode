@@ -93,24 +93,21 @@ fn solve_for(input: &str, mode: Mode) -> i64 {
         let (name, line) = line.split_once(": ").unwrap();
         let parts: Vec<&str> = line.split(' ').collect();
 
-        monkeys.insert(
-            name,
-            match parts.len() {
-                1 => Monkey::Constant(parts[0].parse().unwrap()),
-                3 => Monkey::Operation(
-                    parts[0],
-                    match parts[1] {
-                        "+" => Operation::Add,
-                        "-" => Operation::Subtract,
-                        "*" => Operation::Multiply,
-                        "/" => Operation::Divide,
-                        _ => panic!(),
-                    },
-                    parts[2],
-                ),
-                _ => panic!(),
-            },
-        );
+        monkeys.insert(name, match parts.len() {
+            1 => Monkey::Constant(parts[0].parse().unwrap()),
+            3 => Monkey::Operation(
+                parts[0],
+                match parts[1] {
+                    "+" => Operation::Add,
+                    "-" => Operation::Subtract,
+                    "*" => Operation::Multiply,
+                    "/" => Operation::Divide,
+                    _ => panic!(),
+                },
+                parts[2],
+            ),
+            _ => panic!(),
+        });
     }
 
     match mode {

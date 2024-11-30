@@ -2,8 +2,8 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use itertools::Itertools;
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("input/13_example");

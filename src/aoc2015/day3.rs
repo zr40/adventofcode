@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 const INPUT: &str = include_str!("input/3");
 

@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 #[cfg(test)]
 const EXAMPLE_A: &str = include_str!("input/4a_example");

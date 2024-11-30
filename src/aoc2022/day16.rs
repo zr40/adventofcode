@@ -34,13 +34,10 @@ fn parse_input(input: &str) -> HashMap<u16, Valve> {
 
         let tunnels = tunnels.split(", ").map(label_to_u16).collect();
 
-        valves.insert(
-            label_to_u16(label),
-            Valve {
-                flowrate: flowrate.parse().unwrap(),
-                tunnels,
-            },
-        );
+        valves.insert(label_to_u16(label), Valve {
+            flowrate: flowrate.parse().unwrap(),
+            tunnels,
+        });
     }
     valves
 }

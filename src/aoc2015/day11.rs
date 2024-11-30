@@ -1,7 +1,7 @@
 use itertools::Itertools;
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 const INPUT: &str = "vzbxkghb";
 

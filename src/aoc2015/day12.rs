@@ -1,7 +1,7 @@
-use json::{parse, JsonValue};
+use json::{JsonValue, parse};
 
-use crate::day::Day;
 use crate::PuzzleResult;
+use crate::day::Day;
 
 const INPUT: &str = include_str!("input/12");
 
