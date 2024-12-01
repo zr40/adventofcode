@@ -1,7 +1,6 @@
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
-
-const INPUT: &str = include_str!("input/9");
 
 fn solve_for(input: &str) -> (i32, i32) {
     let mut score = 0;
@@ -63,11 +62,11 @@ fn b_example() {
 
 #[test]
 fn puzzle() {
-    assert_eq!(solve_for(INPUT), (10820, 5547));
+    assert_eq!(solve_for(&input_for(2017, 9)), (10820, 5547));
 }
 
 fn solve_both() -> (PuzzleResult, PuzzleResult) {
-    let (a, b) = solve_for(INPUT);
+    let (a, b) = solve_for(&input_for(2017, 9));
     (a.into(), b.into())
 }
 

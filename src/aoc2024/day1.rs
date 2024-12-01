@@ -1,11 +1,11 @@
 use std::collections::BTreeMap;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/1_example");
-const INPUT: &str = include_str!("input/1");
+const EXAMPLE: &str = include_str!("example/1");
 
 fn solve_a_for(input: &str) -> i32 {
     let mut numbers_left: Vec<i32> = vec![];
@@ -56,7 +56,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 2057374);
+    assert_eq!(solve_a_for(&input_for(2024, 1)), 2057374);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2024, 1)).into()
 }
 
 #[test]
@@ -66,15 +70,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 23177084);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2024, 1)), 23177084);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2024, 1)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

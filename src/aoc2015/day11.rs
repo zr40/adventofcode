@@ -1,9 +1,8 @@
 use itertools::Itertools;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
-
-const INPUT: &str = "vzbxkghb";
 
 fn increment(password: &mut [u8]) {
     for i in 0..password.len() {
@@ -87,13 +86,13 @@ fn example() {
 
 #[test]
 fn puzzle() {
-    let (a, b) = solve_for(INPUT);
+    let (a, b) = solve_for(&input_for(2015, 11));
     assert_eq!(a, "vzbxxyzz");
     assert_eq!(b, "vzcaabcc");
 }
 
 fn solve_both() -> (PuzzleResult, PuzzleResult) {
-    let (a, b) = solve_for(INPUT);
+    let (a, b) = solve_for(&input_for(2015, 11));
 
     (a.into(), b.into())
 }

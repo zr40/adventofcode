@@ -1,9 +1,9 @@
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/5_example");
-const INPUT: &str = include_str!("input/5");
+const EXAMPLE: &str = include_str!("example/5");
 
 enum Mode {
     Normal,
@@ -40,7 +40,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Normal), 372671);
+    assert_eq!(solve_for(&input_for(2017, 5), Mode::Normal), 372671);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2017, 5), Mode::Normal).into()
 }
 
 #[test]
@@ -50,15 +54,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Strange), 25608480);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::Normal).into()
+    assert_eq!(solve_for(&input_for(2017, 5), Mode::Strange), 25608480);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::Strange).into()
+    solve_for(&input_for(2017, 5), Mode::Strange).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

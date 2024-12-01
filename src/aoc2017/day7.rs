@@ -2,12 +2,12 @@ use std::collections::HashMap;
 
 use itertools::Itertools;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/7_example");
-const INPUT: &str = include_str!("input/7");
+const EXAMPLE: &str = include_str!("example/7");
 
 fn solve_a_for(input: &str) -> &str {
     let mut held_by = HashMap::new();
@@ -113,7 +113,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), "mwzaxaj");
+    assert_eq!(solve_a_for(&input_for(2017, 7)), "mwzaxaj");
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2017, 7)).into()
 }
 
 #[test]
@@ -123,15 +127,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 1219);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2017, 7)), 1219);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2017, 7)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

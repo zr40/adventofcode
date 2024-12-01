@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+aocf = { git = "https://github.com/zr40/aocf", branch = "cache" }
 itertools = "0.13.0"
 json = "0.12.4"
 md-5 = "0.10.6"

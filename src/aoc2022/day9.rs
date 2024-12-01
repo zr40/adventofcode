@@ -1,13 +1,13 @@
 use std::collections::HashSet;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/9_example");
+const EXAMPLE: &str = include_str!("example/9");
 #[cfg(test)]
-const EXAMPLE_LARGE: &str = include_str!("input/9_example_large");
-const INPUT: &str = include_str!("input/9");
+const EXAMPLE_LARGE: &str = include_str!("example/9_large");
 
 fn solve_for(input: &str, knot_count: usize) -> usize {
     let mut visited = HashSet::new();
@@ -50,7 +50,7 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, 2), 6494);
+    assert_eq!(solve_for(&input_for(2022, 9), 2), 6494);
 }
 
 #[test]
@@ -65,15 +65,15 @@ fn b_example_large() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, 10), 2691);
+    assert_eq!(solve_for(&input_for(2022, 9), 10), 2691);
 }
 
 fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, 2).into()
+    solve_for(&input_for(2022, 9), 2).into()
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, 10).into()
+    solve_for(&input_for(2022, 9), 10).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

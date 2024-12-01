@@ -1,7 +1,6 @@
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
-
-const INPUT: &str = include_str!("input/6");
 
 enum Operation {
     Toggle,
@@ -91,20 +90,20 @@ fn solve_b_for(input: &str) -> u32 {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 400410);
+    assert_eq!(solve_a_for(&input_for(2015, 6)), 400410);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2015, 6)).into()
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 15343601);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2015, 6)), 15343601);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2015, 6)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

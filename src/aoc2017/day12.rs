@@ -1,11 +1,11 @@
 use std::collections::{HashMap, HashSet};
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/12_example");
-const INPUT: &str = include_str!("input/12");
+const EXAMPLE: &str = include_str!("example/12");
 
 fn parse(input: &str) -> HashMap<u32, Vec<u32>> {
     let mut connections = HashMap::new();
@@ -85,24 +85,25 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 239);
+    assert_eq!(solve_a_for(&input_for(2017, 12)), 239);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2017, 12)).into()
 }
 
 #[test]
 fn b_example() {
     assert_eq!(solve_b_for(EXAMPLE), 2);
 }
+
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 215);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2017, 12)), 215);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2017, 12)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

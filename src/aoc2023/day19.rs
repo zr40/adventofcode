@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/19_example");
-const INPUT: &str = include_str!("input/19");
+const EXAMPLE: &str = include_str!("example/19");
 
 enum Category {
     X,
@@ -321,7 +321,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 449531);
+    assert_eq!(solve_a_for(&input_for(2023, 19)), 449531);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2023, 19)).into()
 }
 
 #[test]
@@ -331,15 +335,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 122756210763577);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2023, 19)), 122756210763577);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2023, 19)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

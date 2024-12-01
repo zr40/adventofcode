@@ -3,14 +3,14 @@ use std::collections::HashSet;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
 use crate::common::grid::Grid;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/16_example");
-const INPUT: &str = include_str!("input/16");
+const EXAMPLE: &str = include_str!("example/16");
 
 enum Tile {
     Empty,
@@ -133,7 +133,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 8389);
+    assert_eq!(solve_a_for(&input_for(2023, 16)), 8389);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2023, 16)).into()
 }
 
 #[test]
@@ -143,15 +147,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 8564);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2023, 16)), 8564);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2023, 16)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

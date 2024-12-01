@@ -1,9 +1,8 @@
 use json::{JsonValue, parse};
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
-
-const INPUT: &str = include_str!("input/12");
 
 #[derive(Clone, Copy)]
 enum Mode {
@@ -60,20 +59,20 @@ fn b_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::IncludeRed), 119433);
+    assert_eq!(solve_for(&input_for(2015, 12), Mode::IncludeRed), 119433);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2015, 12), Mode::IncludeRed).into()
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::IgnoreRed), 68466);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::IncludeRed).into()
+    assert_eq!(solve_for(&input_for(2015, 12), Mode::IgnoreRed), 68466);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::IgnoreRed).into()
+    solve_for(&input_for(2015, 12), Mode::IgnoreRed).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

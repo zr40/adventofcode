@@ -1,3 +1,4 @@
+use crate::common::aoc::input_for;
 #[cfg(test)]
 use crate::common::const_bool_array::str_to_bool_array;
 use crate::common::ocr::ocr;
@@ -5,10 +6,9 @@ use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/8_example");
+const EXAMPLE: &str = include_str!("example/8");
 #[cfg(test)]
-const EXAMPLE_EXPECTED: [bool; 21] = str_to_bool_array(include_str!("input/8_example_expected"));
-const INPUT: &str = include_str!("input/8");
+const EXAMPLE_EXPECTED: [bool; 21] = str_to_bool_array(include_str!("example/8_expected"));
 
 struct Screen {
     width: usize,
@@ -119,13 +119,13 @@ fn a_example() {
 
 #[test]
 fn puzzle() {
-    let (pixels_lit, display) = solve_for(INPUT, 50, 6);
+    let (pixels_lit, display) = solve_for(&input_for(2016, 8), 50, 6);
     assert_eq!(pixels_lit, 115);
     assert_eq!(display, "EFEYKFRFIJ");
 }
 
 fn solve_both() -> (PuzzleResult, PuzzleResult) {
-    let (pixels_lit, display) = solve_for(INPUT, 50, 6);
+    let (pixels_lit, display) = solve_for(&input_for(2016, 8), 50, 6);
     (pixels_lit.into(), display.into())
 }
 

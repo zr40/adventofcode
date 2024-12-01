@@ -1,8 +1,7 @@
 use super::knot_hash::{knot_hash, knot_rounds};
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
-
-const INPUT: &str = include_str!("input/10");
 
 fn solve_a_for(input: &str) -> usize {
     solve_a_size(256, input)
@@ -20,7 +19,7 @@ fn solve_a_size(list_size: usize, input: &str) -> usize {
 }
 
 fn solve_b_for(input: &str) -> String {
-    let list = knot_hash(input);
+    let list = knot_hash(input.split('\n').next().unwrap());
 
     let mut output = String::new();
     let mut list_iter = list.iter();
@@ -45,7 +44,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 23715);
+    assert_eq!(solve_a_for(&input_for(2017, 10)), 23715);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2017, 10)).into()
 }
 
 #[test]
@@ -58,15 +61,14 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), "541dc3180fd4b72881e39cf925a50253");
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(
+        solve_b_for(&input_for(2017, 10)),
+        "541dc3180fd4b72881e39cf925a50253"
+    );
 }
 
 fn solve_b() -> PuzzleResult {
-    PuzzleResult::Multiline(solve_b_for(INPUT))
+    PuzzleResult::Multiline(solve_b_for(&input_for(2017, 10)))
 }
 
 pub(super) static DAY: Day = Day::Separate {

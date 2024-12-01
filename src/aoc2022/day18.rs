@@ -1,11 +1,11 @@
 use std::collections::HashSet;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/18_example");
-const INPUT: &str = include_str!("input/18");
+const EXAMPLE: &str = include_str!("example/18");
 
 enum Mode {
     Adjacent,
@@ -102,9 +102,13 @@ fn a_example() {
     assert_eq!(solve_for(EXAMPLE, Mode::Adjacent), 64);
 }
 
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2022, 18), Mode::Adjacent).into()
+}
+
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Adjacent), 3454);
+    assert_eq!(solve_for(&input_for(2022, 18), Mode::Adjacent), 3454);
 }
 
 #[test]
@@ -114,15 +118,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Exterior), 2014);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::Adjacent).into()
+    assert_eq!(solve_for(&input_for(2022, 18), Mode::Exterior), 2014);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::Exterior).into()
+    solve_for(&input_for(2022, 18), Mode::Exterior).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

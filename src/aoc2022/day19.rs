@@ -1,9 +1,9 @@
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/19_example");
-const INPUT: &str = include_str!("input/19");
+const EXAMPLE: &str = include_str!("example/19");
 
 struct Blueprint {
     id: usize,
@@ -227,7 +227,11 @@ fn a_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartOne), 1009);
+    assert_eq!(solve_for(&input_for(2022, 19), Mode::PartOne), 1009);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2022, 19), Mode::PartOne).into()
 }
 
 #[test]
@@ -239,15 +243,11 @@ fn b_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartTwo), 18816);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartOne).into()
+    assert_eq!(solve_for(&input_for(2022, 19), Mode::PartTwo), 18816);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartTwo).into()
+    solve_for(&input_for(2022, 19), Mode::PartTwo).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

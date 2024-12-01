@@ -1,9 +1,8 @@
 use std::collections::{HashMap, VecDeque};
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
-
-const INPUT: &str = include_str!("input/16");
 
 fn solve_a_for(len: usize, input: &str) -> String {
     let mut programs = vec![
@@ -142,7 +141,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(16, INPUT), "doeaimlbnpjchfkg");
+    assert_eq!(solve_a_for(16, &input_for(2017, 16)), "doeaimlbnpjchfkg");
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(16, &input_for(2017, 16)).into()
 }
 
 #[test]
@@ -152,15 +155,14 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(16, 1_000_000_000, INPUT), "agndefjhibklmocp");
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(16, INPUT).into()
+    assert_eq!(
+        solve_b_for(16, 1_000_000_000, &input_for(2017, 16)),
+        "agndefjhibklmocp"
+    );
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(16, 1_000_000_000, INPUT).into()
+    solve_b_for(16, 1_000_000_000, &input_for(2017, 16)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

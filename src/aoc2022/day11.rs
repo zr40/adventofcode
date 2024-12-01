@@ -1,12 +1,12 @@
 use std::collections::VecDeque;
 use std::str::Lines;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/11_example");
-const INPUT: &str = include_str!("input/11");
+const EXAMPLE: &str = include_str!("example/11");
 
 enum Operation {
     Plus(u64),
@@ -150,7 +150,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, true, 20), 78960);
+    assert_eq!(solve_for(&input_for(2022, 11), true, 20), 78960);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2022, 11), true, 20).into()
 }
 
 #[test]
@@ -160,15 +164,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, false, 10000), 14561971968);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, true, 20).into()
+    assert_eq!(solve_for(&input_for(2022, 11), false, 10000), 14561971968);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, false, 10000).into()
+    solve_for(&input_for(2022, 11), false, 10000).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

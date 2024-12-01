@@ -1,11 +1,11 @@
 use itertools::Itertools;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/15_example");
-const INPUT: &str = include_str!("input/15");
+const EXAMPLE: &str = include_str!("example/15");
 
 enum Mode {
     Unrestricted,
@@ -154,7 +154,14 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Unrestricted), 21367368);
+    assert_eq!(
+        solve_for(&input_for(2015, 15), Mode::Unrestricted),
+        21367368
+    );
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2015, 15), Mode::Unrestricted).into()
 }
 
 #[test]
@@ -164,15 +171,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Calories500), 1766400);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::Unrestricted).into()
+    assert_eq!(solve_for(&input_for(2015, 15), Mode::Calories500), 1766400);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::Calories500).into()
+    solve_for(&input_for(2015, 15), Mode::Calories500).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

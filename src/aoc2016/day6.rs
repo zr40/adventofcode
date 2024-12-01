@@ -2,12 +2,12 @@ use std::collections::BTreeMap;
 
 use itertools::Itertools;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/6_example");
-const INPUT: &str = include_str!("input/6");
+const EXAMPLE: &str = include_str!("example/6");
 
 enum Mode {
     MostCommon,
@@ -50,7 +50,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::MostCommon), "mlncjgdg");
+    assert_eq!(solve_for(&input_for(2016, 6), Mode::MostCommon), "mlncjgdg");
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2016, 6), Mode::MostCommon).into()
 }
 
 #[test]
@@ -60,15 +64,14 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::LeastCommon), "bipjaytb");
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::MostCommon).into()
+    assert_eq!(
+        solve_for(&input_for(2016, 6), Mode::LeastCommon),
+        "bipjaytb"
+    );
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::LeastCommon).into()
+    solve_for(&input_for(2016, 6), Mode::LeastCommon).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

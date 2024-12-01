@@ -1,3 +1,4 @@
+use crate::common::aoc::input_for;
 #[cfg(test)]
 use crate::common::const_bool_array::str_to_bool_array;
 use crate::common::ocr::ocr;
@@ -5,11 +6,9 @@ use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/10_example");
+const EXAMPLE: &str = include_str!("example/10");
 #[cfg(test)]
-const EXAMPLE_B_EXPECTED: [bool; 240] =
-    str_to_bool_array(include_str!("input/10b_example_expected"));
-const INPUT: &str = include_str!("input/10");
+const EXAMPLE_B_EXPECTED: [bool; 240] = str_to_bool_array(include_str!("example/10b_expected"));
 
 struct Cpu {
     x: i32,
@@ -91,13 +90,13 @@ fn example() {
 
 #[test]
 fn puzzle() {
-    let (signal_strength, display) = solve_for(INPUT);
+    let (signal_strength, display) = solve_for(&input_for(2022, 10));
     assert_eq!(signal_strength, 14060);
     assert_eq!(display, "PAPKFKEJ");
 }
 
 fn solve_both() -> (PuzzleResult, PuzzleResult) {
-    let (signal_strength, display) = solve_for(INPUT);
+    let (signal_strength, display) = solve_for(&input_for(2022, 10));
     (signal_strength.into(), display.into())
 }
 

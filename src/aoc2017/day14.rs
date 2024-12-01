@@ -1,10 +1,10 @@
 use super::knot_hash::knot_hash;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
 const EXAMPLE: &str = "flqrgnkx";
-const INPUT: &str = "vbqugkhl";
 
 fn solve_for(input: &str) -> (u32, u32) {
     let mut bits_set = 0;
@@ -79,11 +79,11 @@ fn example() {
 
 #[test]
 fn puzzle() {
-    assert_eq!(solve_for(INPUT), (8148, 1180));
+    assert_eq!(solve_for(&input_for(2017, 14)), (8148, 1180));
 }
 
 fn solve_both() -> (PuzzleResult, PuzzleResult) {
-    let (a, b) = solve_for(INPUT);
+    let (a, b) = solve_for(&input_for(2017, 14));
     (a.into(), b.into())
 }
 

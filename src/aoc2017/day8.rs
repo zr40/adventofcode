@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/8_example");
-const INPUT: &str = include_str!("input/8");
+const EXAMPLE: &str = include_str!("example/8");
 
 fn solve_for(input: &str) -> (i32, i32) {
     let mut registers = HashMap::new();
@@ -54,11 +54,11 @@ fn example() {
 
 #[test]
 fn puzzle() {
-    assert_eq!(solve_for(INPUT), (3880, 5035));
+    assert_eq!(solve_for(&input_for(2017, 8)), (3880, 5035));
 }
 
 fn solve_both() -> (PuzzleResult, PuzzleResult) {
-    let (a, b) = solve_for(INPUT);
+    let (a, b) = solve_for(&input_for(2017, 8));
     (a.into(), b.into())
 }
 

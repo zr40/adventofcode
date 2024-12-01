@@ -1,14 +1,14 @@
 use std::collections::BTreeMap;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
 use crate::common::grid::Grid;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/23_example");
-const INPUT: &str = include_str!("input/23");
+const EXAMPLE: &str = include_str!("example/23");
 
 enum Mode {
     Slopes,
@@ -172,7 +172,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Slopes), 2310);
+    assert_eq!(solve_for(&input_for(2023, 23), Mode::Slopes), 2310);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2023, 23), Mode::Slopes).into()
 }
 
 #[test]
@@ -183,11 +187,7 @@ fn b_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Paths), 6738);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::Slopes).into()
+    assert_eq!(solve_for(&input_for(2023, 23), Mode::Paths), 6738);
 }
 
 #[cfg(debug_assertions)]
@@ -197,13 +197,13 @@ fn solve_b() -> PuzzleResult {
 
 #[cfg(not(debug_assertions))]
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::Paths).into()
+    solve_for(&input_for(2023, 23), Mode::Paths).into()
 }
 
 #[cfg(debug_assertions)]
 #[allow(dead_code)]
 fn dead_code() {
-    solve_for(INPUT, Mode::Paths);
+    solve_for(&input_for(2023, 23), Mode::Paths);
 }
 
 pub(super) static DAY: Day = Day::Separate {

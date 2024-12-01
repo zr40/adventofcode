@@ -1,13 +1,13 @@
 use std::collections::HashSet;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE_A: &str = include_str!("input/4a_example");
+const EXAMPLE_A: &str = include_str!("example/4a");
 #[cfg(test)]
-const EXAMPLE_B: &str = include_str!("input/4b_example");
-const INPUT: &str = include_str!("input/4");
+const EXAMPLE_B: &str = include_str!("example/4b");
 
 fn matching_numbers(line: &str) -> usize {
     let mut tokens = line
@@ -60,7 +60,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 23941);
+    assert_eq!(solve_a_for(&input_for(2023, 4)), 23941);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2023, 4)).into()
 }
 
 #[test]
@@ -70,15 +74,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 5571760);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2023, 4)), 5571760);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2023, 4)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

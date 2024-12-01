@@ -1,17 +1,17 @@
 use std::collections::HashSet;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE_A1: &str = include_str!("input/19a_example1");
+const EXAMPLE_A1: &str = include_str!("example/19a_1");
 #[cfg(test)]
-const EXAMPLE_A2: &str = include_str!("input/19a_example2");
+const EXAMPLE_A2: &str = include_str!("example/19a_2");
 #[cfg(test)]
-const EXAMPLE_B1: &str = include_str!("input/19b_example1");
+const EXAMPLE_B1: &str = include_str!("example/19b_1");
 #[cfg(test)]
-const EXAMPLE_B2: &str = include_str!("input/19b_example2");
-const INPUT: &str = include_str!("input/19");
+const EXAMPLE_B2: &str = include_str!("example/19b_2");
 
 fn solve_a_for(input: &str) -> usize {
     let mut replacements = vec![];
@@ -94,7 +94,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 535);
+    assert_eq!(solve_a_for(&input_for(2015, 19)), 535);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2015, 19)).into()
 }
 
 #[test]
@@ -105,15 +109,10 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 212);
+    assert_eq!(solve_b_for(&input_for(2015, 19)), 212);
 }
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
-}
-
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2015, 19)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

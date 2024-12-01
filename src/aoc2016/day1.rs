@@ -1,10 +1,9 @@
 use std::collections::HashSet;
 
+use crate::common::aoc::input_for;
 use crate::common::direction::Direction;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
-
-const INPUT: &str = include_str!("input/1");
 
 fn solve_a_for(input: &str) -> isize {
     let mut x: isize = 0;
@@ -68,7 +67,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 301);
+    assert_eq!(solve_a_for(&input_for(2016, 1)), 301);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2016, 1)).into()
 }
 
 #[test]
@@ -78,15 +81,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 130);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2016, 1)), 130);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2016, 1)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

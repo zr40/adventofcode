@@ -1,11 +1,11 @@
 use rational::Rational;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/24_example");
-const INPUT: &str = include_str!("input/24");
+const EXAMPLE: &str = include_str!("example/24");
 
 #[derive(Clone, Copy)]
 struct Coord {
@@ -207,7 +207,14 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT, 200000000000000, 400000000000000), 13910);
+    assert_eq!(
+        solve_a_for(&input_for(2023, 24), 200000000000000, 400000000000000),
+        13910
+    );
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2023, 24), 200000000000000, 400000000000000).into()
 }
 
 #[test]
@@ -217,15 +224,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 618534564836937);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT, 200000000000000, 400000000000000).into()
+    assert_eq!(solve_b_for(&input_for(2023, 24)), 618534564836937);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2023, 24)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

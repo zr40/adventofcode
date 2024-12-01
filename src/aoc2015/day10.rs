@@ -1,7 +1,6 @@
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
-
-const INPUT: &str = include_str!("input/10");
 
 struct Sequence {
     current_digit: u8,
@@ -72,20 +71,20 @@ fn solve_for(input: &str, iterations: usize) -> usize {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, 40), 329356);
+    assert_eq!(solve_for(&input_for(2015, 10), 40), 329356);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2015, 10), 40).into()
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, 50), 4666278);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, 40).into()
+    assert_eq!(solve_for(&input_for(2015, 10), 50), 4666278);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, 50).into()
+    solve_for(&input_for(2015, 10), 50).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

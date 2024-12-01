@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE_A: &str = include_str!("input/20a_example");
+const EXAMPLE_A: &str = include_str!("example/20a");
 #[cfg(test)]
-const EXAMPLE_B: &str = include_str!("input/20b_example");
-const INPUT: &str = include_str!("input/20");
+const EXAMPLE_B: &str = include_str!("example/20b");
 
 struct Particle {
     px: i32,
@@ -107,7 +107,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 376);
+    assert_eq!(solve_a_for(&input_for(2017, 20)), 376);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2017, 20)).into()
 }
 
 #[test]
@@ -117,15 +121,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 574);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2017, 20)), 574);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2017, 20)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

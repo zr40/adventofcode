@@ -1,11 +1,11 @@
 use std::collections::VecDeque;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/20_example");
-const INPUT: &str = include_str!("input/20");
+const EXAMPLE: &str = include_str!("example/20");
 
 enum Mode {
     PartOne,
@@ -77,7 +77,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartOne), 4224);
+    assert_eq!(solve_for(&input_for(2022, 20), Mode::PartOne), 4224);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2022, 20), Mode::PartOne).into()
 }
 
 #[test]
@@ -88,11 +92,7 @@ fn b_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartTwo), 861907680486);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartOne).into()
+    assert_eq!(solve_for(&input_for(2022, 20), Mode::PartTwo), 861907680486);
 }
 
 #[cfg(debug_assertions)]
@@ -102,13 +102,13 @@ fn solve_b() -> PuzzleResult {
 
 #[cfg(not(debug_assertions))]
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartTwo).into()
+    solve_for(&input_for(2022, 20), Mode::PartTwo).into()
 }
 
 #[cfg(debug_assertions)]
 #[allow(dead_code)]
 fn dead_code() {
-    solve_for(INPUT, Mode::PartTwo);
+    solve_for(&input_for(2022, 20), Mode::PartTwo);
 }
 
 pub(super) static DAY: Day = Day::Separate {

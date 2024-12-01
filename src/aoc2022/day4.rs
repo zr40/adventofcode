@@ -1,9 +1,9 @@
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/4_example");
-const INPUT: &str = include_str!("input/4");
+const EXAMPLE: &str = include_str!("example/4");
 
 struct Range {
     start: u32,
@@ -69,7 +69,7 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 441);
+    assert_eq!(solve_a_for(&input_for(2022, 4)), 441);
 }
 
 #[test]
@@ -79,15 +79,15 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 861);
+    assert_eq!(solve_b_for(&input_for(2022, 4)), 861);
 }
 
 fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    solve_a_for(&input_for(2022, 4)).into()
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2022, 4)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

@@ -1,13 +1,13 @@
 use std::collections::{HashMap, VecDeque};
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE_1: &str = include_str!("input/20_example1");
+const EXAMPLE_1: &str = include_str!("example/20_1");
 #[cfg(test)]
-const EXAMPLE_2: &str = include_str!("input/20_example2");
-const INPUT: &str = include_str!("input/20");
+const EXAMPLE_2: &str = include_str!("example/20_2");
 
 #[derive(Clone, Copy, Debug)]
 enum Pulse {
@@ -232,20 +232,20 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 879834312);
+    assert_eq!(solve_a_for(&input_for(2023, 20)), 879834312);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2023, 20)).into()
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 243037165713371);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2023, 20)), 243037165713371);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2023, 20)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

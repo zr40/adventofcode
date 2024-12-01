@@ -1,21 +1,21 @@
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE_A1: &str = include_str!("input/10a_example1");
+const EXAMPLE_A1: &str = include_str!("example/10a_1");
 #[cfg(test)]
-const EXAMPLE_A2: &str = include_str!("input/10a_example2");
+const EXAMPLE_A2: &str = include_str!("example/10a_2");
 #[cfg(test)]
-const EXAMPLE_A3: &str = include_str!("input/10a_example3");
+const EXAMPLE_A3: &str = include_str!("example/10a_3");
 #[cfg(test)]
-const EXAMPLE_A4: &str = include_str!("input/10a_example4");
+const EXAMPLE_A4: &str = include_str!("example/10a_4");
 #[cfg(test)]
-const EXAMPLE_B1: &str = include_str!("input/10b_example1");
+const EXAMPLE_B1: &str = include_str!("example/10b_1");
 #[cfg(test)]
-const EXAMPLE_B2: &str = include_str!("input/10b_example2");
+const EXAMPLE_B2: &str = include_str!("example/10b_2");
 #[cfg(test)]
-const EXAMPLE_B3: &str = include_str!("input/10b_example3");
-const INPUT: &str = include_str!("input/10");
+const EXAMPLE_B3: &str = include_str!("example/10b_3");
 
 #[derive(Debug)]
 enum Tile {
@@ -278,7 +278,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 6942);
+    assert_eq!(solve_a_for(&input_for(2023, 10)), 6942);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2023, 10)).into()
 }
 
 #[test]
@@ -290,15 +294,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 297);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2023, 10)), 297);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2023, 10)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

@@ -1,9 +1,8 @@
 use std::collections::HashMap;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
-
-const INPUT: &str = include_str!("input/6");
 
 enum Mode {
     CyclesToDuplicate,
@@ -57,7 +56,14 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::CyclesToDuplicate), 6681);
+    assert_eq!(
+        solve_for(&input_for(2017, 6), Mode::CyclesToDuplicate),
+        6681
+    );
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2017, 6), Mode::CyclesToDuplicate).into()
 }
 
 #[test]
@@ -67,15 +73,14 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::InfiniteLoopCycles), 2392);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::CyclesToDuplicate).into()
+    assert_eq!(
+        solve_for(&input_for(2017, 6), Mode::InfiniteLoopCycles),
+        2392
+    );
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::InfiniteLoopCycles).into()
+    solve_for(&input_for(2017, 6), Mode::InfiniteLoopCycles).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

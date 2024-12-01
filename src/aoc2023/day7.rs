@@ -1,11 +1,11 @@
 use std::collections::BTreeMap;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/7_example");
-const INPUT: &str = include_str!("input/7");
+const EXAMPLE: &str = include_str!("example/7");
 
 enum Mode {
     PartA,
@@ -130,7 +130,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartA), 252052080);
+    assert_eq!(solve_for(&input_for(2023, 7), Mode::PartA), 252052080);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2023, 7), Mode::PartA).into()
 }
 
 #[test]
@@ -140,15 +144,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::PartB), 252898370);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartA).into()
+    assert_eq!(solve_for(&input_for(2023, 7), Mode::PartB), 252898370);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::PartB).into()
+    solve_for(&input_for(2023, 7), Mode::PartB).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

@@ -2,16 +2,16 @@ use std::collections::btree_map::Entry;
 use std::collections::{BTreeMap, BinaryHeap};
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
 use crate::common::grid::Grid;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/17_example");
+const EXAMPLE: &str = include_str!("example/17");
 #[cfg(test)]
-const EXAMPLE_B: &str = include_str!("input/17b_example");
-const INPUT: &str = include_str!("input/17");
+const EXAMPLE_B: &str = include_str!("example/17b");
 
 fn parse(input: &str) -> Vec<Vec<u32>> {
     input
@@ -162,7 +162,17 @@ fn a_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Crucible), 635);
+    assert_eq!(solve_for(&input_for(2023, 17), Mode::Crucible), 635);
+}
+
+#[cfg(debug_assertions)]
+fn solve_a() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
+
+#[cfg(not(debug_assertions))]
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2023, 17), Mode::Crucible).into()
 }
 
 #[test]
@@ -174,17 +184,7 @@ fn b_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::UltraCrucible), 734);
-}
-
-#[cfg(debug_assertions)]
-fn solve_a() -> PuzzleResult {
-    PuzzleResult::SkipSlow
-}
-
-#[cfg(not(debug_assertions))]
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::Crucible).into()
+    assert_eq!(solve_for(&input_for(2023, 17), Mode::UltraCrucible), 734);
 }
 
 #[cfg(debug_assertions)]
@@ -194,14 +194,14 @@ fn solve_b() -> PuzzleResult {
 
 #[cfg(not(debug_assertions))]
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::UltraCrucible).into()
+    solve_for(&input_for(2023, 17), Mode::UltraCrucible).into()
 }
 
 #[cfg(debug_assertions)]
 #[allow(dead_code)]
 fn dead_code() {
-    solve_for(INPUT, Mode::Crucible);
-    solve_for(INPUT, Mode::UltraCrucible);
+    solve_for(&input_for(2023, 17), Mode::Crucible);
+    solve_for(&input_for(2023, 17), Mode::UltraCrucible);
 }
 
 pub(super) static DAY: Day = Day::Separate {

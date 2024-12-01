@@ -2,12 +2,12 @@ use std::cmp::Ordering;
 use std::iter::Peekable;
 use std::str::Bytes;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/13_example");
-const INPUT: &str = include_str!("input/13");
+const EXAMPLE: &str = include_str!("example/13");
 
 #[derive(Debug, PartialEq, Eq)]
 enum Item {
@@ -134,7 +134,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 6101);
+    assert_eq!(solve_a_for(&input_for(2022, 13)), 6101);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2022, 13)).into()
 }
 
 #[test]
@@ -144,15 +148,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 21909);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2022, 13)), 21909);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2022, 13)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

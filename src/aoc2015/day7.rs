@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/7_example");
-const INPUT: &str = include_str!("input/7");
+const EXAMPLE: &str = include_str!("example/7");
 
 #[derive(Clone, Debug)]
 enum Gate {
@@ -130,7 +130,7 @@ fn a_example() {
 
 #[test]
 fn puzzle() {
-    let mut circuit = parse(INPUT);
+    let mut circuit = parse(&input_for(2015, 7));
 
     assert_eq!(circuit.evaluate("a"), 16076);
     circuit.clear_and_override();
@@ -138,7 +138,7 @@ fn puzzle() {
 }
 
 fn solve_both() -> (PuzzleResult, PuzzleResult) {
-    let (a, b) = solve_for(INPUT);
+    let (a, b) = solve_for(&input_for(2015, 7));
     (a.into(), b.into())
 }
 

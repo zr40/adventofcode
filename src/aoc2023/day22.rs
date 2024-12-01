@@ -1,11 +1,11 @@
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/22_example");
-const INPUT: &str = include_str!("input/22");
+const EXAMPLE: &str = include_str!("example/22");
 
 #[derive(Debug, PartialEq, Clone)]
 struct Brick {
@@ -127,7 +127,17 @@ fn a_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 393);
+    assert_eq!(solve_a_for(&input_for(2023, 22)), 393);
+}
+
+#[cfg(debug_assertions)]
+fn solve_a() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
+
+#[cfg(not(debug_assertions))]
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2023, 22)).into()
 }
 
 #[test]
@@ -138,17 +148,7 @@ fn b_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 58440);
-}
-
-#[cfg(debug_assertions)]
-fn solve_a() -> PuzzleResult {
-    PuzzleResult::SkipSlow
-}
-
-#[cfg(not(debug_assertions))]
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2023, 22)), 58440);
 }
 
 #[cfg(debug_assertions)]
@@ -158,14 +158,14 @@ fn solve_b() -> PuzzleResult {
 
 #[cfg(not(debug_assertions))]
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2023, 22)).into()
 }
 
 #[cfg(debug_assertions)]
 #[allow(dead_code)]
 fn dead_code() {
-    solve_a_for(INPUT);
-    solve_b_for(INPUT);
+    solve_a_for(&input_for(2023, 22));
+    solve_b_for(&input_for(2023, 22));
 }
 
 pub(super) static DAY: Day = Day::Separate {

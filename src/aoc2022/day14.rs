@@ -1,9 +1,9 @@
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/14_example");
-const INPUT: &str = include_str!("input/14");
+const EXAMPLE: &str = include_str!("example/14");
 
 type Coords = (i32, i32);
 
@@ -92,7 +92,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Abyss), 901);
+    assert_eq!(solve_for(&input_for(2022, 14), Mode::Abyss), 901);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2022, 14), Mode::Abyss).into()
 }
 
 #[test]
@@ -102,15 +106,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Floor), 24589);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::Abyss).into()
+    assert_eq!(solve_for(&input_for(2022, 14), Mode::Floor), 24589);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::Floor).into()
+    solve_for(&input_for(2022, 14), Mode::Floor).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

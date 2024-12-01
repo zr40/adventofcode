@@ -1,11 +1,11 @@
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE_A: &str = include_str!("input/1a_example");
+const EXAMPLE_A: &str = include_str!("example/1a");
 #[cfg(test)]
-const EXAMPLE_B: &str = include_str!("input/1b_example");
-const INPUT: &str = include_str!("input/1");
+const EXAMPLE_B: &str = include_str!("example/1b");
 
 fn solve_a_for(input: &str) -> u32 {
     input
@@ -62,7 +62,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 53974);
+    assert_eq!(solve_a_for(&input_for(2023, 1)), 53974);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2023, 1)).into()
 }
 
 #[test]
@@ -72,15 +76,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 52840);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2023, 1)), 52840);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2023, 1)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

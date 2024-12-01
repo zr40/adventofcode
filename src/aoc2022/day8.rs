@@ -1,9 +1,9 @@
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/8_example");
-const INPUT: &str = include_str!("input/8");
+const EXAMPLE: &str = include_str!("example/8");
 
 fn parse_input(input: &str) -> Vec<Vec<u8>> {
     let mut field = vec![];
@@ -133,7 +133,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 1809);
+    assert_eq!(solve_a_for(&input_for(2022, 8)), 1809);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2022, 8)).into()
 }
 
 #[test]
@@ -143,15 +147,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 479400);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2022, 8)), 479400);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2022, 8)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

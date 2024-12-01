@@ -1,11 +1,11 @@
 use std::collections::{HashSet, VecDeque};
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/12_example");
-const INPUT: &str = include_str!("input/12");
+const EXAMPLE: &str = include_str!("example/12");
 
 enum Mode {
     SinglePath,
@@ -104,7 +104,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::SinglePath), 437);
+    assert_eq!(solve_for(&input_for(2022, 12), Mode::SinglePath), 437);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2022, 12), Mode::SinglePath).into()
 }
 
 #[test]
@@ -114,15 +118,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::HikingTrail), 430);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::SinglePath).into()
+    assert_eq!(solve_for(&input_for(2022, 12), Mode::HikingTrail), 430);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::HikingTrail).into()
+    solve_for(&input_for(2022, 12), Mode::HikingTrail).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

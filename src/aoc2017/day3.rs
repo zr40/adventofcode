@@ -1,10 +1,9 @@
 use std::collections::HashMap;
 
+use crate::common::aoc::input_for;
 use crate::common::direction::Direction;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
-
-const INPUT: &str = "325489";
 
 fn solve_a_for(input: &str) -> i32 {
     // naive solution
@@ -135,20 +134,20 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), 552);
+    assert_eq!(solve_a_for(&input_for(2017, 3)), 552);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2017, 3)).into()
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), 330785);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
+    assert_eq!(solve_b_for(&input_for(2017, 3)), 330785);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2017, 3)).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

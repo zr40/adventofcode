@@ -1,14 +1,14 @@
 use std::collections::{HashMap, VecDeque};
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::common::coordinate::Coordinate;
 use crate::common::direction::Direction;
 use crate::common::grid::Grid;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/21_example");
-const INPUT: &str = include_str!("input/21");
+const EXAMPLE: &str = include_str!("example/21");
 
 enum Tile {
     Garden,
@@ -172,20 +172,20 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT, 64), 3776);
+    assert_eq!(solve_a_for(&input_for(2023, 21), 64), 3776);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2023, 21), 64).into()
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT, 26501365), 625587097150084);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT, 64).into()
+    assert_eq!(solve_b_for(&input_for(2023, 21), 26501365), 625587097150084);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT, 26501365).into()
+    solve_b_for(&input_for(2023, 21), 26501365).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

@@ -1,7 +1,6 @@
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
-
-const INPUT: &str = include_str!("input/16");
 
 enum Mode {
     Exact,
@@ -55,20 +54,20 @@ fn solve_for(input: &str, mode: Mode) -> i32 {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Exact), 373);
+    assert_eq!(solve_for(&input_for(2015, 16), Mode::Exact), 373);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2015, 16), Mode::Exact).into()
 }
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Ranges), 260);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::Exact).into()
+    assert_eq!(solve_for(&input_for(2015, 16), Mode::Ranges), 260);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::Ranges).into()
+    solve_for(&input_for(2015, 16), Mode::Ranges).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

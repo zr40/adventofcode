@@ -3,11 +3,11 @@ use std::collections::BTreeMap;
 use itertools::Itertools;
 
 use crate::PuzzleResult;
+use crate::common::aoc::input_for;
 use crate::day::Day;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/9_example");
-const INPUT: &str = include_str!("input/9");
+const EXAMPLE: &str = include_str!("example/9");
 
 enum Mode {
     Min,
@@ -58,7 +58,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Min), 141);
+    assert_eq!(solve_for(&input_for(2015, 9), Mode::Min), 141);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2015, 9), Mode::Min).into()
 }
 
 #[test]
@@ -68,15 +72,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, Mode::Max), 736);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, Mode::Min).into()
+    assert_eq!(solve_for(&input_for(2015, 9), Mode::Max), 736);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, Mode::Max).into()
+    solve_for(&input_for(2015, 9), Mode::Max).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

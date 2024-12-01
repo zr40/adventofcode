@@ -1,12 +1,12 @@
 use std::collections::hash_map::Entry;
 use std::collections::{HashMap, HashSet};
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/17_example");
-const INPUT: &str = include_str!("input/17");
+const EXAMPLE: &str = include_str!("example/17");
 
 fn movement_blocked(
     chamber: &HashSet<(i64, i64)>,
@@ -103,7 +103,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, 2022), 3081);
+    assert_eq!(solve_for(&input_for(2022, 17), 2022), 3081);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2022, 17), 2022).into()
 }
 
 #[test]
@@ -113,15 +117,14 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, 1000000000000), 1524637681145);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, 2022).into()
+    assert_eq!(
+        solve_for(&input_for(2022, 17), 1000000000000),
+        1524637681145
+    );
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, 1000000000000).into()
+    solve_for(&input_for(2022, 17), 1000000000000).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {

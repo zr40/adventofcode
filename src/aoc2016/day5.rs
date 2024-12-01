@@ -1,11 +1,11 @@
 use md5::{Digest, Md5};
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
 const EXAMPLE: &str = "abc";
-const INPUT: &str = "abbhdwsy";
 
 fn solve_a_for(input: &str) -> String {
     let door_id = input;
@@ -74,7 +74,17 @@ fn a_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT), "801b56a7");
+    assert_eq!(solve_a_for(&input_for(2016, 5)), "801b56a7");
+}
+
+#[cfg(debug_assertions)]
+fn solve_a() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
+
+#[cfg(not(debug_assertions))]
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2016, 5)).into()
 }
 
 #[test]
@@ -86,19 +96,8 @@ fn b_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT), "424a0197");
+    assert_eq!(solve_b_for(&input_for(2016, 5)), "424a0197");
 }
-
-#[cfg(debug_assertions)]
-fn solve_a() -> PuzzleResult {
-    PuzzleResult::SkipSlow
-}
-
-#[cfg(not(debug_assertions))]
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT).into()
-}
-
 #[cfg(debug_assertions)]
 fn solve_b() -> PuzzleResult {
     PuzzleResult::SkipSlow
@@ -106,14 +105,14 @@ fn solve_b() -> PuzzleResult {
 
 #[cfg(not(debug_assertions))]
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT).into()
+    solve_b_for(&input_for(2016, 5)).into()
 }
 
 #[cfg(debug_assertions)]
 #[allow(dead_code)]
 fn dead_code() {
-    solve_a_for(INPUT);
-    solve_b_for(INPUT);
+    solve_a_for(&input_for(2016, 5));
+    solve_b_for(&input_for(2016, 5));
 }
 
 pub(super) static DAY: Day = Day::Separate {

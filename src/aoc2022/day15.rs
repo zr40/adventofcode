@@ -1,11 +1,11 @@
 use std::collections::HashSet;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
 
 #[cfg(test)]
-const EXAMPLE: &str = include_str!("input/15_example");
-const INPUT: &str = include_str!("input/15");
+const EXAMPLE: &str = include_str!("example/15");
 
 fn solve_a_for(input: &str, target_y: i32) -> usize {
     let mut positions_without_beacon = HashSet::new();
@@ -137,7 +137,17 @@ fn a_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn a_puzzle() {
-    assert_eq!(solve_a_for(INPUT, 2000000), 5367037);
+    assert_eq!(solve_a_for(&input_for(2022, 15), 2000000), 5367037);
+}
+
+#[cfg(debug_assertions)]
+fn solve_a() -> PuzzleResult {
+    PuzzleResult::SkipSlow
+}
+
+#[cfg(not(debug_assertions))]
+fn solve_a() -> PuzzleResult {
+    solve_a_for(&input_for(2022, 15), 2000000).into()
 }
 
 #[test]
@@ -148,17 +158,7 @@ fn b_example() {
 #[test]
 #[cfg_attr(debug_assertions, ignore)]
 fn b_puzzle() {
-    assert_eq!(solve_b_for(INPUT, 4000000), 11914583249288);
-}
-
-#[cfg(debug_assertions)]
-fn solve_a() -> PuzzleResult {
-    PuzzleResult::SkipSlow
-}
-
-#[cfg(not(debug_assertions))]
-fn solve_a() -> PuzzleResult {
-    solve_a_for(INPUT, 2000000).into()
+    assert_eq!(solve_b_for(&input_for(2022, 15), 4000000), 11914583249288);
 }
 
 #[cfg(debug_assertions)]
@@ -168,14 +168,14 @@ fn solve_b() -> PuzzleResult {
 
 #[cfg(not(debug_assertions))]
 fn solve_b() -> PuzzleResult {
-    solve_b_for(INPUT, 4000000).into()
+    solve_b_for(&input_for(2022, 15), 4000000).into()
 }
 
 #[cfg(debug_assertions)]
 #[allow(dead_code)]
 fn dead_code() {
-    solve_a_for(INPUT, 2000000);
-    solve_b_for(INPUT, 4000000);
+    solve_a_for(&input_for(2022, 15), 2000000);
+    solve_b_for(&input_for(2022, 15), 4000000);
 }
 
 pub(super) static DAY: Day = Day::Separate {

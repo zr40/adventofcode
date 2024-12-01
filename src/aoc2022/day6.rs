@@ -1,9 +1,8 @@
 use std::collections::BTreeSet;
 
+use crate::common::aoc::input_for;
 use crate::day::Day;
 use crate::puzzle_result::PuzzleResult;
-
-const INPUT: &str = include_str!("input/6");
 
 fn solve_for(input: &str, marker_size: usize) -> usize {
     let chars: Vec<char> = input.chars().collect();
@@ -32,7 +31,11 @@ fn a_example() {
 
 #[test]
 fn a_puzzle() {
-    assert_eq!(solve_for(INPUT, 4), 1655);
+    assert_eq!(solve_for(&input_for(2022, 6), 4), 1655);
+}
+
+fn solve_a() -> PuzzleResult {
+    solve_for(&input_for(2022, 6), 4).into()
 }
 
 #[test]
@@ -46,15 +49,11 @@ fn b_example() {
 
 #[test]
 fn b_puzzle() {
-    assert_eq!(solve_for(INPUT, 14), 2665);
-}
-
-fn solve_a() -> PuzzleResult {
-    solve_for(INPUT, 4).into()
+    assert_eq!(solve_for(&input_for(2022, 6), 14), 2665);
 }
 
 fn solve_b() -> PuzzleResult {
-    solve_for(INPUT, 14).into()
+    solve_for(&input_for(2022, 6), 14).into()
 }
 
 pub(super) static DAY: Day = Day::Separate {
