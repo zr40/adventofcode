@@ -13,6 +13,7 @@ mod aoc2016;
 mod aoc2017;
 mod aoc2022;
 mod aoc2023;
+mod aoc2024;
 mod common;
 mod day;
 mod puzzle_result;
