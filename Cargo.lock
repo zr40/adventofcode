@@ -28,6 +28,7 @@ dependencies = [
  "num-integer",
  "rational",
  "rayon",
+ "regex",
 ]
 
 [[package]]
