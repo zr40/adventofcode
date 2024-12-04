@@ -14,7 +14,7 @@ enum Mode {
     Toggle,
 }
 
-fn solve_for(mut input: &str, mode: Mode) -> usize {
+fn solve_for(input: &str, mode: Mode) -> usize {
     let mut active = true;
 
     let re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)|do\(\)|don't\(\)").unwrap();
