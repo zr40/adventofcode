@@ -1,4 +1,4 @@
-use itertools::Itertools;
+use itertools::{Itertools, iproduct};
 
 use crate::PuzzleResult;
 use crate::common::aoc::input_for;
@@ -7,62 +7,49 @@ use crate::day::Day;
 #[cfg(test)]
 const EXAMPLE: &str = include_str!("example/4");
 
-fn solve_a_for(mut input: &str) -> usize {
+fn is_xmas(grid: &Vec<Vec<char>>, gx: usize, gy: usize, dx: isize, dy: isize) -> bool {
+    let gx = gx as isize;
+    let gy = gy as isize;
+
+    if dy * 3 + gy < 0 || dy * 3 + gy >= grid.len() as isize {
+        return false;
+    }
+    if dx * 3 + gx < 0 || dx * 3 + gx >= grid[0].len() as isize {
+        return false;
+    }
+
+    let x = grid[gy as usize][gx as usize];
+    let m = grid[(gy + dy) as usize][(gx + dx) as usize];
+    let a = grid[(gy + dy * 2) as usize][(gx + dx * 2) as usize];
+    let s = grid[(gy + dy * 3) as usize][(gx + dx * 3) as usize];
+
+    matches!((x, m, a, s), ('X', 'M', 'A', 'S'))
+}
+
+fn solve_a_for(input: &str) -> usize {
     let grid = input.lines().map(|l| l.chars().collect_vec()).collect_vec();
 
-    (0..grid.len() as isize)
-        .map(|gy| {
-            (0..grid[0].len() as isize)
-                .map(|gx| {
-                    (-1..=1)
-                        .map(|dy| {
-                            if dy * 3 + gy < 0 || dy * 3 + gy >= grid.len() as isize {
-                                0
-                            } else {
-                                (-1..=1)
-                                    .map(|dx| {
-                                        if dx * 3 + gx < 0 || dx * 3 + gx >= grid.len() as isize {
-                                            0
-                                        } else if grid[gy as usize][gx as usize] == 'X'
-                                            && grid[(gy + dy) as usize][(gx + dx) as usize] == 'M'
-                                            && grid[(gy + dy * 2) as usize][(gx + dx * 2) as usize]
-                                                == 'A'
-                                            && grid[(gy + dy * 3) as usize][(gx + dx * 3) as usize]
-                                                == 'S'
-                                        {
-                                            1
-                                        } else {
-                                            0
-                                        }
-                                    })
-                                    .sum()
-                            }
-                        })
-                        .sum::<usize>()
-                })
-                .sum::<usize>()
-        })
-        .sum()
+    iproduct!(0..grid.len(), 0..grid[0].len(), -1..=1, -1..=1)
+        .filter(|(gy, gx, dy, dx)| is_xmas(&grid, *gx, *gy, *dx, *dy))
+        .count()
 }
 
 fn is_ms_pair(a: char, b: char) -> bool {
     matches!((a, b), ('M', 'S') | ('S', 'M'))
 }
 
-fn solve_b_for(mut input: &str) -> usize {
+fn is_x_mas(grid: &Vec<Vec<char>>, gx: usize, gy: usize) -> bool {
+    grid[gy][gx] == 'A'
+        && is_ms_pair(grid[gy - 1][gx - 1], grid[gy + 1][gx + 1])
+        && is_ms_pair(grid[gy - 1][gx + 1], grid[gy + 1][gx - 1])
+}
+
+fn solve_b_for(input: &str) -> usize {
     let grid = input.lines().map(|l| l.chars().collect_vec()).collect_vec();
 
-    (1..grid.len() - 1)
-        .map(|gy| {
-            (1..grid[0].len() - 1)
-                .filter(|gx| {
-                    grid[gy][*gx] == 'A'
-                        && is_ms_pair(grid[gy - 1][gx - 1], grid[gy + 1][gx + 1])
-                        && is_ms_pair(grid[gy - 1][gx + 1], grid[gy + 1][gx - 1])
-                })
-                .count()
-        })
-        .sum()
+    iproduct!(1..grid.len() - 1, 1..grid[0].len() - 1)
+        .filter(|(gy, gx)| is_x_mas(&grid, *gx, *gy))
+        .count()
 }
 
 #[test]
