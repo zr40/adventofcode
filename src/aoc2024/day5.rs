@@ -54,7 +54,7 @@ fn solve_b_for(input: &str) -> usize {
     let (rules, mut updates) = parse(input);
 
     let mut sum = 0;
-    'update: for update in updates.iter_mut() {
+    for update in &mut updates {
         let mut fixed = false;
         'restart: loop {
             for (left, right) in &rules {
