@@ -46,7 +46,9 @@ fn solve_for(input: &str, mode: Mode) -> usize {
                     match op {
                         Operator::Add => value += num,
                         Operator::Multiply => value *= num,
-                        Operator::Concatenate => value = format!("{value}{num}").parse().unwrap(),
+                        Operator::Concatenate => {
+                            value = value * 10usize.pow(num.ilog10() + 1) + num;
+                        }
                     }
                 }
 
