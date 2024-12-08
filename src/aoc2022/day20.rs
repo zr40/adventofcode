@@ -39,7 +39,6 @@ fn solve_for(input: &str, mode: Mode) -> i64 {
     } {
         for index in 0..size {
             for current_index in 0..size {
-                #[allow(clippy::cast_possible_wrap)]
                 if numbers[current_index].original_order == index {
                     let item = numbers.remove(current_index).unwrap();
                     let mut new_index = current_index as i64 + item.number;

@@ -51,9 +51,7 @@ fn solve_a_for(input: &str) -> i64 {
                     return snd;
                 }
             }
-            "jgz" =>
-            {
-                #[allow(clippy::cast_possible_wrap)]
+            "jgz" => {
                 if left > 0 {
                     pos = (pos as isize + right as isize - 1) as usize;
                 }
@@ -156,9 +154,7 @@ fn solve_b_for(input: &str) -> u32 {
                     continue;
                 };
             }
-            "jgz" =>
-            {
-                #[allow(clippy::cast_possible_wrap)]
+            "jgz" => {
                 if left > 0 {
                     *current_pos = (*current_pos as isize + right as isize - 1) as usize;
                 }

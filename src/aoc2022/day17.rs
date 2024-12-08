@@ -92,7 +92,6 @@ fn solve_for(input: &str, iterations: usize) -> i64 {
         i += 1;
     }
 
-    #[allow(clippy::cast_possible_wrap)]
     return highest + 1 + increase_highest as i64;
 }
 

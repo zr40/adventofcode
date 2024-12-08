@@ -19,7 +19,6 @@ fn solve_for(input: &str, mode: Mode) -> u32 {
         .map(|x| x.parse().unwrap())
         .collect();
 
-    #[allow(clippy::cast_possible_wrap)]
     while pos >= 0 && pos < jump_offsets.len() as i32 {
         let offset = jump_offsets[pos as usize];
         match (&mode, offset >= 3) {
