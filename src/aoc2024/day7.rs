@@ -2,6 +2,7 @@ use itertools::Itertools;
 
 use crate::PuzzleResult;
 use crate::common::aoc::input_for;
+use crate::common::concat::concat_num;
 use crate::day::Day;
 
 #[cfg(test)]
@@ -46,9 +47,7 @@ fn solve_for(input: &str, mode: Mode) -> usize {
                     match op {
                         Operator::Add => value += num,
                         Operator::Multiply => value *= num,
-                        Operator::Concatenate => {
-                            value = value * 10usize.pow(num.ilog10() + 1) + num;
-                        }
+                        Operator::Concatenate => value = concat_num(value, *num),
                     }
                 }
 

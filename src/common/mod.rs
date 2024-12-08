@@ -1,4 +1,5 @@
 pub mod aoc;
+pub mod concat;
 pub mod const_bool_array;
 pub mod coordinate;
 pub mod direction;
