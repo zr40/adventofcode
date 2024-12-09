@@ -8,6 +8,7 @@ mod day5;
 mod day6;
 mod day7;
 mod day8;
+mod day9;
 
 pub(crate) static DAYS: &[Day] = &[
     day1::DAY,
@@ -18,4 +19,5 @@ pub(crate) static DAYS: &[Day] = &[
     day6::DAY,
     day7::DAY,
     day8::DAY,
+    day9::DAY,
 ];
