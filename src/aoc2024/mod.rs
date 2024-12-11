@@ -1,6 +1,7 @@
 use crate::Day;
 
 mod day1;
+mod day10;
 mod day2;
 mod day3;
 mod day4;
@@ -20,4 +21,5 @@ pub(crate) static DAYS: &[Day] = &[
     day7::DAY,
     day8::DAY,
     day9::DAY,
+    day10::DAY,
 ];
